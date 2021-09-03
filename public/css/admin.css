@@ -1,0 +1,26 @@
+.border-shadow {
+    box-shadow: 0 0px 11px rgb(72 79 99 / 30%);
+}
+a {
+    cursor: pointer;
+}
+.radius-border {
+    background-color: #f0f0f0;
+    border-radius: 12px;
+}
+.right-border {
+    border-right: 1px solid;
+}
+.double-border {
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+}
+.input-field {
+    margin-left: 25%;
+}
+.label-style {
+    min-width: 150px;
+}
+.left-style {
+    width: 95px;
+}

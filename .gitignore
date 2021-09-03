@@ -5,6 +5,7 @@
 
 # Node artifact files
 node_modules/
+vendor/
 dist/
 
 # Compiled Java class files
@@ -47,4 +48,5 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+.env
 

@@ -1,0 +1,25 @@
+.page-wrapper {
+    padding: 15px 0px 24px
+}
+.page-content {
+    border-radius: 6px;
+    padding: 15px;
+    width: 500px;
+    margin: 0px auto 0px;
+    z-index: 20;
+}
+.border-box {
+    background: #FFF;
+    box-shadow: 0 0px 11px rgb(72 79 99 / 30%);
+    padding-top: 2.85714rem;
+    padding-bottom: 2.85714rem;
+    padding-left: 2.14286rem;
+    padding-right: 2.14286rem;
+    border: 1px solid #CCC;
+}
+.login100-form-btn > button {
+    background-color: #04AA6D;
+}
+.login100-form-btn button:hover{
+    background-color: #4CAF50;
+}
