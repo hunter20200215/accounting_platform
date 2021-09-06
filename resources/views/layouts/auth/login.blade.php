@@ -24,7 +24,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
         <div class="container">
             
-            <a class="navbar-brand" href="{{ url('/') }}" style="font-size: 1.5rem;letter-spacing: 2px;">
+            <a class="navbar-brand" href="{{ route('admin.home') }}"> style="font-size: 1.5rem;letter-spacing: 2px;">
                 <!-- <img class="logo-image" src="/img/logo.png" alt="logo_image"> -->
                 <img class="logo-image" src='{{ URL::asset("/img/logo.png") }}' alt="logo_image" style="width: 50px !important;height: 50px;">
                 {{__('BookKeeper')}}
