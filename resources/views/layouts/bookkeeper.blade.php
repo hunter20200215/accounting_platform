@@ -96,7 +96,7 @@
         </div>
     </nav>
 
-    <main class="py-4" style="min-height: 57vh;">
+    <main class="py-4" style="min-height: 71vh;">
         @yield('content')
     </main>
     <footer class="bg-dark text-light text-center text-md-left" >
@@ -118,12 +118,7 @@
 				</div>
 				
 			</div>
-			<div class="col d-flex justify-content-center mb-4">
-				<a href="#" class="d-block px-3"><img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-facebook-m.png" alt="Facebook" /></a><a href="#" class="d-block px-3"><img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-twitter-m.png" alt="Twitter" /></a><a href="#" class="d-block px-3"><img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-instagram-m.png" alt="Instagram" /></a><a href="#" class="d-block px-3"><img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-linkedin-m.png" alt="Linkedin" /></a>
-			</div>
-			<p class="text-center text-secondary border-top border-secondary py-4">
-				Bookkeeper © 2021
-			</p>
+			
 		</div>
 	</footer>
 </div>
