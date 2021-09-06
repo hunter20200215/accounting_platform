@@ -103,7 +103,7 @@ class HomeController extends Controller
         $selected_categorys = DB::table('admin_category')->pluck('name');
         
         return view('adminClients',[
-            'clients' => DB::table('admin_clients_info')->paginate(15),
+            'clients' => DB::table('admin_clients_info')->paginate(100),
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
@@ -231,7 +231,7 @@ class HomeController extends Controller
                               
                     })
                     
-                    ->paginate(10);
+                    ->paginate(100);
 
         
         return view('adminClients',[
