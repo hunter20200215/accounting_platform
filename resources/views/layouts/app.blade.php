@@ -44,7 +44,7 @@
                             <a class="nav-link" href="{{ route('admin.home') }}">{{ __('Home') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.clients') }}">{{ __('Clients') }}</a>
+                            <a class="nav-link" href="{{ route('admin.clients') }}"><i class='fas fa-users' style='font-size:18px'></i> {{ __(' Clients') }}</a>
                         </li>
                     @endauth
                 </ul>

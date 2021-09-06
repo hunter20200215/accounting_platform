@@ -19,7 +19,7 @@
                                     @if (in_array($category->name, $selected_categorys))
                                         <div class="form-check ml-2">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="categorys[]"  value=<?php echo $category->name?>> {{$category->name}}
+                                                <input class="form-check-input" type="checkbox" name="categorys[]" checked value=<?php echo $category->name?>> {{$category->name}}
                                             </label>
                                         </div>
                                     @else
@@ -39,7 +39,7 @@
                                     @if (in_array($incomehighlight->name, $selected_income))
                                         <div class="form-check ml-2">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="income[]"  value=<?php echo $incomehighlight->name?> > {{$incomehighlight->name}}
+                                                <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $incomehighlight->name?> > {{$incomehighlight->name}}
                                             </label>
                                         </div>
                                     @else
@@ -62,7 +62,7 @@
                                     @if (in_array($deductionhighlight->name, $selected_deduction))
                                         <div class="form-check ml-2">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="deduction[]"  value=<?php echo $deductionhighlight->name ?> > {{$deductionhighlight->name}}
+                                                <input class="form-check-input" type="checkbox" name="deduction[]" checked value=<?php echo $deductionhighlight->name ?> > {{$deductionhighlight->name}}
                                             </label>
                                         </div>
                                     @else

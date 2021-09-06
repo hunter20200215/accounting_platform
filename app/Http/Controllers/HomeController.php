@@ -108,9 +108,9 @@ class HomeController extends Controller
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
-            'selected_categorys' => DB::table('admin_category')->pluck('name')->toArray(),
-            'selected_income' => DB::table('admin_income_highlights')->pluck('name')->toArray(),
-            'selected_deduction' => DB::table('admin_deduction_highlights')->pluck('name')->toArray(),
+            'selected_categorys' => [],
+            'selected_income' => [],
+            'selected_deduction' => [],
 
         ]);
     }
