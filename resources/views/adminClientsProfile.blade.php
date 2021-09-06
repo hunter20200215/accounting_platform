@@ -18,7 +18,7 @@
                     </div>
                     <div>
                         <label for="fname" class="my-2 left-style right-border ">Date of Birth:</label>
-                        <p class="d-inline ml-3">{{$info->birthday}}</p>
+                        <p class="d-inline ml-3">{{$info->dob_date}}</p>
                     </div>
                     <div>
                         <label for="fname" class="my-2 left-style right-border">Last Update:</label>
@@ -180,7 +180,7 @@
                                 </div>    
                                 <div>
                                     <label for="fname" class="my-2 label-style">Date of Birth:</label>
-                                    <input type="date" id="birthday" name="birthday" class="mb-1 w-50" value={{$info->birthday}}>
+                                    <input type="date" id="birthday" name="dob_date" class="mb-1 w-50" value={{$info->dob_date}}>
                                 </div>
                                 <!-- <div>
                                     <label for="fname" class="my-2 label-style">Last Update:</label>

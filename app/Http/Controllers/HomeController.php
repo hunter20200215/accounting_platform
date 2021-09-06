@@ -130,7 +130,7 @@ class HomeController extends Controller
 
         $flight->first_name = $request->first_name;
         $flight->last_name = $request->last_name;
-        $flight->birthday = $request->birthday;
+        $flight->dob_date = $request->dob_date;
 
         $flight->save();
         return view('adminClientsProfile',[
