@@ -25,18 +25,6 @@
                         <p class="d-inline ml-3">{{$info->updated_at}}</p>
                     </div>
                     <a id="page_id" data-id={{$info->id}}></a>
-                    <!-- <div class="col-md-5 pl-3 pb-4">
-                        <p class="right-border">Full name</p>
-                        <p class="right-border">Date of Birth</p>
-                        <p class="right-border">Last Update</p>
-                    </div>
-                    
-                    <div class="col-md-7 px-4 pb-4">
-                        
-                        <p>{{$info->first_name}} {{$info->last_name}}</p>
-                        <p>{{$info->birthday}}</p>
-                        <p>{{$info->updated_at}}</p>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -62,30 +50,7 @@
                             <div class="w-100 d-block text-right">
                                 <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#add_info"></i></a>
                             </div>
-                            <!-- <div class="row">
-                                <div class="col-md-3">
-                                    <p class="right-border">Adderess</p>
-                                    <p class="right-border">Phone</p>
-                                    <p class="right-border">Business Phone</p>
-                                    <p class="right-border">SIN</p>
-                                    <p class="right-border">Citizenship</p>
-                                    <p class="right-border">Marital status</p>
-                                    <p class="right-border">Dependents</p>
-                                    <p class="right-border">Home Status</p>
-                                    <p class="right-border">Notes</p>
-                                </div>
-                                <div class="col-md-9">
-                                    <p>{{$info->address}}</p>
-                                    <p>{{$info->primary_phone}}</p>
-                                    <p>{{$info->other_phone}}</p>
-                                    <p>{{$info->sin}}</p>
-                                    <p>{{$info->citizenship}}</p>
-                                    <p>{{$info->marital_status}}</p>
-                                    <p>{{$info->dependents}}</p>
-                                    <p>{{$info->home_status}}</p>
-                                    <p>{{$info->notes}}</p>
-                                </div>
-                            </div> -->
+                            
                             <div>
                                 <label for="fname" class="my-2 label-style right-border">Address:</label>
                                 <p class="d-inline ml-3">{{$info->address}}</p>

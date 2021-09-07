@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -103,7 +104,9 @@ class HomeController extends Controller
         $selected_categorys = DB::table('admin_category')->pluck('name');
         
         return view('adminClients',[
-            'clients' => DB::table('admin_clients_info')->paginate(100),
+            'clients' => DB::table('admin_clients_info')
+                            ->where('user_id', Auth::id())
+                            ->paginate(100),
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
@@ -261,6 +264,7 @@ class HomeController extends Controller
         $flight->other_phone = $request->other_phone;
         $flight->address = $request->address;
         $flight->citizenship = $request->citizenship;
+        $flight->user_id = $request->user()->id;
         $highlight ="";
         $highlight2 ="";
         if ($request->income) {

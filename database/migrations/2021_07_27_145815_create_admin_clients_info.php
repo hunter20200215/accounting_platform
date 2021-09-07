@@ -19,7 +19,7 @@ class CreateAdminClientsInfo extends Migration
             $table->string('last_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->date('dob_date')->nullable();
-            $table->date('birthday')->nullable();
+            $table->int('user_id')->nullable();
             $table->string('category')->nullable();
             $table->string('primary_phone')->nullable();
             $table->string('other_phone')->nullable();
