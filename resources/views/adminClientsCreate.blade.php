@@ -13,7 +13,7 @@
             <div class="col-md-3"><label class="labels">First Name</label><input type="text" class="form-control"  value="" name="first_name" required></div>
             <div class="col-md-3"><label class="labels">Last Name</label><input type="text" class="form-control" value=""  name="last_name" required></div>
             <div class="col-md-3"><label class="labels">Middle or Other name</label><input type="text" class="form-control" value=""  name="middle_name" ></div>
-            <div class="col-md-3"><label class="labels">DOB</label><input type="date" class="form-control" value=""  name="DOB" required></div>
+            <div class="col-md-3"><label class="labels">Date of Birth</label><input type="date" class="form-control" value=""  name="DOB" required></div>
         </div>
         <div class="mt-3">
             <h6 class="d-inline mr-auto">Categories</h6>

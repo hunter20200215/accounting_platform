@@ -78,12 +78,12 @@
                         </div>
 
                         <div class="mb-4">
-                            <h5 class="d-inline mr-auto">DOB Range</h5>
+                            <h5 class="d-inline mr-auto">Date of Birth Range</h5>
                             <div class="d-block">
-                                <label for="birthdaytime" class="my-0">Start date (date and time):</label>
-                                <input type="datetime-local"  name="start_date"  class="mb-1 w-100" value="">
-                                <label for="birthdaytime" class="my-0">End date (date and time):</label>
-                                <input type="datetime-local"  name="end_date"  class="mb-1 w-100" value="">
+                                <label for="birthdaytime" class="my-0 ml-2">Start date</label>
+                                <input type="date"  name="start_date"  class="mb-1 w-100 form-control" value="">
+                                <label for="birthdaytime" class="my-0 ml-2">End date</label>
+                                <input type="date"  name="end_date"  class="mb-1 w-100 form-control" value="">
                             </div>    
                         </div>
 
