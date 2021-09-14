@@ -70,6 +70,21 @@ Route::get('admin/highlights/deduction/delete', [App\Http\Controllers\HomeContro
 Route::get('/entry/home', [App\Http\Controllers\HomeController::class, 'dataEntryIndex'])->name('entry.home')->middleware('is_entry');;
 Route::get('/entry/clients', [App\Http\Controllers\EntryController::class, 'clients'])->name('entry.clients')->middleware('is_entry');;
 Route::get('/entry/highlights', [App\Http\Controllers\EntryController::class, 'highlights'])->name('entry.highlights')->middleware('is_entry');;
+
+#clients
+Route::get('entry/clients', [App\Http\Controllers\EntryController::class, 'entryClients'])->name('entry.clients')->middleware('is_entry');
+// Route::get('entry/clients/{id}/profile', [App\Http\Controllers\EntryController::class, 'entryClientsProfile'])->name('entry.clients.profile')->middleware('is_entry');
+Route::get('entry/clients/create', [App\Http\Controllers\EntryController::class, 'entryClientsCreate'])->name('entry.clients.create')->middleware('is_entry');
+// Route::post('entry/clients/filter1', [App\Http\Controllers\EntryController::class, 'entryClientsFilter1'])->name('entry.clients.filter1')->middleware('is_entry');
+// Route::get('entry/clients/filter2', [App\Http\Controllers\EntryController::class, 'entryClientsFilter2'])->name('entry.clients.filter2')->middleware('is_entry');
+Route::post('entry/clients/create', [App\Http\Controllers\EntryController::class, 'entryClientsCreateNew'])->name('entry.clients.create.new')->middleware('is_entry');
+
+// Route::get('entry/clients/information', [App\Http\Controllers\EntryController::class, 'entryClientsInformation'])->name('entry.information.edit')->middleware('is_entry');
+
+// Route::get('entry/clients/bio', [App\Http\Controllers\EntryController::class, 'entryClientsBio'])->name('entry.bio.edit')->middleware('is_entry');
+// Route::get('entry/clients/additional_information', [App\Http\Controllers\EntryController::class, 'entryClientsAddInformation'])->name('entry.add.edit')->middleware('is_entry');
+
+
 #Book-keeper
 Route::get('/bookkeepr/home', [App\Http\Controllers\HomeController::class, 'bookkeeperIndex'])->name('bookkeeper.home')->middleware('is_bookkeeper');;
 Route::get('/bookkeeper/clients', [App\Http\Controllers\BookkeeperController::class, 'clients'])->name('bookkeeper.clients')->middleware('is_bookkeeper');;
