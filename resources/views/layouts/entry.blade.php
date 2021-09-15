@@ -68,9 +68,9 @@
                                 Setting
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="{{ route('entry.highlights') }}">Highlights</a>
-                            </div>
+                            </div> -->
                         </li>
 
                         <li class="nav-item dropdown">

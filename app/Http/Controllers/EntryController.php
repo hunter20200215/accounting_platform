@@ -112,5 +112,62 @@ class EntryController extends Controller
 
         return redirect()->route('entry.clients');
     }
+
+    public function entryClientsProfile($id)
+    {
+        
+        
+        return view('entryClientsProfile',[
+            'info' => DB::table('admin_clients_info')->where('id', $id)->first()
+        ]);
+    }
+    public function entryClientsInformation(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+
+        $flight->first_name = $request->first_name;
+        $flight->last_name = $request->last_name;
+        $flight->dob_date = $request->dob_date;
+
+        $flight->save();
+        return view('entryClientsProfile',[
+            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first()
+        ]);
+    }
+    public function entryClientsBio(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+
+        $flight->client_bio = $request->bio;
+        
+
+        $flight->save();
+        return view('entryClientsProfile',[
+            'info' => DB::table('admin_clients_info')->where('id',$request->id)->first()
+        ]);
+    }
+    public function entryClientsAddInformation(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+
+        $flight->address = $request->address;
+        $flight->primary_phone = $request->phone;
+        $flight->other_phone = $request->other_phone;
+        $flight->sin = $request->sin;
+        $flight->citizenship = $request->citizenship;
+        $flight->marital_status = $request->marital_status;
+        $flight->dependents = $request->dependents;
+        $flight->home_status = $request->home_status;
+        $flight->notes = $request->notes;
+
+        $flight->save();
+        return view('entryClientsProfile',[
+            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first()
+        ]);
+    }
+
     
 }
