@@ -210,30 +210,32 @@ class HomeController extends Controller
         }
         $clients = DB::table('admin_clients_info')
                     ->whereIn('category', $categorys)
-                    ->where(function($query) use ($income) {
+                    ->where('user_id', $request->user()->id)
+                    ->orWhere(function($query) use ($income) {
                         foreach ($income as $value) {
                             $query->orWhere('income_highlights', 'LIKE', "%$value%");
                         }
                     })
-                    ->where(function($query) use ($deduction) {
+                    ->where('user_id', $request->user()->id)
+                    ->orWhere(function($query) use ($deduction) {
                         foreach ($deduction as $value) {
                             $query->orWhere('deduction_highlights', 'LIKE', "%$value%");
                         }
                     })
-                    ->where(function($query) use ($request) {
+                    ->where('user_id', $request->user()->id)
+                    ->orWhere(function($query) use ($request) {
                         if ($request->start_date){
                             $query->where('dob_date', ">=",$request->start_date);
                         }
-                        
-                              
                     })
-                    ->where(function($query) use ($request) {
+                    ->where('user_id', $request->user()->id)
+                    ->orWhere(function($query) use ($request) {
                         if ($request->end_date){
                             $query->where('dob_date', "<",$request->end_date);
                         }
                               
                     })
-                    
+                    ->where('user_id', $request->user()->id)
                     ->paginate(100);
 
         

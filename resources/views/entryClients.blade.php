@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-3" >
             <div class="bg-light px-2 py-4" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
-                <form action="" method="POST">
+                <form action="{{ route('entry.clients.filter1') }}" method="POST">
                     @csrf
                     <div class="p-1">
                         <div class="d-flex md-4">
