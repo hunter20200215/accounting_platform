@@ -28,7 +28,7 @@ class EntryController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('dataEntryHome');
     }
     public function entryClients()
     {   

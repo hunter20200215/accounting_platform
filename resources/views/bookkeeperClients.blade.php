@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-3" >
             <div class="bg-light px-2 py-4" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
-                <form action="{{ route('entry.clients.filter1') }}" method="POST">
+                <form action="#" method="POST">
                     @csrf
                     <div class="p-1">
                         <div class="d-flex md-4">
@@ -103,10 +103,10 @@
         <div class="col-md-9">
             
             <div class="bg-light px-1 py-2" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
-                <form action="{{ route('entry.clients.filter1') }}" method="get">    
+                <form action="" method="get">    
                     <div class="px-2">
                         <div class="d-flex">
-                            <a class="btn btn-primary ml-auto mr-0 add-row mb-3" href="{{ route('entry.clients.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add Client</a>
+                            <a class="btn btn-primary ml-auto mr-0 add-row mb-3" href="#"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add Client</a>
                         </div>
                         <div class="d-flex"> 
                             <h4 class="mt-1">Browser clients</h4>
@@ -142,8 +142,8 @@
                             <tbody>
                                 @foreach ($clients as $client)
                                     <tr>
-                                        <td><a href=<?php echo route('admin.clients.profile',['id' => $client->id])?>>{{$client->id}}</a></td>
-                                        <td><a href=<?php echo route('admin.clients.profile',['id' => $client->id])?>>{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}</a></td>
+                                        <td><a href=<?php echo route('entry.clients.profile',['id' => $client->id]) ?>>{{$client->id}}</a></td>
+                                        <td><a href=<?php echo route('entry.clients.profile',['id' => $client->id]) ?>>{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}</a></td>
                                         <td>{{$client->primary_phone}}</td>
                                         <td>{{$client->created_at}}</td>
                                         <td>{{$client->updated_at}}</td>
@@ -161,4 +161,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection

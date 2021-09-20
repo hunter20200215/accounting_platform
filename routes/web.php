@@ -67,9 +67,9 @@ Route::get('admin/highlights/deduction/edit', [App\Http\Controllers\HomeControll
 Route::get('admin/highlights/deduction/delete', [App\Http\Controllers\HomeController::class, 'adminHighlightsDeductionDelete'])->name('admin.highlights.deduction.delete')->middleware('is_admin');
 
 #Data-entry
-Route::get('/entry/home', [App\Http\Controllers\HomeController::class, 'dataEntryIndex'])->name('entry.home')->middleware('is_entry');;
-Route::get('/entry/clients', [App\Http\Controllers\EntryController::class, 'clients'])->name('entry.clients')->middleware('is_entry');;
-Route::get('/entry/highlights', [App\Http\Controllers\EntryController::class, 'highlights'])->name('entry.highlights')->middleware('is_entry');;
+Route::get('/entry/home', [App\Http\Controllers\EntryController::class, 'index'])->name('entry.home')->middleware('is_entry');
+// Route::get('/entry/clients', [App\Http\Controllers\EntryController::class, 'clients'])->name('entry.clients')->middleware('is_entry');
+// Route::get('/entry/highlights', [App\Http\Controllers\EntryController::class, 'highlights'])->name('entry.highlights')->middleware('is_entry');;
 
 #clients
 Route::get('entry/clients', [App\Http\Controllers\EntryController::class, 'entryClients'])->name('entry.clients')->middleware('is_entry');
@@ -86,7 +86,6 @@ Route::post('entry/clients/additional_information', [App\Http\Controllers\EntryC
 
 
 #Book-keeper
-Route::get('/bookkeepr/home', [App\Http\Controllers\HomeController::class, 'bookkeeperIndex'])->name('bookkeeper.home')->middleware('is_bookkeeper');;
-Route::get('/bookkeeper/clients', [App\Http\Controllers\BookkeeperController::class, 'clients'])->name('bookkeeper.clients')->middleware('is_bookkeeper');;
-Route::get('/bookkeeper/highlights', [App\Http\Controllers\BookkeeperController::class, 'highlights'])->name('bookkeeper.highlights')->middleware('is_bookkeeper');;
+Route::get('/bookkeepr/home', [App\Http\Controllers\BookkeeperController::class, 'index'])->name('bookkeeper.home')->middleware('is_bookkeeper');
+Route::get('/bookkeeper/clients', [App\Http\Controllers\BookkeeperController::class, 'clients'])->name('bookkeeper.clients')->middleware('is_bookkeeper');
 

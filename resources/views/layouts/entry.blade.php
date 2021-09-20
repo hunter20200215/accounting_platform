@@ -44,7 +44,7 @@
                             <a class="nav-link" href="{{ route('entry.home') }}">{{ __('Home') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('entry.clients') }}">{{ __('Clients') }}</a>
+                            <a class="nav-link" href="{{ route('entry.clients') }}"><i class='fas fa-users' style='font-size:18px'></i>{{ __('Clients') }}</a>
                         </li>
                     @endauth
                 </ul>
@@ -68,9 +68,6 @@
                                 Setting
                             </a>
 
-                            <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="{{ route('entry.highlights') }}">Highlights</a>
-                            </div> -->
                         </li>
 
                         <li class="nav-item dropdown">

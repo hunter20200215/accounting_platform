@@ -62,9 +62,6 @@
                             </li>
                         @endif
                     @else
-                        
-                        
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Setting
@@ -157,62 +154,25 @@
 			</div>
 		</div>
 	</div>
-	<footer class="bg-dark text-light text-center text-md-left">
+	<footer class="bg-dark text-light text-center text-md-left" >
 		<div class="container">
 			<div class="row pt-4">
 				<div class="col-md-12 text-center pb-4">
 					
 					<ul class="list-unstyled">
 						<li>
-							<a href="#" class="text-light">Copyright © 2021 2705151 Ontario Inc. All Rights Reserved.</a>
+							<a href="#" class="text-light">Copyright © 2021. All Rights Reserved.</a>
 						</li>
 						<li>
-							<a href="#" class="text-light">Address: Toronto  Canada</a>
+							<a href="#" class="text-light">Company: 2705151 Ontario Inc</a>
 						</li>
 						<li>
 							<a href="#" class="text-light">Terms and Conditions  |  Privacy Policy</a>
 						</li>
 					</ul>
 				</div>
-				<!-- <div class="col-sm-6 col-md-3 pb-4">
-					<h4 class="mb-4">
-						About
-					</h4>
-					<ul class="list-unstyled">
-						<li>
-							<a href="#" class="text-light">Company</a>
-						</li>
-						<li>
-							<a href="#" class="text-light">Team</a>
-						</li>
-						<li>
-							<a href="#" class="text-light">Careers</a>
-						</li>
-					</ul>
-				</div>
-				<div class="col-md-6 pb-4">
-					<h4 class="mb-4">
-						Web development tools
-					</h4>
-					<ul class="list-unstyled">
-						<li>
-							<a href="https://www.phpcrudgenerator.com/tutorials/how-to-create-a-bootstrap-crud-admin-dashboard" class="text-light">How to create a Bootstrap Admin Dashboard in PHP</a>
-						</li>
-						<li>
-							<a href="https://www.phpformbuilder.pro/drag-n-drop-form-builder/index.html" class="text-light">Drag &amp; drop form builder</a>
-						</li>
-						<li>
-							<a href="https://www.tinymce-bootstrap-plugin.com/" class="text-light">Bootstrap plugin for TinyMce</a>
-						</li>
-					</ul>
-				</div> -->
+				
 			</div>
-			<div class="col d-flex justify-content-center mb-4">
-				<a href="#" class="d-block px-3"><img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-facebook-m.png" alt="Facebook" /></a><a href="#" class="d-block px-3"><img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-twitter-m.png" alt="Twitter" /></a><a href="#" class="d-block px-3"><img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-instagram-m.png" alt="Instagram" /></a><a href="#" class="d-block px-3"><img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-linkedin-m.png" alt="Linkedin" /></a>
-			</div>
-			<p class="text-center text-secondary border-top border-secondary py-4">
-				Bookkeeper © 2021
-			</p>
 		</div>
 	</footer>
 	
