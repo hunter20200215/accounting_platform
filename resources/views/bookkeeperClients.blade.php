@@ -106,7 +106,7 @@
                 <form action="" method="get">    
                     <div class="px-2">
                         <div class="d-flex">
-                            <a class="btn btn-primary ml-auto mr-0 add-row mb-3" href="#"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add Client</a>
+                            <a class="btn btn-primary ml-auto mr-0 add-row mb-3" href="{{ route('bookkeeper.clients.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add Client</a>
                         </div>
                         <div class="d-flex"> 
                             <h4 class="mt-1">Browser clients</h4>
