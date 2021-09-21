@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-3" >
             <div class="bg-light px-2 py-4" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
-                <form action="#" method="POST">
+                <form action="{{ route('bookkeeper.clients.filter1') }}" method="POST">
                     @csrf
                     <div class="p-1">
                         <div class="d-flex md-4">
@@ -119,25 +119,18 @@
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
-                                
                             </div>
-                            
-                                
                         </div>
-                        
                         <div class="my-5"></div>
-
                         <table class="table">
                             <thead>
-                            
-                            <tr>
-                                <th>ID</th>
-                                <th>Full Name</th>
-                                <th>Phone</th>
-                                <th>Date added</th>
-                                <th>Last Touch</th>
-
-                            </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Full Name</th>
+                                    <th>Phone</th>
+                                    <th>Date added</th>
+                                    <th>Last Touch</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @foreach ($clients as $client)
@@ -154,9 +147,8 @@
                         <div class="d-flex justify-content-center">
                             {{ $clients->links() }}
                         </div>
-                        
                     </div>
-                    </div>
+                </div>
             </form>
         </div>
     </div>

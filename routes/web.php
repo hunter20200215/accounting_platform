@@ -90,4 +90,5 @@ Route::get('/bookkeepr/home', [App\Http\Controllers\BookkeeperController::class,
 Route::get('/bookkeeper/clients', [App\Http\Controllers\BookkeeperController::class, 'clients'])->name('bookkeeper.clients')->middleware('is_bookkeeper');
 Route::get('bookkeeper/clients/create', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsCreate'])->name('bookkeeper.clients.create')->middleware('is_bookkeeper');
 Route::post('bookkeeper/clients/create', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsCreateNew'])->name('bookkeeper.clients.create.new')->middleware('is_bookkeeper');
+Route::post('bookkeeper/clients/filter1', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsFilter1'])->name('bookkeeper.clients.filter1')->middleware('is_bookkeeper');
 

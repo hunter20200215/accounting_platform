@@ -110,5 +110,74 @@ class BookkeeperController extends Controller
 
         return redirect()->route('bookkeeper.clients');
     }
+
+    public function bookkeeperClientsFilter1(Request $request)
+    {   
+        
+        $categorys=[];
+        $income = [];
+        $deduction =[];
+        if ($request->categorys) {
+            foreach ( $request->categorys as $index=>$value) {
+                $categorys[] = $value;
+            }
+        }
+        if ($request->income) {
+            foreach ( $request->income as $index=>$value) {
+                $income[] = $value;
+            }
+        }
+        if ($request->deduction) {
+            foreach ( $request->deduction as $index=>$value) {
+                $deduction[] = $value;
+            }
+        }
+        $clients = DB::table('admin_clients_info')
+                    ->whereIn('category', $categorys)
+                    ->where('user_id', $request->user()->id)
+                    ->orWhere(function($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->orWhere('income_highlights', 'LIKE', "%$value%");
+                                    
+                        }
+                    })
+                    ->where('user_id', $request->user()->id)
+                    ->orWhere(function($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->orWhere('deduction_highlights', 'LIKE', "%$value%");
+                        }
+                    })
+                    ->where('user_id', $request->user()->id)
+                    ->orWhere(function($query) use ($request) {
+                        if ($request->start_date){
+                            $query->orWhere('dob_date', ">=",$request->start_date);
+                        }
+                    })
+                    ->where('user_id', $request->user()->id)
+                    ->where(function($query) use ($request) {
+                        if ($request->end_date){
+                            $query->orWhere('dob_date', "<",$request->end_date);
+                                    
+                        }
+                              
+                    })
+                    
+                    ->where('user_id', $request->user()->id)
+                    ->paginate(100);
+
+        
+        return view('bookkeeperClients',[
+            'clients' =>$clients,
+            'categorys' => DB::table('admin_category')->get(),
+            'highlights' => DB::table('admin_highlights')->get(),
+            'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
+            'selected_categorys' => $categorys,
+            'selected_income' => $income,
+            'selected_deduction' =>$deduction,
+
+        ]);
+        // return redirect()->route('admin.clients',['clients' =>$clients]);
+    }
     
 }
