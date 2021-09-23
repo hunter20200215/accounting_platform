@@ -51,11 +51,11 @@
                     <form action="{{ route('admin.highlights.deduction.create') }}">
                         <div class="form-group">
                             <label for="usr">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" require>
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
                             <label for="pwd">Value:</label>
-                            <input type="number" class="form-control" id="value" name="value" require> 
+                            <input type="number" class="form-control" id="value" name="value" required> 
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -83,11 +83,11 @@
                     <form action="{{ route('admin.highlights.deduction.edit') }}">
                         <div class="form-group">
                             <label for="usr">Type new name:</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="" require>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="" required>
                         </div>
                         <div class="form-group">
                             <label for="pwd">Type new value:</label>
-                            <input type="number" class="form-control" id="value" name="value" placeholder="" require> 
+                            <input type="number" class="form-control" id="value" name="value" placeholder="" required> 
                             <input type="hidden" name="id" id="id">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>

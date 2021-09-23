@@ -399,6 +399,10 @@ class HomeController extends Controller
 
     public function adminHighlightsIncomeCreate(Request $request)
     {   
+        $this->validate($request, [
+            'name' => 'required',
+            'value' => 'required',
+        ]); 
 
         $flight = new AdminIncome;
 
@@ -414,6 +418,10 @@ class HomeController extends Controller
     }
     public function adminHighlightsIncomeEdit(Request $request)
     {   
+        $this->validate($request, [
+            'name' => 'required',
+            'value' => 'required',
+        ]); 
 
         $flight = AdminIncome::find($request->id);
 
@@ -434,6 +442,10 @@ class HomeController extends Controller
 
     public function adminHighlightsDeductionCreate(Request $request)
     {   
+        $this->validate($request, [
+            'name' => 'required',
+            'value' => 'required',
+        ]); 
 
         $flight = new AdminDeduction;
 
@@ -445,7 +457,11 @@ class HomeController extends Controller
     }
     public function adminHighlightsDeductionEdit(Request $request)
     {   
-
+        $this->validate($request, [
+            'name' => 'required',
+            'value' => 'required',
+        ]); 
+        
         $flight = AdminDeduction::find($request->id);
 
         $flight->name = $request->name;
