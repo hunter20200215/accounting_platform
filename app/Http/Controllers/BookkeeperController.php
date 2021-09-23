@@ -179,5 +179,62 @@ class BookkeeperController extends Controller
         ]);
         // return redirect()->route('admin.clients',['clients' =>$clients]);
     }
+
+    public function bookkeeperClientsProfile($id)
+    {
+        
+        
+        return view('bookkeeperClientsProfile',[
+            'info' => DB::table('admin_clients_info')->where('id', $id)->first()
+        ]);
+    }
+
+    public function bookkeeperClientsInformation(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+
+        $flight->first_name = $request->first_name;
+        $flight->last_name = $request->last_name;
+        $flight->dob_date = $request->dob_date;
+
+        $flight->save();
+        return view('bookkeeperClientsProfile',[
+            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first()
+        ]);
+    }
+    public function bookkeeperClientsBio(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+
+        $flight->client_bio = $request->bio;
+        
+
+        $flight->save();
+        return view('bookkeeperClientsProfile',[
+            'info' => DB::table('admin_clients_info')->where('id',$request->id)->first()
+        ]);
+    }
+    public function bookkeeperClientsAddInformation(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+
+        $flight->address = $request->address;
+        $flight->primary_phone = $request->phone;
+        $flight->other_phone = $request->other_phone;
+        $flight->sin = $request->sin;
+        $flight->citizenship = $request->citizenship;
+        $flight->marital_status = $request->marital_status;
+        $flight->dependents = $request->dependents;
+        $flight->home_status = $request->home_status;
+        $flight->notes = $request->notes;
+
+        $flight->save();
+        return view('bookkeeperClientsProfile',[
+            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first()
+        ]);
+    }
     
 }

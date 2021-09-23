@@ -135,8 +135,8 @@
                             <tbody>
                                 @foreach ($clients as $client)
                                     <tr>
-                                        <td><a href=<?php echo route('entry.clients.profile',['id' => $client->id]) ?>>{{$client->id}}</a></td>
-                                        <td><a href=<?php echo route('entry.clients.profile',['id' => $client->id]) ?>>{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}</a></td>
+                                        <td><a href=<?php echo route('bookkeeper.clients.profile',['id' => $client->id]) ?>>{{$client->id}}</a></td>
+                                        <td><a href=<?php echo route('bookkeeper.clients.profile',['id' => $client->id]) ?>>{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}</a></td>
                                         <td>{{$client->primary_phone}}</td>
                                         <td>{{$client->created_at}}</td>
                                         <td>{{$client->updated_at}}</td>
