@@ -16,7 +16,7 @@ class CreateAdminDeductionHighlights extends Migration
         Schema::create('admin_deduction_highlights', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->float('value', 8, 2);
+            $table->float('value', 8, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -401,13 +401,13 @@ class HomeController extends Controller
     {   
         $this->validate($request, [
             'name' => 'required',
-            'value' => 'required',
+            
         ]); 
 
         $flight = new AdminIncome;
 
         $flight->name = $request->name;
-        $flight->value = $request->value;
+        
 
         $flight->save();
         // DB::table('admin_income_highlights')->insert([
@@ -420,13 +420,13 @@ class HomeController extends Controller
     {   
         $this->validate($request, [
             'name' => 'required',
-            'value' => 'required',
+            
         ]); 
 
         $flight = AdminIncome::find($request->id);
 
         $flight->name = $request->name;
-        $flight->value = $request->value;
+        
 
         $flight->save();
         return redirect()->route('admin.highlights.income');
@@ -444,13 +444,13 @@ class HomeController extends Controller
     {   
         $this->validate($request, [
             'name' => 'required',
-            'value' => 'required',
+            
         ]); 
 
         $flight = new AdminDeduction;
 
         $flight->name = $request->name;
-        $flight->value = $request->value;
+        
 
         $flight->save();
         return redirect()->route('admin.highlights.deduction');
@@ -459,13 +459,13 @@ class HomeController extends Controller
     {   
         $this->validate($request, [
             'name' => 'required',
-            'value' => 'required',
+            
         ]); 
-        
+
         $flight = AdminDeduction::find($request->id);
 
         $flight->name = $request->name;
-        $flight->value = $request->value;
+        
 
         $flight->save();
         return redirect()->route('admin.highlights.deduction');

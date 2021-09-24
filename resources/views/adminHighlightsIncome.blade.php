@@ -15,7 +15,7 @@
             <tr>
                 <th>ID</th>
                 <th>Income HighlightsName</th>
-                <th>Value</th>
+                
                 <th>Date created</th>
                 <th>Control</th>
             </tr>
@@ -25,7 +25,7 @@
                 <tr>
                     <td>{{$highlight->id}}</td>
                     <td>{{$highlight->name}}</td>
-                    <td>{{$highlight->value}}</td>
+                   
                     <td>{{$highlight->created_at}}</td>
                     <td><a class="edit-icon" data-name="{{$highlight->name}}" data-value="{{$highlight->value}}" data-id="{{$highlight->id}}"> <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#edit"></i></a><a class="delete-icon" data-id="{{$highlight->id}}"><i class="fa fa-trash ml-2" aria-hidden="true" data-toggle="modal" data-target="#delete"></i></a></td>
                 </tr>
@@ -63,10 +63,10 @@
                             <label for="usr">Name:</label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="pwd">Value:</label>
                             <input type="number" class="form-control" id="value" name="value" required> 
-                        </div>
+                        </div> -->
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
 
@@ -95,19 +95,15 @@
                             <label for="usr">Type new name:</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="" required>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="pwd">Type new value:</label>
                             <input type="number" class="form-control" id="value" name="value" placeholder="" required> 
                             <input type="hidden" name="id" id="id">
-                        </div>
+                        </div> -->
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
 
                 </div>
-                
-                
-                
-                
             </div>
         </div>
     </div>
@@ -130,10 +126,6 @@
                     </form>
 
                 </div>
-                
-                
-                
-                
             </div>
         </div>
     </div>
