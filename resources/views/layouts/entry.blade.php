@@ -96,7 +96,7 @@
     <main class="py-4" style="min-height: 71vh;">
         @yield('content')
     </main>
-    <footer class="bg-dark text-light text-center text-md-left" >
+    <!-- <footer class="bg-dark text-light text-center text-md-left" >
 		<div class="container">
 			<div class="row pt-4">
 				<div class="col-md-12 text-center pb-4">
@@ -117,7 +117,7 @@
 			</div>
 			
 		</div>
-	</footer>
+	</footer> -->
 </div>
 </body>
 </html>

@@ -154,27 +154,7 @@
 			</div>
 		</div>
 	</div>
-	<footer class="bg-dark text-light text-center text-md-left" >
-		<div class="container">
-			<div class="row pt-4">
-				<div class="col-md-12 text-center pb-4">
-					
-					<ul class="list-unstyled">
-						<li>
-							<a href="#" class="text-light">Copyright © 2021. All Rights Reserved.</a>
-						</li>
-						<li>
-							<a href="#" class="text-light">Company: 2705151 Ontario Inc</a>
-						</li>
-						<li>
-							<a href="#" class="text-light">Terms and Conditions  |  Privacy Policy</a>
-						</li>
-					</ul>
-				</div>
-				
-			</div>
-		</div>
-	</footer>
+	
 	
 
 	<div id="dropDownSelect1"></div>

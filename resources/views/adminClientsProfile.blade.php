@@ -41,6 +41,14 @@
                             </div>
                             {{$info->client_bio}}
                         </div>
+                        <h5 class="ml-4">
+                            Income Highlights
+                        </h5>
+                        <div class="radius-border px-3 pb-4 pt-2">
+                            <div class="w-100 d-block text-right">
+                                <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#bio"></i></a>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-7">
                         <h5 class="ml-4">
