@@ -61,7 +61,7 @@
                     <form action="{{ route('admin.highlights.income.create') }}">
                         <div class="form-group">
                             <label for="usr">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" autofocus class="form-control" id="name" name="name" required >
                         </div>
                         <!-- <div class="form-group">
                             <label for="pwd">Value:</label>

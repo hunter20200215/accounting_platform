@@ -11,7 +11,7 @@
         </div>
 
         <div class="row mt-4">
-            <div class="col-md-3"><label class="labels">First Name</label><input type="text" class="form-control"  value="" name="first_name" required></div>
+            <div class="col-md-3"><label class="labels">First Name</label><input type="text" autofocus class="form-control"  value="" name="first_name" required></div>
             <div class="col-md-3"><label class="labels">Last Name</label><input type="text" class="form-control" value=""  name="last_name" required></div>
             <div class="col-md-3"><label class="labels">Middle or Other name</label><input type="text" class="form-control" value=""  name="middle_name" ></div>
             <div class="col-md-3"><label class="labels">Date of Birth</label><input type="date" class="form-control" value=""  name="DOB" required></div>

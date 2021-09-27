@@ -50,7 +50,7 @@
                     <form action="{{ route('admin.highlights.deduction.create') }}">
                         <div class="form-group">
                             <label for="usr">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control" id="name" name="name" required autofocus="autofocus">
                         </div>
                         <!-- <div class="form-group">
                             <label for="pwd">Value:</label>

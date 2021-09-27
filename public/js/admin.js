@@ -38,5 +38,10 @@ $(document).ready(function(){
         
     });
     
+
+    $('#create').on('shown.bs.modal', function () {
+        $('input').focus();
+    });
+    
     
 });
