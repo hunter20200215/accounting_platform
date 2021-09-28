@@ -10,10 +10,10 @@
         </div>
 
         <div class="row mt-4">
-            <div class="col-md-3"><label class="labels">First Name</label><input type="text" class="form-control"  autofocus="autofocus" value="" name="first_name" required></div>
-            <div class="col-md-3"><label class="labels">Last Name</label><input type="text" class="form-control" value=""  name="last_name" required></div>
+            <div class="col-md-3"><label class="labels">First Name</label><input type="text" class="form-control"  autofocus="autofocus" value="" name="first_name" ></div>
+            <div class="col-md-3"><label class="labels">Last Name</label><input type="text" class="form-control" value=""  name="last_name" ></div>
             <div class="col-md-3"><label class="labels">Middle or Other name</label><input type="text" class="form-control" value=""  name="middle_name" ></div>
-            <div class="col-md-3"><label class="labels">Date of Birth</label><input type="date" class="form-control" value=""  name="DOB" required></div>
+            <div class="col-md-3"><label class="labels">Date of Birth</label><input type="date" class="form-control" value=""  name="DOB" ></div>
         </div>
         <div class="mt-3">
             <h6 class="d-inline mr-auto">Categories</h6>
@@ -21,7 +21,7 @@
                 @foreach ($categorys as $category)
                     <div class="form-check ml-4">
                         <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="categorys" required value=<?php echo $category->name?>> {{$category->name}}
+                            <input class="form-check-input" type="radio" name="categorys"  value=<?php echo $category->name?>> {{$category->name}}
                         </label>
                     </div>
                 @endforeach
@@ -29,10 +29,10 @@
         </div>
 
         <div class="row mt-3">
-            <div class="col-md-3"><label class="labels">Primary Phone</label><input type="text" class="form-control"  value="" name="primary_phone" required></div>
+            <div class="col-md-3"><label class="labels">Primary Phone</label><input type="text" class="form-control"  value="" name="primary_phone" ></div>
             <div class="col-md-3"><label class="labels">Other Phone</label><input type="text" class="form-control" value=""  name="other_phone"></div>
-            <div class="col-md-3"><label class="labels">Address</label><input type="text" class="form-control" value=""  name="address" required></div>
-            <div class="col-md-3"><label class="labels">Citizenship</label><input type="text" class="form-control" value=""  name="citizenship" required></div>
+            <div class="col-md-3"><label class="labels">Address</label><input type="text" class="form-control" value=""  name="address" ></div>
+            <div class="col-md-3"><label class="labels">Citizenship</label><input type="text" class="form-control" value=""  name="citizenship" ></div>
         </div>
 
         <div class="mt-3">

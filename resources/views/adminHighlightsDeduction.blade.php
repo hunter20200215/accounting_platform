@@ -33,9 +33,7 @@
             @endforeach
             </tbody>
         </table>
-        <!-- <div class="row">
-            <button class="btn btn-default ml-auto mr-0 add-row" data-toggle="modal" data-target="#create"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add Row</button>
-        </div> -->
+        
     </div>
 
     <div class="modal fade" id="create">
@@ -55,10 +53,7 @@
                             <label for="usr">Name:</label>
                             <input type="text" class="form-control" id="name" name="name" required autofocus="autofocus">
                         </div>
-                        <!-- <div class="form-group">
-                            <label for="pwd">Value:</label>
-                            <input type="number" class="form-control" id="value" name="value" required> 
-                        </div> -->
+                        
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
 
