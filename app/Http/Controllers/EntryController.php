@@ -73,6 +73,7 @@ class EntryController extends Controller
         $flight->address = $request->address;
         $flight->citizenship = $request->citizenship;
         $flight->user_id = $request->user()->id;
+        $flight->bs_code = $request->bs_code;
         $highlight ="";
         $highlight2 ="";
         if ($request->income) {

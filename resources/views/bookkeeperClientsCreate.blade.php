@@ -16,17 +16,26 @@
             <div class="col-md-3"><label class="labels">Middle or Other name</label><input type="text" class="form-control" value=""  name="middle_name" ></div>
             <div class="col-md-3"><label class="labels">Date of Birth</label><input type="date" class="form-control" value=""  name="DOB" ></div>
         </div>
-        <div class="mt-3">
-            <h6 class="d-inline mr-auto">Categories</h6>
-            <div class="d-block">
-                @foreach ($categorys as $category)
-                    <div class="form-check ml-4">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="categorys"  value=<?php echo $category->name?>> {{$category->name}}
-                        </label>
-                    </div>
-                @endforeach
-            </div>    
+        <div class="mt-3 row">
+            <div class="col-md-3">
+                <h5 class="d-inline mr-auto">Categories</h5>
+                <div class="d-block">
+                    @foreach ($categorys as $category)
+                        <div class="form-check ml-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="categorys"  value=<?php echo $category->name?>> {{$category->name}}
+                            </label>
+                        </div>
+                    @endforeach
+                </div> 
+            </div>
+            <div class="col-md-3">
+                <h5 class="d-inline mr-auto">BS Code</h5>
+                <div class="block">
+                    <input type="text" class="form-control" value=""  name="bs_code" >
+                </div>
+            </div>
+               
         </div>
 
         <div class="row mt-3">
@@ -37,7 +46,7 @@
         </div>
 
         <div class="mt-3">
-            <h6 class="d-inline mr-auto">Income Highlights</h6>
+            <h5 class="d-inline mr-auto">Income Highlights</h5>
             <div class="row">
                 @foreach ($incomehighlights as $incomehighlight)
                     <div class="col-md-3 form-check ml-5 mb-2">
@@ -51,7 +60,7 @@
         </div>
 
         <div class="mt-3">
-            <h6 class="d-inline mr-auto">Deduction Highlights</h6>
+            <h5 class="d-inline mr-auto">Deduction Highlights</h5>
             <div class="row">
                 @foreach ($deductionhighlights as $deductionhighlight)
                     <div class="col-md-3 form-check ml-5 mb-2">
@@ -64,7 +73,7 @@
             </div>    
         </div>
         <div class="mt-3">
-            <h6 class="d-inline mr-auto">Attached Documents</h6>
+            <h5 class="d-inline mr-auto">Attached Documents</h5>
             <div class="ml-3">
                 <!-- <input type="file" id="file" name="file"> -->
                 <input type='file' name='file'>
