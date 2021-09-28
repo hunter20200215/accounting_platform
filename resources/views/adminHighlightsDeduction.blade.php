@@ -7,7 +7,10 @@
             <span class="bg-light px-4 py-2 border-shadow"><h5 class="d-inline">Setting</h5><h5 class="d-inline"> / </h5><h5 class="d-inline">Highlights</h5><h5 class="d-inline"> / </h5><h5 class="d-inline">Deduction</h5></span>
         </div>
     </div>
-    <div class="my-5"></div>
+    <div class="my-3"></div>
+    <div class="row" style="margin-right: 0px;margin-left: 0px;">
+        <button class="btn btn-primary ml-auto mr-0 add-row" data-toggle="modal" data-target="#create" style="font-size:15px"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add New</button>
+    </div>
     <div class="bg-light px-4 pt-5 border-shadow">
         <table class="table">
             <thead>
@@ -30,9 +33,9 @@
             @endforeach
             </tbody>
         </table>
-        <div class="row">
+        <!-- <div class="row">
             <button class="btn btn-default ml-auto mr-0 add-row" data-toggle="modal" data-target="#create"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add Row</button>
-        </div>
+        </div> -->
     </div>
 
     <div class="modal fade" id="create">
