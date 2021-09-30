@@ -27,3 +27,6 @@ a {
 .labels {
     font-size: 1.125rem;
 }
+.w-49 {
+    width: 48%;
+}

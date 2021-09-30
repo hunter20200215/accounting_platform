@@ -33,7 +33,7 @@ Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'adminHome
 Route::get('admin/clients', [App\Http\Controllers\HomeController::class, 'adminClients'])->name('admin.clients')->middleware('is_admin');
 Route::get('admin/clients/{id}/profile', [App\Http\Controllers\HomeController::class, 'adminClientsProfile'])->name('admin.clients.profile')->middleware('is_admin');
 Route::get('admin/clients/create', [App\Http\Controllers\HomeController::class, 'adminClientsCreate'])->name('admin.clients.create')->middleware('is_admin');
-Route::post('admin/clients/filter1', [App\Http\Controllers\HomeController::class, 'adminClientsFilter1'])->name('admin.clients.filter1')->middleware('is_admin');
+Route::get('admin/clients/filter1', [App\Http\Controllers\HomeController::class, 'adminClientsFilter1'])->name('admin.clients.filter1')->middleware('is_admin');
 Route::get('admin/clients/filter2', [App\Http\Controllers\HomeController::class, 'adminClientsFilter2'])->name('admin.clients.filter2')->middleware('is_admin');
 Route::post('admin/clients/create', [App\Http\Controllers\HomeController::class, 'adminClientsCreateNew'])->name('admin.clients.create.new')->middleware('is_admin');
 
@@ -75,7 +75,7 @@ Route::get('/entry/home', [App\Http\Controllers\EntryController::class, 'index']
 Route::get('entry/clients', [App\Http\Controllers\EntryController::class, 'entryClients'])->name('entry.clients')->middleware('is_entry');
 Route::get('entry/clients/{id}/profile', [App\Http\Controllers\EntryController::class, 'entryClientsProfile'])->name('entry.clients.profile')->middleware('is_entry');
 Route::get('entry/clients/create', [App\Http\Controllers\EntryController::class, 'entryClientsCreate'])->name('entry.clients.create')->middleware('is_entry');
-Route::post('entry/clients/filter1', [App\Http\Controllers\EntryController::class, 'entryClientsFilter1'])->name('entry.clients.filter1')->middleware('is_entry');
+Route::get('entry/clients/filter1', [App\Http\Controllers\EntryController::class, 'entryClientsFilter1'])->name('entry.clients.filter1')->middleware('is_entry');
 // Route::get('entry/clients/filter2', [App\Http\Controllers\EntryController::class, 'entryClientsFilter2'])->name('entry.clients.filter2')->middleware('is_entry');
 Route::post('entry/clients/create', [App\Http\Controllers\EntryController::class, 'entryClientsCreateNew'])->name('entry.clients.create.new')->middleware('is_entry');
 
@@ -90,7 +90,7 @@ Route::get('/bookkeepr/home', [App\Http\Controllers\BookkeeperController::class,
 Route::get('/bookkeeper/clients', [App\Http\Controllers\BookkeeperController::class, 'clients'])->name('bookkeeper.clients')->middleware('is_bookkeeper');
 Route::get('bookkeeper/clients/create', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsCreate'])->name('bookkeeper.clients.create')->middleware('is_bookkeeper');
 Route::post('bookkeeper/clients/create', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsCreateNew'])->name('bookkeeper.clients.create.new')->middleware('is_bookkeeper');
-Route::post('bookkeeper/clients/filter1', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsFilter1'])->name('bookkeeper.clients.filter1')->middleware('is_bookkeeper');
+Route::get('bookkeeper/clients/filter1', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsFilter1'])->name('bookkeeper.clients.filter1')->middleware('is_bookkeeper');
 
 Route::get('bookkeeper/clients/{id}/profile', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsProfile'])->name('bookkeeper.clients.profile')->middleware('is_bookkeeper');
 

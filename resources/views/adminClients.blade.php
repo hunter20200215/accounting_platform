@@ -1,12 +1,11 @@
 @extends('layouts.app')
    
 @section('content')
-<div class="container mt-1">
+<div class="mx-auto  mt-1" style="width:85%;">
     <div class="row">
-        <div class="col-md-3" >
+        <div class="col-md-4" >
             <div class="bg-light px-2 py-4" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
-                <form action="{{ route('admin.clients.filter1') }}" method="POST">
-                    @csrf
+                <form action="{{ route('admin.clients.filter1') }}" method="GET">
                     <div class="p-1">
                         <div class="d-flex md-4">
                             <h4 class="d-inline mr-auto">Filter By</h4>
@@ -33,17 +32,17 @@
                             </div>    
                         </div>
                         <div class="mb-4">
-                            <h5 class="d-inline mr-auto">Income Highlights</h5>
-                            <div class="d-block">
+                            <h5 class="d-block mr-auto">Income Highlights</h5>
+                            <div class="d-block ml-2">
                                 @foreach ($incomehighlights as $incomehighlight)
                                     @if (in_array($incomehighlight->name, $selected_income))
-                                        <div class="form-check ml-2">
+                                        <div class="d-inline-block form-check w-49">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $incomehighlight->name?> > {{$incomehighlight->name}}
                                             </label>
                                         </div>
                                     @else
-                                        <div class="form-check ml-2">
+                                        <div class="d-inline-block form-check w-49">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" type="checkbox" name="income[]"  value=<?php echo $incomehighlight->name?> > {{$incomehighlight->name}}
                                             </label>
@@ -100,7 +99,8 @@
             </div>
 
         </div>
-        <div class="col-md-9">
+        
+        <div class="col-md-8">
             
             <div class="bg-light px-1 py-2" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
                 <form action="{{ route('admin.clients.filter1') }}" method="get">    
