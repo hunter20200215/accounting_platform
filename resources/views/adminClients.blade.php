@@ -38,19 +38,17 @@
                                     @if (in_array($incomehighlight->name, $selected_income))
                                         <div class="d-inline-block form-check w-49">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $incomehighlight->name?> > {{$incomehighlight->name}}
+                                                <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $incomehighlight->id?> > {{$incomehighlight->name}}
                                             </label>
                                         </div>
                                     @else
                                         <div class="d-inline-block form-check w-49">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="income[]"  value=<?php echo $incomehighlight->name?> > {{$incomehighlight->name}}
+                                                <input class="form-check-input" type="checkbox" name="income[]"  value=<?php echo $incomehighlight->id?> > {{$incomehighlight->name}}
                                             </label>
                                         </div>
                                     @endif
-                                    
                                 @endforeach
-                                
                             </div>    
                         </div>
 

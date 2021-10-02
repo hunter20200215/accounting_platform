@@ -122,7 +122,9 @@ class HomeController extends Controller
         
         
         return view('adminClientsProfile',[
-            'info' => DB::table('admin_clients_info')->where('id', $id)->first()
+            'info' => DB::table('admin_clients_info')->where('id', $id)->first(),
+            'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
         ]);
     }
 
@@ -134,10 +136,21 @@ class HomeController extends Controller
         $flight->first_name = $request->first_name;
         $flight->last_name = $request->last_name;
         $flight->dob_date = $request->dob_date;
+        $flight->address = $request->address;
+        $flight->primary_phone = $request->phone;
+        $flight->other_phone = $request->other_phone;
+        $flight->sin = $request->sin;
+        $flight->citizenship = $request->citizenship;
+        $flight->marital_status = $request->marital_status;
+        $flight->dependents = $request->dependents;
+        $flight->home_status = $request->home_status;
+        $flight->notes = $request->notes;
 
         $flight->save();
         return view('adminClientsProfile',[
-            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first()
+            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first(),
+            'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
         ]);
     }
 
@@ -151,28 +164,63 @@ class HomeController extends Controller
 
         $flight->save();
         return view('adminClientsProfile',[
-            'info' => DB::table('admin_clients_info')->where('id',$request->id)->first()
+            'info' => DB::table('admin_clients_info')->where('id',$request->id)->first(),
+            'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
+
         ]);
     }
 
-    public function adminClientsAddInformation(Request $request)
+    public function adminIncomeSource(Request $request)
     {
         
         $flight = AdminClientCreate::find($request->id);
 
-        $flight->address = $request->address;
-        $flight->primary_phone = $request->phone;
-        $flight->other_phone = $request->other_phone;
-        $flight->sin = $request->sin;
-        $flight->citizenship = $request->citizenship;
-        $flight->marital_status = $request->marital_status;
-        $flight->dependents = $request->dependents;
-        $flight->home_status = $request->home_status;
-        $flight->notes = $request->notes;
+        $highlight ="";
+        if ($request->income) {
+            
+            foreach ( $request->income as $index=>$highlight1) {
+                if ($index==0){
+                    $highlight = $highlight1;
+                }else{
+                    $highlight .= ",".$highlight1;
+                }
+            }
+            $highlight = $highlight.",";
+            $flight->income_highlights = $highlight;
+        }
+        
 
         $flight->save();
         return view('adminClientsProfile',[
-            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first()
+            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first(),
+            'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
+        ]);
+    }
+    public function adminDeductionSource(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+        $highlight2 ="";
+        
+        if ($request->deductions) {
+            foreach ( $request->deductions as $index=>$highlight) {
+                if ($index==0){
+                    $highlight2 = $highlight;
+                }else{
+                    $highlight2 .= ",".$highlight;
+                }
+            }
+            $highlight2 = $highlight2.",";
+            $flight->deduction_highlights = $highlight2;
+        }
+
+        $flight->save();
+        return view('adminClientsProfile',[
+            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first(),
+            'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
         ]);
     }
     
@@ -208,18 +256,19 @@ class HomeController extends Controller
                 $deduction[] = $value;
             }
         }
+        
         $clients = DB::table('admin_clients_info')
                     ->whereIn('category', $categorys)
                     ->where('user_id', $request->user()->id)
                     ->orWhere(function($query) use ($income) {
                         foreach ($income as $value) {
-                            $query->orWhere('income_highlights', 'LIKE', "%$value%");
+                            $query->orWhere('income_highlights', 'LIKE', "%".$value.","."%");
                         }
                     })
                     ->where('user_id', $request->user()->id)
                     ->orWhere(function($query) use ($deduction) {
                         foreach ($deduction as $value) {
-                            $query->orWhere('deduction_highlights', 'LIKE', "%$value%");
+                            $query->orWhere('deduction_highlights', 'LIKE', "%".$value.",".'%');
                         }
                     })
                     ->where('user_id', $request->user()->id)
@@ -270,6 +319,7 @@ class HomeController extends Controller
         $flight->bs_code = $request->bs_code;
         $highlight ="";
         $highlight2 ="";
+        
         if ($request->income) {
             
             foreach ( $request->income as $index=>$highlight1) {
@@ -279,7 +329,7 @@ class HomeController extends Controller
                     $highlight .= ",".$highlight1;
                 }
             }
-            
+            $highlight = $highlight.",";
             $flight->income_highlights = $highlight;
         }
         if ($request->deductions) {
@@ -290,6 +340,7 @@ class HomeController extends Controller
                     $highlight2 .= ",".$highlight;
                 }
             }
+            $highlight2 = $highlight2.",";
             $flight->deduction_highlights = $highlight2;
         }
         

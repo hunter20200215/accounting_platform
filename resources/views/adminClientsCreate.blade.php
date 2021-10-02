@@ -50,7 +50,7 @@
                 @foreach ($incomehighlights as $incomehighlight)
                     <div class="col-md-3 form-check ml-5 mb-2">
                         <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="income[]" value=<?php echo $incomehighlight->name?> > {{$incomehighlight->name}}
+                            <input class="form-check-input" type="checkbox" name="income[]" value=<?php echo $incomehighlight->id?> > {{$incomehighlight->name}}
                         </label>
                     </div>
                 @endforeach
@@ -62,9 +62,9 @@
             <h5 class="d-inline mr-auto">Deduction Highlights</h5>
             <div class="row">
                 @foreach ($deductionhighlights as $deductionhighlight)
-                    <div class="col-md-3 form-check ml-5 mb-2">
+                    <div class="col-md-4 form-check ml-5 mb-2">
                         <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="deductions[]" value=<?php echo $deductionhighlight->name?> > {{$deductionhighlight->name}}
+                            <input class="form-check-input" type="checkbox" name="deductions[]" value=<?php echo $deductionhighlight->id?> > {{$deductionhighlight->name}}
                         </label>
                     </div>
                 @endforeach

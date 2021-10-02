@@ -40,7 +40,8 @@ Route::post('admin/clients/create', [App\Http\Controllers\HomeController::class,
 Route::get('admin/clients/information', [App\Http\Controllers\HomeController::class, 'adminClientsInformation'])->name('admin.information.edit')->middleware('is_admin');
 
 Route::get('admin/clients/bio', [App\Http\Controllers\HomeController::class, 'adminClientsBio'])->name('admin.bio.edit')->middleware('is_admin');
-Route::get('admin/clients/additional_information', [App\Http\Controllers\HomeController::class, 'adminClientsAddInformation'])->name('admin.add.edit')->middleware('is_admin');
+Route::get('admin/clients/income_highlights_edit', [App\Http\Controllers\HomeController::class, 'adminIncomeSource'])->name('admin.income.edit')->middleware('is_admin');
+Route::get('admin/clients/deduction_highlights_edit', [App\Http\Controllers\HomeController::class, 'adminDeductionSource'])->name('admin.deduction.edit')->middleware('is_admin');
 
 
 

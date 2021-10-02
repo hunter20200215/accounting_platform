@@ -6,7 +6,6 @@
         <div class="col-md-4" >
             <div class="bg-light px-2 py-4" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
                 <form action="{{ route('bookkeeper.clients.filter1') }}" method="GET">
-                    
                     <div class="p-1">
                         <div class="d-flex md-4">
                             <h4 class="d-inline mr-auto">Filter By</h4>
