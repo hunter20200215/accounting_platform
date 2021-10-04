@@ -100,7 +100,7 @@
                                     @if (in_array($income->id, $str_arr))
                                         <div class="d-inline-block form-check w-49">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $income->name?> > {{$income->name}}
+                                                <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $income->name?> onclick="return false;"/> {{$income->name}}
                                             </label>
                                         </div>
                                     @else
@@ -129,7 +129,7 @@
                                     @if (in_array($deduction->id, $str_arr1))
                                         <div class="d-block form-check ">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="deductions[]" checked value='{{$deduction->name}}' > {{$deduction->name}}
+                                                <input class="form-check-input" type="checkbox" name="deductions[]" checked value='{{$deduction->name}}' onclick="return false;"> {{$deduction->name}}
                                             </label>
                                         </div>
                                     @else
