@@ -1,9 +1,9 @@
 @extends('layouts.app')
    
 @section('content')
-<div class="mx-auto  mt-1" style="width:85%;">
+<div class="mx-auto  mt-1" style="width:93%;">
     <div class="row">
-        <div class="col-md-4" >
+        <div class="col-md-3" >
             <div class="bg-light px-2 py-4" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
                 <form action="{{ route('admin.clients.filter1') }}" method="GET">
                     <div class="p-1">
@@ -98,7 +98,7 @@
 
         </div>
         
-        <div class="col-md-8">
+        <div class="col-md-9">
             
             <div class="bg-light px-1 py-2" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
                 <form action="{{ route('admin.clients.filter1') }}" method="get">    

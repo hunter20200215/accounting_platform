@@ -474,9 +474,9 @@ class HomeController extends Controller
             'name' => 'required',
             
         ]); 
-
+        
         $flight = AdminIncome::find($request->id);
-
+        
         $flight->name = $request->name;
         
 

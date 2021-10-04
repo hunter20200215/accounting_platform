@@ -101,6 +101,7 @@
                             <input type="number" class="form-control" id="value" name="value" placeholder="" required> 
                             <input type="hidden" name="id" id="id">
                         </div> -->
+                        <input type="hidden" name="id" id="id">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
 

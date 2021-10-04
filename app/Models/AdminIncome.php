@@ -11,7 +11,5 @@ class AdminIncome extends Model
     use HasFactory;
 
     protected $table = 'admin_income_highlights';
-
-    
     
 }
