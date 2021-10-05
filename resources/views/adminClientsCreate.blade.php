@@ -68,12 +68,27 @@
                         </label>
                     </div>
                 @endforeach
-                
             </div>    
         </div>
         <div class="mt-3">
+            <h5 class="d-inline mr-auto">Dependents?</h5>
+            <div class="ml-4">
+                <select name="dependents" id="dependents"  style="width:100px;border: 1px solid #ced4da;border-radius: 0.25rem;">
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                </select>
+                <div class="link-id ml-2">
+                    <a class="btn btn-default ml-auto mr-0 add-row" id="profile_insert"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add one more Dependent</a>
+                    <div>
+                        <label class="mt-2 label-profile">Please Insert Dependents profile ID: </label><input type="number" name="profile_numbers[]"/>
+                    </div>
+                </div>
+            </div>
+                
+        </div>
+        <div class="mt-3">
             <h5 class="d-inline mr-auto">Attached Documents</h5>
-            <div class="ml-3">
+            <div class="ml-4">
                 <!-- <input type="file" id="file" name="file"> -->
                 <input type='file' name='file'>
             </div>
@@ -84,6 +99,29 @@
                 <input type="reset" value="Reset" class="ml-auto mr-3 px-2">
                 <input type="submit" value="Submit" class="btn btn-success mr-0">
             </div>    
+        </div>
+        <div class="modal fade" id="create">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                
+                    
+                    <div class="modal-header">
+                        <h4 class="modal-title">Link dependents's Profile</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    
+                    <div class="modal-body">
+                        <form action="{{ route('admin.highlights.create') }}">
+                            <div class="form-group">
+                                <label for="usr">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>

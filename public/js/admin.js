@@ -37,10 +37,23 @@ $(document).ready(function(){
        
         
     });
-    
 
     $('#create').on('shown.bs.modal', function () {
         $('input').focus();
+    });
+    $('#dependents').on('change',function(){
+        if ($('#dependents').val() == "Yes"){
+            $('.link-id').css('display','block');
+            
+        }else{
+            $('.link-id').css('display','none');
+        }
+    });
+    $('#profile_insert').on('click',function(){
+        var html = '<div>'+
+            '<label class="mt-2 label-profile">Please Insert Dependents profile ID: </label>'+'<input type="number" name="profile_numbers[]"/>'+
+            '</div>';
+        $('.link-id').append(html);
     });
     
     

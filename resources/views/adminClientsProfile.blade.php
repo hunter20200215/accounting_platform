@@ -82,6 +82,19 @@
                     </div>
                     {{$info->client_bio}}
                 </div>
+                <h5 class="mt-3 ml-4">
+                    Dependents
+                </h5>
+                <div class="radius-border px-3 pb-4 pt-2">
+                    <div class="w-100 d-block text-right">
+                        <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#eidt_dependents"></i></a>
+                    </div>
+                    @foreach ($fullname as $parameter)
+                        @if ($parameter != null)
+                            <div><a href=<?php echo route('admin.clients.profile',['id' => $parameter->id])?>>{{$parameter->first_name}} {{$parameter->middle_name}} {{$parameter->last_name}}</a></div>
+                        @endif
+                    @endforeach
+                </div>
             </div>
         </div>
         <div class="col-sm-8"> 
@@ -354,6 +367,43 @@
                                     @endforeach
                                 </div>  
                                 
+                            </div>
+                            
+                        </div>
+                        
+                        <input type="hidden" name="id" id="id" value={{$info->id}}>
+                        
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+
+                </div>
+                
+                
+                
+                
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="eidt_dependents">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Dependents</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="{{ route('admin.dependents.edit') }}">
+                        <div class="form-group ">
+                            <div class="input-field">
+                                @foreach ($ids as $_id)
+                                    <div>
+                                        <label for="fname" class="my-2 label-style">Dependet Profile ID :</label>
+                                        <input type="number" id="fname" name="profile_numbers[]" class="mb-1 w-50" value={{$_id}} >
+                                    </div>
+                                @endforeach    
                             </div>
                             
                         </div>

@@ -30,3 +30,9 @@ a {
 .w-49 {
     width: 48%;
 }
+.link-id {
+    display: none;
+}
+.label-profile {
+    margin-right: 15px;
+}
