@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    
+    var token = $('meta[name="csrf-token"]').attr('content');
     $( ".edit-icon" ).on( "click", function() {
 
         
@@ -43,18 +43,68 @@ $(document).ready(function(){
     });
     $('#dependents').on('change',function(){
         if ($('#dependents').val() == "Yes"){
-            $('.link-id').css('display','block');
+            $('.link-id').show();
             
         }else{
             $('.link-id').css('display','none');
         }
     });
     $('#profile_insert').on('click',function(){
-        var html = '<div>'+
-            '<label class="mt-2 label-profile">Please Insert Dependents profile ID: </label>'+'<input type="number" name="profile_numbers[]"/>'+
-            '</div>';
-        $('.link-id').append(html);
+        var html = '<div class="col-md-3">'+
+        '<label class="labels">Input Dependents name</label>'+
+        '<input type="text" class="form-control dependent_input" vlaue="" name="dependent" id="dependent_input" autocomplete="off">'+
+        '<input type="hidden" name="profile_numbers[]" id="profile_numbers">'+
+        '<div id="countryList"></div>'+
+        '</div>';
+        $('.group-input').append(html);
+
+        $(".dependent_input").keyup(function(){ 
+            var query = $(this).val();
+            var htm = $(this);
+            if(query != '')
+            {
+             var _token = token;
+             $.ajax({
+                url:"/api-search",
+                method:"POST",
+                data:{query:query, _token:_token},
+                success:function(data){
+                    console.log(htm);
+                    $(htm).siblings('div').fadeIn();  
+                    $(htm).siblings('div').html(data);
+                }
+            });
+            }
+        });
+
+        $(document).on('click', 'li', function(){  
+            $(this).parent().parent().prev().prev().val($(this).text()); 
+            $(this).parent().parent().prev().val($(this).attr('data-id')); 
+            $(this).parent().parent().fadeOut();
+        });
     });
-    
+
+    $(".dependent_input").keyup(function(){ 
+        var query = $(this).val();
+        if(query != '')
+        {
+         var _token = token;
+         $.ajax({
+            url:"/api-search",
+            method:"POST",
+            data:{query:query, _token:_token},
+            success:function(data){
+                
+                $(this).siblings('div').fadeIn();  
+                $('#countryList').html(data);
+            }
+        });
+        }
+    });
+    $(document).on('click', 'li', function(){  
+        $(this).parent().parent().prev().prev().val($(this).text()); 
+        $(this).parent().parent().prev().val($(this).attr('data-id')); 
+        $(this).parent().parent().fadeOut();
+    });
     
 });

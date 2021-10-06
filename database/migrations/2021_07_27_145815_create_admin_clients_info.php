@@ -35,6 +35,7 @@ class CreateAdminClientsInfo extends Migration
             $table->string('home_status')->nullable();
             $table->string('notes')->nullable();
             $table->string('bs_code')->nullable();
+            $table->string('full_name')->nullable();
             
             $table->string('dependents_ids')->nullable();
             $table->timestamps();

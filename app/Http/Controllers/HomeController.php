@@ -105,7 +105,6 @@ class HomeController extends Controller
         
         return view('adminClients',[
             'clients' => DB::table('admin_clients_info')
-                            ->where('user_id', Auth::id())
                             ->paginate(100),
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
@@ -117,6 +116,10 @@ class HomeController extends Controller
 
         ]);
     }
+
+    
+
+
     public function adminClientsProfile($id)
     {
         
@@ -154,6 +157,7 @@ class HomeController extends Controller
 
         $flight->first_name = $request->first_name;
         $flight->last_name = $request->last_name;
+        $flight->full_name = $request->first_name." ".$request->last_name;
         $flight->dob_date = $request->dob_date;
         $flight->address = $request->address;
         $flight->primary_phone = $request->phone;
@@ -368,6 +372,7 @@ class HomeController extends Controller
         $flight->user_id = $request->user()->id;
         $flight->bs_code = $request->bs_code;
         $flight->dependents = $request->dependents;
+        $flight->full_name = $request->first_name." ".$request->last_name;
         $highlight ="";
         $highlight2 ="";
         $dependents_ids ="";

@@ -79,9 +79,16 @@
                 </select>
                 <div class="link-id ml-2">
                     <a class="btn btn-default ml-auto mr-0 add-row" id="profile_insert"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add one more Dependent</a>
-                    <div>
-                        <label class="mt-2 label-profile">Please Insert Dependents profile ID: </label><input type="number" name="profile_numbers[]"/>
+                    <div class="row group-input">
+                        <div class="col-md-3">
+                            <label class="labels">Input Dependents name</label>
+                            <input type="text" class="form-control dependent_input" vlaue="" name="dependent" id="dependent_input" autocomplete="off">
+                            <input type="hidden" name="profile_numbers[]" id="profile_numbers">
+                            <div id="countryList"></div>
+                        </div>
                     </div>
+                        
+                    
                 </div>
             </div>
                 
