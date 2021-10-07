@@ -101,7 +101,7 @@
         <div class="col-md-9">
             
             <div class="bg-light px-1 py-2" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
-                <form action="{{ route('admin.clients.filter1') }}" method="get">    
+                <form action="{{ route('admin.clients.filter2') }}" method="get">    
                     <div class="px-2">
                         <div class="d-flex">
                             <a class="btn btn-primary ml-auto mr-0 add-row mb-3" href="{{ route('admin.clients.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add Client</a>
@@ -111,7 +111,7 @@
                             
                             <div class="input-group ml-auto mr-0" style="width:65%;">
                                 
-                                <input type="text" class="form-control" placeholder="Search by Client name">
+                                <input type="text" class="form-control" placeholder="Search by Client name" name="full_name">
                                 <div class="input-group-append">
                                     <button class="btn btn-secondary" type="submit">
                                         <i class="fa fa-search"></i>
@@ -127,11 +127,11 @@
 
                         <table class="table">
                             <thead>
-                            
                             <tr>
                                 <th>ID</th>
                                 <th>Full Name</th>
                                 <th>Phone</th>
+                                <th>Created By</th>
                                 <th>Date added</th>
                                 <th>Last Touch</th>
 
@@ -142,6 +142,7 @@
                                     <tr>
                                         <td><a href=<?php echo route('admin.clients.profile',['id' => $client->id])?>>{{$client->id}}</a></td>
                                         <td><a href=<?php echo route('admin.clients.profile',['id' => $client->id])?>>{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}</a></td>
+                                        <td>{{$client->primary_phone}}</td>
                                         <td>{{$client->primary_phone}}</td>
                                         <td>{{$client->created_at}}</td>
                                         <td>{{$client->updated_at}}</td>

@@ -313,32 +313,27 @@ class HomeController extends Controller
         
         $clients = DB::table('admin_clients_info')
                     ->whereIn('category', $categorys)
-                    ->where('user_id', $request->user()->id)
                     ->orWhere(function($query) use ($income) {
                         foreach ($income as $value) {
                             $query->orWhere('income_highlights', 'LIKE', "%".$value.","."%");
                         }
                     })
-                    ->where('user_id', $request->user()->id)
                     ->orWhere(function($query) use ($deduction) {
                         foreach ($deduction as $value) {
                             $query->orWhere('deduction_highlights', 'LIKE', "%".$value.",".'%');
                         }
                     })
-                    ->where('user_id', $request->user()->id)
                     ->orWhere(function($query) use ($request) {
                         if ($request->start_date){
                             $query->where('dob_date', ">=",$request->start_date);
                         }
                     })
-                    ->where('user_id', $request->user()->id)
                     ->orWhere(function($query) use ($request) {
                         if ($request->end_date){
                             $query->where('dob_date', "<",$request->end_date);
                         }
                               
                     })
-                    ->where('user_id', $request->user()->id)
                     ->paginate(100);
 
         
@@ -354,6 +349,24 @@ class HomeController extends Controller
 
         ]);
         // return redirect()->route('admin.clients',['clients' =>$clients]);
+    }
+
+    public function adminClientsFilter2(Request $request)
+    {
+        $full_name = $request->full_name;
+        $clients = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->paginate(100);
+        return view('adminClients',[
+            'clients' =>$clients,
+            'categorys' => DB::table('admin_category')->get(),
+            'highlights' => DB::table('admin_highlights')->get(),
+            'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
+            'selected_categorys' => [],
+            'selected_income' => [],
+            'selected_deduction' =>[],
+        ]);
     }
 
     public function adminClientsCreateNew(Request $request)
