@@ -14,6 +14,7 @@
                         <div class="mb-4">
                             <h5 class="d-inline mr-auto">Categories</h5>
                             <div class="d-block">
+                               
                                 @foreach ($categorys as $category)
                                     @if (in_array($category->name, $selected_categorys))
                                         <div class="form-check ml-2">
@@ -28,6 +29,7 @@
                                             </label>
                                         </div>
                                     @endif
+                                    
                                 @endforeach
                             </div>    
                         </div>
@@ -138,15 +140,17 @@
                             </tr>
                             </thead>
                             <tbody>
+                                <?php $i=0?>
                                 @foreach ($clients as $client)
                                     <tr>
                                         <td><a href=<?php echo route('admin.clients.profile',['id' => $client->id])?>>{{$client->id}}</a></td>
                                         <td><a href=<?php echo route('admin.clients.profile',['id' => $client->id])?>>{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}</a></td>
                                         <td>{{$client->primary_phone}}</td>
-                                        <td>{{$client->primary_phone}}</td>
+                                        <td><?php echo $rolls[$i]?></td>
                                         <td>{{$client->created_at}}</td>
                                         <td>{{$client->updated_at}}</td>
                                     </tr>
+                                    <?php $i= $i + 1;?>
                                 @endforeach
                             </tbody>
                         </table>

@@ -102,10 +102,19 @@ class HomeController extends Controller
     public function adminClients()
     {
         $selected_categorys = DB::table('admin_category')->pluck('name');
-        
+        $clients = DB::table('admin_clients_info')
+                    ->paginate(100);
+        $rolls = [];
+        foreach ($clients as $client) {
+            $roll = DB::table('users')
+                    ->where('id' ,'=',$client->user_id)
+                    ->pluck('name');
+
+            
+            array_push($rolls,$roll[0]);
+        }
         return view('adminClients',[
-            'clients' => DB::table('admin_clients_info')
-                            ->paginate(100),
+            'clients' => $clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
@@ -113,6 +122,7 @@ class HomeController extends Controller
             'selected_categorys' => [],
             'selected_income' => [],
             'selected_deduction' => [],
+            'rolls'=>$rolls,
 
         ]);
     }
@@ -335,8 +345,16 @@ class HomeController extends Controller
                               
                     })
                     ->paginate(100);
+              
+        $rolls = [];
+        foreach ($clients as $client) {
+            $roll = DB::table('users')
+                    ->where('id' ,'=',$client->user_id)
+                    ->pluck('name');
 
-        
+            
+            array_push($rolls,$roll[0]);
+        }
         return view('adminClients',[
             'clients' =>$clients,
             'categorys' => DB::table('admin_category')->get(),
@@ -346,6 +364,7 @@ class HomeController extends Controller
             'selected_categorys' => $categorys,
             'selected_income' => $income,
             'selected_deduction' =>$deduction,
+            'rolls' =>$rolls,
 
         ]);
         // return redirect()->route('admin.clients',['clients' =>$clients]);
@@ -357,6 +376,15 @@ class HomeController extends Controller
         $clients = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
                     ->paginate(100);
+        $rolls = [];
+        foreach ($clients as $client) {
+            $roll = DB::table('users')
+                    ->where('id' ,'=',$client->user_id)
+                    ->pluck('name');
+
+            
+            array_push($rolls,$roll[0]);
+        }
         return view('adminClients',[
             'clients' =>$clients,
             'categorys' => DB::table('admin_category')->get(),
