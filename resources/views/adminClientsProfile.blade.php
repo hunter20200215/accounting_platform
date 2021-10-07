@@ -398,10 +398,12 @@
                     <form action="{{ route('admin.dependents.edit') }}">
                         <div class="form-group ">
                             <div class="input-field">
-                                @foreach ($ids as $_id)
+                                @foreach ($fullname as $parameter)
                                     <div>
-                                        <label for="fname" class="my-2 label-style">Dependet Profile ID :</label>
-                                        <input type="number" id="fname" name="profile_numbers[]" class="mb-1 w-50" value={{$_id}} >
+                                        <label for="fname" class="my-2 label-style">Dependet Name :</label>
+                                        <input type="text" value="{{$parameter->full_name}}" id="dependents_edit" class="dependents_edit w-100 d-block"/>
+                                        <input type="hidden" name="profile_numbers[]" value="{{$parameter->id}}">
+                                        <div id="countryList"></div>
                                     </div>
                                 @endforeach    
                             </div>

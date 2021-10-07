@@ -80,7 +80,7 @@ $(document).ready(function(){
         $(document).on('click', 'li', function(){  
             $(this).parent().parent().prev().prev().val($(this).text()); 
             $(this).parent().parent().prev().val($(this).attr('data-id')); 
-            $(this).parent().parent().fadeOut();
+            $(this).parent().remove();
         });
     });
 
@@ -104,7 +104,24 @@ $(document).ready(function(){
     $(document).on('click', 'li', function(){  
         $(this).parent().parent().prev().prev().val($(this).text()); 
         $(this).parent().parent().prev().val($(this).attr('data-id')); 
-        $(this).parent().parent().fadeOut();
+        $(this).parent().remove();
+    });
+
+    $(".dependents_edit").keyup(function(){ 
+        var query = $(this).val();
+        var htm = $(this);
+        if(query != '')
+        {
+         var _token = token;
+         $.ajax({
+            url:"/api-search",
+            method:"POST",
+            data:{query:query, _token:_token},
+            success:function(data){
+                $(htm).siblings('div').html(data);
+            }
+        });
+        }
     });
     
 });
