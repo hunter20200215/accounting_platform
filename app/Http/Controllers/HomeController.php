@@ -394,6 +394,7 @@ class HomeController extends Controller
             'selected_categorys' => [],
             'selected_income' => [],
             'selected_deduction' =>[],
+            'rolls' =>$rolls,
         ]);
     }
 
