@@ -123,5 +123,21 @@ $(document).ready(function(){
         });
         }
     });
+    $(".user_dependents_edit").keyup(function(){ 
+        var query = $(this).val();
+        var htm = $(this);
+        if(query != '')
+        {
+         var _token = token;
+         $.ajax({
+            url:"/api-search",
+            method:"POST",
+            data:{query:query, _token:_token},
+            success:function(data){
+                $(htm).siblings('div').html(data);
+            }
+        });
+        }
+    });
     
 });
