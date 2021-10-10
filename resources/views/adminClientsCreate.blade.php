@@ -29,7 +29,7 @@
                 </div> 
             </div>
             <div class="col-md-3">
-                <h5 class="d-inline mr-auto">BS Code</h5>
+                <h5 class="d-inline mr-auto">Bar Code</h5>
                 <div class="block">
                     <input type="text" class="form-control" value=""  name="bs_code" >
                 </div>
