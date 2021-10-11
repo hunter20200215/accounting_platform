@@ -12,9 +12,12 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="bg-light px-4 py-4" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
-                <h5 class="ml-4">
-                    Information
-                </h5>
+                <div class="information">
+                    <a class="edit-icon1" > <i class='fas fa-fingerprint' style='font-size:23px'></i></a>
+                    <h5 class="d-inline-block">
+                        Information
+                    </h5>
+                </div>
                 <div class="radius-border pt-2 px-1">
                     <div class="w-100 d-block text-right">
                         <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#edit"></i></a>
