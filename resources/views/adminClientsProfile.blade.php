@@ -82,19 +82,41 @@
                     </div>
                     {{$info->client_bio}}
                 </div>
-                <h5 class="mt-3 ml-4">
-                    Dependents
-                </h5>
-                <div class="radius-border px-3 pb-4 pt-2">
-                    <div class="w-100 d-block text-right">
-                        <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#eidt_dependents"></i></a>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="mt-3 ml-4">
+                            Dependents
+                        </h5>
+                        <div class="radius-border px-3 pb-4 pt-2">
+                            <div class="w-100 d-block text-right">
+                                <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#eidt_dependents"></i></a>
+                            </div>
+                            @foreach ($fullname as $parameter)
+                                @if ($parameter != null)
+                                    <div><a href=<?php echo route('admin.clients.profile',['id' => $parameter->id])?>>{{$parameter->first_name}} {{$parameter->middle_name}} {{$parameter->last_name}}</a></div>
+                                @endif
+                            @endforeach
+                        </div>
+
                     </div>
-                    @foreach ($fullname as $parameter)
-                        @if ($parameter != null)
-                            <div><a href=<?php echo route('admin.clients.profile',['id' => $parameter->id])?>>{{$parameter->first_name}} {{$parameter->middle_name}} {{$parameter->last_name}}</a></div>
-                        @endif
-                    @endforeach
+                    <div class="col-md-6">
+                        <h5 class="mt-3 ml-4">
+                            Spouse
+                        </h5>
+                        <div class="radius-border px-3 pb-4 pt-2">
+                            <div class="w-100 d-block text-right">
+                                <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#eidt_spouse"></i></a>
+                            </div>
+                            
+                            @if ($spouse != null)
+                                <div><a href=<?php echo route('admin.clients.profile',['id' => $spouse->id])?>>{{$spouse->full_name}}</a></div>
+                            @endif
+                            
+                        </div>
+                        
+                    </div>
                 </div>
+                        
             </div>
         </div>
         <div class="col-sm-8"> 
@@ -407,19 +429,50 @@
                                     </div>
                                 @endforeach    
                             </div>
-                            
                         </div>
-                        
-                        <input type="hidden" name="id" id="id" value={{$info->id}}>
-                        
+                        <input type="hidden" name="id" id="id" value="{{$info->id}}">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="eidt_spouse">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Spouse</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 
-                
-                
-                
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="{{ route('admin.spouse.edit') }}">
+                        <div class="form-group ">
+                            <div class="input-field">
+                                @if ($spouse != null)
+                                    <div>
+                                        <label for="fname" class="my-2 label-style">Spouse Name :</label>
+                                        <input type="text" value="{{$spouse->full_name}}" id="spouse_edit" class="spouse_edit w-100 d-block" autocomplete="off"/>
+                                        <input type="hidden" name="spouse" value="{{$spouse->id}}">
+                                        <div id="countryList"></div>
+                                    </div>
+                                @else
+                                    <div>
+                                        <label for="fname" class="my-2 label-style">Spouse Name :</label>
+                                        <input type="text" value="" id="spouse_edit" class="spouse_edit w-100 d-block" autocomplete="off"/>
+                                        <input type="hidden" name="spouse" value="">
+                                        <div id="countryList"></div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <input type="hidden" name="id" id="id" value="{{$info->id}}">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

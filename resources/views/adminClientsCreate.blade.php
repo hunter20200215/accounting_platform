@@ -110,19 +110,13 @@
                                 <div id="countryList"></div>
                             </div>
                         </div>
-                            
-                        
                     </div>
                 </div>
             </div>
         </div>
-        
-        
-        
         <div class="mt-3">
             <h5 class="d-inline mr-auto">Attached Documents</h5>
             <div class="ml-4">
-                <!-- <input type="file" id="file" name="file"> -->
                 <input type='file' name='file'>
             </div>
 

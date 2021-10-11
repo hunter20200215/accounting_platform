@@ -142,12 +142,17 @@ class HomeController extends Controller
         foreach ($ids as $_id){
             if ($_id != null){
                 $full_name_pre = DB::table('admin_clients_info')->where('id', $_id)->first();
-                // $first_name = DB::table('admin_clients_info')->where('id', $_id)->pluck('first_name');
-                // $last_name = DB::table('admin_clients_info')->where('id', $_id)->pluck('last_name');
-                // $full_name_pre = $first_name." ".$last_name;
                 array_push($full_name,$full_name_pre);
                 
             }
+        }
+
+        $spouse_id = DB::table('admin_clients_info')->where('id',$id)->pluck('spouse_id');
+        
+        if ($spouse_id[0] != null) {
+            $spouse = DB::table('admin_clients_info')->where('id',$spouse_id[0])->first();
+        }else{
+            $spouse = null;
         }
         
         return view('adminClientsProfile',[
@@ -155,7 +160,8 @@ class HomeController extends Controller
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
             'fullname' => $full_name,
-            'ids' => $ids
+            'ids' => $ids,
+            'spouse'=> $spouse,
         ]);
     }
     
@@ -253,11 +259,18 @@ class HomeController extends Controller
         $flight->dependents_ids = $dependents_ids;
         $flight->save();
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
-        // return view('adminClientsProfile',[
-        //     'info' => DB::table('admin_clients_info')->where('id', $request->id)->first(),
-        //     'incomehighlights' => DB::table('admin_income_highlights')->get(),
-        //     'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
-        // ]);
+        
+    }
+    public function adminSpouseEdit(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+        if ($request->spouse != null) {
+            $flight->spouse_id = intval($request->spouse);
+            $flight->save();
+        }
+        return redirect()->route('admin.clients.profile',['id' => $request->id]);
+        
     }
 
     public function adminDeductionSource(Request $request)
