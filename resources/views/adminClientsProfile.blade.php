@@ -13,8 +13,8 @@
         <div class="col-sm-4">
             <div class="bg-light px-4 py-4" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
                 <div class="ml-1">
-                    <a class="edit-icon1" > <i class='fas fa-fingerprint' style='font-size:23px'></i></a>
-                    <h5 class="d-inline-block">
+                    <a class="edit-icon1" > <i class='fas fa-fingerprint' style='font-size:24px'></i></a>
+                    <h5 class="d-inline-block ml-1">
                         Information
                     </h5>
                 </div>
@@ -127,8 +127,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="ml-1">
-                            <a class="edit-icon1" > <i class='fas fa-hands-helping' style='font-size:23px'></i></a>
-                            <h5 class="d-inline-block">
+                            <a class="edit-icon1" > <i class='fas fa-hands-helping' style='font-size:24px'></i></a>
+                            <h5 class="d-inline-block ml-1">
                                 Sources of Income
                             </h5>
                         </div>
@@ -158,8 +158,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="ml-1">
-                            <a class="edit-icon1" > <i class='fas fa-piggy-bank' style='font-size:23px'></i></a>
-                            <h5 class="d-inline-block">
+                            <a class="edit-icon1" > <i class='fas fa-piggy-bank' style='font-size:24px'></i></a>
+                            <h5 class="d-inline-block ml-1">
                                 Sources of Deduction
                             </h5>
                         </div>
