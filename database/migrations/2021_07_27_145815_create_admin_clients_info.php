@@ -38,6 +38,7 @@ class CreateAdminClientsInfo extends Migration
             $table->string('full_name')->nullable();
             
             $table->string('dependents_ids')->nullable();
+            $table->integer('spouse_id')->nullable();
             $table->timestamps();
         });
     }

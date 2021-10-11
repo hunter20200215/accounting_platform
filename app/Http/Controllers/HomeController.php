@@ -413,6 +413,7 @@ class HomeController extends Controller
         $flight->citizenship = $request->citizenship;
         $flight->user_id = $request->user()->id;
         $flight->bs_code = $request->bs_code;
+        $flight->spouse_id = $request->spouse_id;
         $flight->dependents = $request->dependents;
         $flight->full_name = $request->first_name." ".$request->last_name;
         $highlight ="";

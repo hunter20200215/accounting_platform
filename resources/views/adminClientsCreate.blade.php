@@ -70,29 +70,55 @@
                 @endforeach
             </div>    
         </div>
-        <div class="mt-3">
-            <h5 class="d-inline mr-auto">Dependents?</h5>
-            <div class="ml-4">
-                <select name="dependents" id="dependents"  style="width:100px;border: 1px solid #ced4da;border-radius: 0.25rem;">
-                    <option value="No">No</option>
-                    <option value="Yes">Yes</option>
-                </select>
-                <div class="link-id ml-2">
-                    <a class="btn btn-default ml-auto mr-0 add-row" id="profile_insert"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add one more Dependent</a>
-                    <div class="row group-input">
-                        <div class="col-md-3">
-                            <label class="labels">Input Dependents name</label>
-                            <input type="text" class="form-control dependent_input" vlaue="" name="dependent" id="dependent_input" autocomplete="off">
-                            <input type="hidden" name="profile_numbers[]" id="profile_numbers">
-                            <div id="countryList"></div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <h5 class="d-inline mr-auto">Dependents?</h5>
+                <div class="ml-4">
+                    <select name="dependents" id="dependents"  style="width:100px;border: 1px solid #ced4da;border-radius: 0.25rem;">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                    <div class="link-id ml-2">
+                        <a class="p-0 btn btn-default ml-auto mr-0 add-row" id="profile_insert"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add one more Dependent</a>
+                        <div class="row group-input">
+                            <div class="col-md-6">
+                                <label class="labels">Input Dependents name</label>
+                                <input type="text" class="form-control dependent_input" vlaue="" name="dependent" id="dependent_input" autocomplete="off">
+                                <input type="hidden" name="profile_numbers[]" id="profile_numbers">
+                                <div id="countryList"></div>
+                            </div>
                         </div>
-                    </div>
+                            
                         
-                    
+                    </div>
                 </div>
             </div>
-                
+            <div class="col-md-6">
+                <h5 class="d-inline mr-auto">Spouse?</h5>
+                <div class="ml-4">
+                    <select name="spouse" id="spouse"  style="width:100px;border: 1px solid #ced4da;border-radius: 0.25rem;">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                    <div class="link-spouse ml-2">
+                        <a class="p-0 btn btn-default ml-auto mr-0 add-row invisible" id="profile_insert"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add one more Dependent</a>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="labels">Input Spouse name</label>
+                                <input type="text" class="form-control" vlaue="" name="dependent" id="spouse_input" autocomplete="off">
+                                <input type="hidden" name="spouse_id" id="profile_numbers">
+                                <div id="countryList"></div>
+                            </div>
+                        </div>
+                            
+                        
+                    </div>
+                </div>
+            </div>
         </div>
+        
+        
+        
         <div class="mt-3">
             <h5 class="d-inline mr-auto">Attached Documents</h5>
             <div class="ml-4">

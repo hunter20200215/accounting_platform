@@ -50,7 +50,7 @@ $(document).ready(function(){
         }
     });
     $('#profile_insert').on('click',function(){
-        var html = '<div class="col-md-3">'+
+        var html = '<div class="col-md-6">'+
         '<label class="labels">Input Dependents name</label>'+
         '<input type="text" class="form-control dependent_input" vlaue="" name="dependent" id="dependent_input" autocomplete="off">'+
         '<input type="hidden" name="profile_numbers[]" id="profile_numbers">'+
@@ -137,6 +137,30 @@ $(document).ready(function(){
                 $(htm).siblings('div').html(data);
             }
         });
+        }
+    });
+    $("#spouse_input").keyup(function(){ 
+        var query = $(this).val();
+        var htm = $(this);
+        if(query != '')
+        {
+         var _token = token;
+         $.ajax({
+            url:"/api-search",
+            method:"POST",
+            data:{query:query, _token:_token},
+            success:function(data){
+                $(htm).siblings('div').html(data);
+            }
+        });
+        }
+    });
+    $('#spouse').on('change',function(){
+        if ($('#spouse').val() == "Yes"){
+            $('.link-spouse').show();
+            
+        }else{
+            $('.link-spouse').css('display','none');
         }
     });
     
