@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="bg-light px-4 py-4" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
-                <div class="information">
+                <div class="ml-1">
                     <a class="edit-icon1" > <i class='fas fa-fingerprint' style='font-size:23px'></i></a>
                     <h5 class="d-inline-block">
                         Information
@@ -126,9 +126,12 @@
             <div class="bg-light px-4 py-4" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
                 <div class="row">
                     <div class="col-md-6">
-                        <h5 class="ml-4">
-                            Sources of Income
-                        </h5>
+                        <div class="ml-1">
+                            <a class="edit-icon1" > <i class='fas fa-hands-helping' style='font-size:23px'></i></a>
+                            <h5 class="d-inline-block">
+                                Sources of Income
+                            </h5>
+                        </div>
                         <div class="radius-border px-3 pb-4 pt-2">
                             <div class="w-100 d-block text-right">
                                 <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#income"></i></a>
@@ -154,9 +157,12 @@
                         
                     </div>
                     <div class="col-md-6">
-                        <h5 class="ml-4">
-                            Sources of Deduction
-                        </h5>
+                        <div class="ml-1">
+                            <a class="edit-icon1" > <i class='fas fa-piggy-bank' style='font-size:23px'></i></a>
+                            <h5 class="d-inline-block">
+                                Sources of Deduction
+                            </h5>
+                        </div>
                         <div class="radius-border px-3 pb-4 pt-2">
                             <div class="w-100 d-block text-right">
                                 <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#deduction"></i></a>
