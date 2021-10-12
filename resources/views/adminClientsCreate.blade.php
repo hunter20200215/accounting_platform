@@ -39,7 +39,7 @@
 
         <div class="row mt-3">
             <div class="col-md-3"><label class="labels">Primary Phone</label><input type="text" class="form-control"  value="" name="primary_phone" ></div>
-            <div class="col-md-3"><label class="labels">Other Phone</label><input type="text" class="form-control" value=""  name="other_phone"></div>
+            <div class="col-md-3"><label class="labels">Work or Other Phone</label><input type="text" class="form-control" value=""  name="other_phone"></div>
             <div class="col-md-3"><label class="labels">Address</label><input type="text" class="form-control" value=""  name="address" ></div>
             <div class="col-md-3"><label class="labels">Citizenship</label><input type="text" class="form-control" value=""  name="citizenship" ></div>
         </div>
