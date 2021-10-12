@@ -49,7 +49,6 @@
                     @endauth
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    
                     @guest
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -60,12 +59,9 @@
                             </li>
                         @endif
                     @else
-                        
-                        
-
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Setting
+                            <a class="nav-link dropdown-toggle"  href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class='fas fa-calculator mr-2' style='font-size:18px'></i>Settings
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
