@@ -109,7 +109,7 @@
                             <a class="btn btn-primary ml-auto mr-0 add-row mb-3" href="{{ route('admin.clients.create') }}"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add Client</a>
                         </div>
                         <div class="d-flex"> 
-                            <h4 class="mt-1">Browser clients</h4>
+                            <h4 class="mt-1">Clients: {{$counters}}</h4>
                             
                             <div class="input-group ml-auto mr-0" style="width:65%;">
                                 
