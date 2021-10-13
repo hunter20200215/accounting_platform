@@ -440,6 +440,7 @@ class HomeController extends Controller
 
     public function adminClientsCreateNew(Request $request)
     {   
+        
         $flight = new AdminClientCreate;
         
         $flight->first_name = $request->first_name;
@@ -456,6 +457,11 @@ class HomeController extends Controller
         $flight->spouse_id = $request->spouse_id;
         $flight->dependents = $request->dependents;
         $flight->full_name = $request->first_name." ".$request->last_name;
+        $flight->resident = $request->residence_radio;
+        $flight->home_own_status = $request->house_own_status;
+        $flight->home_tax_fee = $request->tax_fee;
+        $flight->rent_fee = $request->rent_fee;
+        
         $highlight ="";
         $highlight2 ="";
         $dependents_ids ="";

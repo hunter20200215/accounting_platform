@@ -120,12 +120,12 @@
                     <div class="ml-2">
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optradio">Yes
+                                <input type="radio" class="form-check-input" name="residence_radio" value="yes">Yes
                             </label>
                         </div>
                         <div class="form-check disabled">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optradio" >No
+                                <input type="radio" class="form-check-input" name="residence_radio" value="no">No
                             </label>
                         </div>
                     </div>
@@ -137,7 +137,7 @@
                     <div class="ml-2">
                         <div class="form-check ">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optradio">Own
+                                <input type="radio" class="form-check-input" name="house_own_status" value="own">Own
                             </label>
                             <div class="d-none tax_input">
                                 <p class="pb-0">How much property taxes did the client pay in the last year?</p>
@@ -146,9 +146,9 @@
                         </div>
                         <div class="form-check ">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optradio" >Rent
+                                <input type="radio" class="form-check-input" name="house_own_status"  value="rent">Rent
                             </label>
-                            <div class="d-none rent-input">
+                            <div class="d-none rent_input">
                                 <p class="pb-0">How much rent did the client pay in the last year?</p>
                                 <input type="number" style="width:160px" name="rent_fee"><span class="ml-1">CAD</span>
                             </div>

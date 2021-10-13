@@ -179,5 +179,19 @@ $(document).ready(function(){
         });
         }
     });
+    $("[name='house_own_status']").on('click',function(){
+        
+        if ($(this).val() == 'own') {
+            $('.tax_input').removeClass("d-none");
+            $('.tax_input').addClass("d-block");
+            $('.rent_input').removeClass("d-block");
+            $('.rent_input').addClass("d-none");
+        }else{
+            $('.rent_input').removeClass("d-none");
+            $('.rent_input').addClass("d-block");
+            $('.tax_input').removeClass("d-block");
+            $('.tax_input').addClass("d-none");
+        }
+    });
     
 });
