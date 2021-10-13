@@ -88,8 +88,6 @@
                                 <div id="countryList"></div>
                             </div>
                         </div>
-                            
-                        
                     </div>
                 </div>
             </div>
@@ -108,6 +106,51 @@
                                 <input type="text" class="form-control" vlaue="" name="dependent" id="spouse_input" autocomplete="off">
                                 <input type="hidden" name="spouse_id" id="profile_numbers">
                                 <div id="countryList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h5 class="mt-3">Housing Situation</h5>
+        <div class="row ">
+            <div class="col-md-6">
+                <div class="ml-4">
+                    <p class="mb-0">Did the client sell their principal residence last year?</p>
+                    <div class="ml-2">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="optradio">Yes
+                            </label>
+                        </div>
+                        <div class="form-check disabled">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="optradio" >No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="ml-4">
+                    <p class="mb-0">House is their own or rent?</p>
+                    <div class="ml-2">
+                        <div class="form-check ">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="optradio">Own
+                            </label>
+                            <div class="d-none tax_input">
+                                <p class="pb-0">How much property taxes did the client pay in the last year?</p>
+                                <input type="number" style="width:160px" name="tax_fee"><span class="ml-1">CAD</span>
+                            </div>
+                        </div>
+                        <div class="form-check ">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="optradio" >Rent
+                            </label>
+                            <div class="d-none rent-input">
+                                <p class="pb-0">How much rent did the client pay in the last year?</p>
+                                <input type="number" style="width:160px" name="rent_fee"><span class="ml-1">CAD</span>
                             </div>
                         </div>
                     </div>
