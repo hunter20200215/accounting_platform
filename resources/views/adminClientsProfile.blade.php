@@ -424,13 +424,13 @@
                                 <div class="d-block">
                                     @foreach ($deductionhighlights as $deduction)
                                         @if (in_array($deduction->id, $str_arr1))
-                                            <div class="d-inline-block form-check ">
+                                            <div class="d-block form-check ">
                                                 <label class="form-check-label">
                                                     <input class="form-check-input" type="checkbox" name="deductions[]" checked value='{{$deduction->id}}' > {{$deduction->name}}
                                                 </label>
                                             </div>
                                         @else
-                                            <div class="d-inline-block form-check ">
+                                            <div class="d-block form-check ">
                                                 <label class="form-check-label">
                                                     <input class="form-check-input" type="checkbox" name="deductions[]"  value='{{$deduction->id}}' > {{$deduction->name}}
                                                 </label>
