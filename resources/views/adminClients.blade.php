@@ -14,7 +14,6 @@
                         <div class="mb-4">
                             <h5 class="d-inline mr-auto">Categories</h5>
                             <div class="d-block">
-                               
                                 @foreach ($categorys as $category)
                                     @if (in_array($category->name, $selected_categorys))
                                         <div class="form-check ml-2">
@@ -29,7 +28,6 @@
                                             </label>
                                         </div>
                                     @endif
-                                    
                                 @endforeach
                             </div>    
                         </div>
@@ -37,7 +35,7 @@
                             <h5 class="d-block mr-auto">Income Highlights</h5>
                             <div class="d-block ml-2">
                                 @foreach ($incomehighlights as $incomehighlight)
-                                    @if (in_array($incomehighlight->name, $selected_income))
+                                    @if (in_array($incomehighlight->id, $selected_income))
                                         <div class="d-inline-block form-check w-49">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $incomehighlight->id?> > {{$incomehighlight->name}}
@@ -58,16 +56,16 @@
                             <h5 class="d-inline mr-auto">Deduction Highlights</h5>
                             <div class="d-block">
                                 @foreach ($deductionhighlights as $deductionhighlight)
-                                    @if (in_array($deductionhighlight->name, $selected_deduction))
+                                    @if (in_array($deductionhighlight->id, $selected_deduction))
                                         <div class="form-check ml-2">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="deduction[]" checked value=<?php echo $deductionhighlight->name ?> > {{$deductionhighlight->name}}
+                                                <input class="form-check-input" type="checkbox" name="deduction[]" checked value=<?php echo $deductionhighlight->id ?> > {{$deductionhighlight->name}}
                                             </label>
                                         </div>
                                     @else
                                         <div class="form-check ml-2">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="deduction[]"  value=<?php echo $deductionhighlight->name ?> > {{$deductionhighlight->name}}
+                                                <input class="form-check-input" type="checkbox" name="deduction[]"  value=<?php echo $deductionhighlight->id ?> > {{$deductionhighlight->name}}
                                             </label>
                                         </div>
                                     @endif
@@ -94,14 +92,10 @@
                         </div>
                     </div>
                 </form>
-                    
-
             </div>
-
         </div>
         
         <div class="col-md-9">
-            
             <div class="bg-light px-1 py-2" style="box-shadow: 0 0px 11px rgb(72 79 99 / 30%);">
                 <form action="{{ route('admin.clients.filter2') }}" method="get">    
                     <div class="px-2">
@@ -110,23 +104,16 @@
                         </div>
                         <div class="d-flex"> 
                             <h4 class="mt-1">Clients: {{$counters}}</h4>
-                            
                             <div class="input-group ml-auto mr-0" style="width:65%;">
-                                
                                 <input type="text" class="form-control" placeholder="Search by Client name" name="full_name">
                                 <div class="input-group-append">
                                     <button class="btn btn-secondary" type="submit">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
-                                
                             </div>
-                            
-                                
                         </div>
-                        
                         <div class="my-5"></div>
-
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -136,7 +123,6 @@
                                 <th>Created By</th>
                                 <th>Date added</th>
                                 <th>Last Touch</th>
-
                             </tr>
                             </thead>
                             <tbody>
@@ -157,10 +143,9 @@
                         <div class="d-flex justify-content-center">
                             {{ $clients->links() }}
                         </div>
-                        
                     </div>
-                    </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
