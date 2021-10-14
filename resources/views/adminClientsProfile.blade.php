@@ -154,6 +154,47 @@
                                 @endforeach
                             </div>  
                         </div>
+                        <div class="mt-3 ml-3">
+                            <h5 class="d-inline-block ml-1">
+                                Property Information
+                            </h5>
+                        </div>
+                        <div class="radius-border px-3 pb-4 pt-2">
+                            <div class="w-100 d-block text-right">
+                                <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#income"></i></a>
+                            </div>
+                            <div class="d-block">
+                                    @if ($info->resident != null)
+                                    
+                                            <p class="mb-0"> <i class="far fa-circle"></i> Did the client sell their principal residence last year?</p> 
+                                            <div class="ml-5 block">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" name="deductions[]" checked value='yes' onclick="return false;"> {{$info->resident}}
+                                                </label>
+                                            </div>
+                                    @endif
+                                    @if ($info->home_own_status != null)
+                                            <p class="mb-0"><i class="far fa-circle"></i> Does the client own or rent?</p> 
+                                            <div class="ml-5 block">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" name="deductions[]" checked value='yes' onclick="return false;"> {{$info->home_own_status}}
+                                                </label>
+                                                @if ($info->home_own_status == 'rent')
+                                                    <div class="ml-3">
+                                                        <p class="mb-0">How much rent did the client pay in the last year?</p>
+                                                        <p class="mx-2">{{$info->rent_fee}} CAD</p>
+                                                    </div>
+                                                @endif
+                                                @if ($info->home_own_status == 'own')
+                                                    <div class="ml-3">
+                                                        <p class="mb-0"> How much property taxes did the client pay in the last year?</p>
+                                                        <p class="mx-2">{{$info->home_tax_fee}} CAD</p>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                    @endif
+                            </div>  
+                        </div>
                         
                     </div>
                     <div class="col-md-6">
