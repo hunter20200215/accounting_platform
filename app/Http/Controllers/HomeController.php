@@ -273,6 +273,16 @@ class HomeController extends Controller
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
         
     }
+    public function adminHomePropertyEdit(Request $request)
+    {
+        $flight = AdminClientCreate::find($request->id);
+        $flight->resident = $request->residence_radio;
+        $flight->home_own_status = $request->house_own_status;
+        $flight->home_tax_fee = $request->tax_fee;
+        $flight->rent_fee = $request->rent_fee;
+        $flight->save();
+        return redirect()->route('admin.clients.profile',['id' => $request->id]);
+    }
 
     public function adminDeductionSource(Request $request)
     {
@@ -293,13 +303,7 @@ class HomeController extends Controller
         }
 
         $flight->save();
-        
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
-        // return view('adminClientsProfile',[
-        //     'info' => DB::table('admin_clients_info')->where('id', $request->id)->first(),
-        //     'incomehighlights' => DB::table('admin_income_highlights')->get(),
-        //     'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
-        // ]);
     }
     
     public function adminClientsCreate()
@@ -526,13 +530,14 @@ class HomeController extends Controller
     public function adminCategoryCreate(Request $request)
     {   
 
-        $flight = new AdminCategory;
+        $flight = new AdminClientCreate;
 
         $flight->name = $request->name;
         $flight->save();
         
         return redirect()->route('admin.category');
     }
+    
     public function adminCategoryEdit(Request $request)
     {   
 

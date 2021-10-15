@@ -70,6 +70,8 @@ Route::get('admin/highlights/deduction/delete', [App\Http\Controllers\HomeContro
 Route::get('admin/dependents/edit', [App\Http\Controllers\HomeController::class, 'adminDependentEdit'])->name('admin.dependents.edit')->middleware('is_admin');
 Route::get('admin/spouse/edit', [App\Http\Controllers\HomeController::class, 'adminSpouseEdit'])->name('admin.spouse.edit')->middleware('is_admin');
 
+Route::get('admin/home_property/edit', [App\Http\Controllers\HomeController::class, 'adminHomePropertyEdit'])->name('admin.home_property.edit')->middleware('is_admin');
+
 
 Route::post('/api-search', [App\Http\Controllers\ApiController::class, 'adminApiSearch'])->name('autocomplete.fetch');
 

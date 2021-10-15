@@ -161,7 +161,7 @@
                         </div>
                         <div class="radius-border px-3 pb-4 pt-2">
                             <div class="w-100 d-block text-right">
-                                <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#income"></i></a>
+                                <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#edit_property"></i></a>
                             </div>
                             <div class="d-block">
                                     @if ($info->resident != null)
@@ -517,6 +517,136 @@
                                         <div id="countryList"></div>
                                     </div>
                                 @endif
+                            </div>
+                        </div>
+                        <input type="hidden" name="id" id="id" value="{{$info->id}}">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="edit_property">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Property of Home</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="{{ route('admin.home_property.edit') }}">
+                        <div class="form-group ">
+                            <div class="row ">
+                                <div class="col-md-6">
+                                    <div class="ml-4">
+                                        <p class="mb-0">Did the client sell their principal residence last year?</p>
+                                        <div class="ml-2">
+                                            @if ($info->resident === "yes")
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="residence_radio" value="yes" checked>Yes
+                                                    </label>
+                                                </div>
+                                                <div class="form-check ">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="residence_radio" value="no">No
+                                                    </label>
+                                                </div>
+                                            @elseif($info->resident === "no")
+                                                
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="residence_radio" value="yes">Yes
+                                                    </label>
+                                                </div>
+                                                <div class="form-check ">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="residence_radio" checked value="no">No
+                                                    </label>
+                                                </div>
+                                            @elseif($info->resident == null)
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="residence_radio"  value="yes" >Yes
+                                                    </label>
+                                                </div>
+                                                <div class="form-check ">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="residence_radio"  value="no">No
+                                                    </label>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="ml-4">
+                                        <p class="mb-0">House is their own or rent?</p>
+                                        <div class="ml-2">
+                                            @if ($info->home_own_status == 'own')
+                                                <div class="form-check ">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="house_own_status" checked value="own">Own
+                                                    </label>
+                                                    <div class="tax_input">
+                                                        <p class="pb-0">How much property taxes did the client pay in the last year?</p>
+                                                        <input type="number" style="width:160px" name="tax_fee" value='{{ $info->home_tax_fee}}'><span class="ml-1">CAD</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-check ">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="house_own_status" value="rent">Rent
+                                                    </label>
+                                                    <div class="d-none rent_input">
+                                                        <p class="pb-0">How much rent did the client pay in the last year?</p>
+                                                        <input type="number" style="width:160px" name="rent_fee" value='{{$info->rent_fee}}'><span class="ml-1">CAD</span>
+                                                    </div>
+                                                </div>
+                                            @elseif($info->home_own_status == 'rent')
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="house_own_status" value="own">Own
+                                                    </label>
+                                                    <div class="d-none tax_input">
+                                                        <p class="pb-0">How much property taxes did the client pay in the last year?</p>
+                                                        <input type="number" style="width:160px" name="tax_fee" value='{{ $info->home_tax_fee}}'><span class="ml-1">CAD</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="house_own_status"  checked value="rent">Rent
+                                                    </label>
+                                                    <div class="rent_input">
+                                                        <p class="pb-0">How much rent did the client pay in the last year?</p>
+                                                        <input type="number" style="width:160px" name="rent_fee" value='{{$info->rent_fee}}'><span class="ml-1">CAD</span>
+                                                    </div>
+                                                </div>
+                                            @elseif($info->home_own_status == null)
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="house_own_status" value="own">Own
+                                                    </label>
+                                                    <div class="d-none tax_input">
+                                                        <p class="pb-0">How much property taxes did the client pay in the last year?</p>
+                                                        <input type="number" style="width:160px" name="tax_fee"><span class="ml-1">CAD</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input" name="house_own_status"  value="rent">Rent
+                                                    </label>
+                                                    <div class="d-none rent_input">
+                                                        <p class="pb-0">How much rent did the client pay in the last year?</p>
+                                                        <input type="number" style="width:160px" name="rent_fee" ><span class="ml-1">CAD</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <input type="hidden" name="id" id="id" value="{{$info->id}}">
