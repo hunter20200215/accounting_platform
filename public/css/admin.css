@@ -42,3 +42,12 @@ a {
 .link-spouse {
     display: none;
 }
+.cut-icon {
+    background-color: #ff4d4d;
+    color: white;
+    font-size: 18px;
+    padding: 5px;
+    border-radius: 6px;
+    padding-left: 9px;
+    padding-right: 9px;
+}

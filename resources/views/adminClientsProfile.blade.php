@@ -464,7 +464,6 @@
                     <h4 class="modal-title">Edit Dependents</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                
                 <!-- Modal body -->
                 <div class="modal-body">
                     <form action="{{ route('admin.dependents.edit') }}">
@@ -473,9 +472,10 @@
                                 @foreach ($fullname as $parameter)
                                     <div>
                                         <label for="fname" class="my-2 label-style">Dependet Name :</label>
-                                        <input type="text" value="{{$parameter->full_name}}" id="dependents_edit" class="dependents_edit w-100 d-block"/>
+                                        <input type="text" value="{{$parameter->full_name}}" id="dependents_edit" class="dependents_edit w-50"/>
+                                        <i class="fas fa-cut cut-icon ml-2" aria-hidden="true" data-toggle="modal" data-target="#delete"></i>
                                         <input type="hidden" name="profile_numbers[]" value="{{$parameter->id}}">
-                                        <div id="countryList"></div>
+                                        <div style="margin-left:130px;" id="countryList"></div>
                                     </div>
                                 @endforeach    
                             </div>
@@ -643,7 +643,6 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            
                                         </div>
                                     </div>
                                 </div>
