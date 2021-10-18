@@ -65,7 +65,7 @@
                             <select name="roll" id="roll" class="form-control">
                                 <option id="Admin" value="0">Admin Level</option>
                                 <option id="data_entry" value="1">Data Entry</option>
-                                <option id="bookkeeper" value="2">Bookkeeper</option>
+                                <!-- <option id="bookkeeper" value="2">Bookkeeper</option> -->
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>

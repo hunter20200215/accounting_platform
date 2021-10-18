@@ -29,9 +29,12 @@ class ApiController extends Controller
     {
         $id = $request->id;
         $dependent_id = $request->dependent;
+        
         $flight = AdminClientCreate::find($id);
         $dependent_ids = $flight->dependents_ids;
-
+        $key = str_replace($dependent_id,"",$dependent_ids);
+        $flight->dependents_ids = $key;
+        $flight->save();
     }
 }
 

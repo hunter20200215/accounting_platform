@@ -96,7 +96,7 @@
                             </div>
                             @foreach ($fullname as $parameter)
                                 @if ($parameter != null)
-                                    <div><a href=<?php echo route('admin.clients.profile',['id' => $parameter->id])?>>{{$parameter->first_name}} {{$parameter->middle_name}} {{$parameter->last_name}}</a></div>
+                                    <div id=<?php echo "dependent_id".$parameter->id ?>><a href=<?php echo route('admin.clients.profile',['id' => $parameter->id])?>>{{$parameter->first_name}} {{$parameter->middle_name}} {{$parameter->last_name}}</a></div>
                                 @endif
                             @endforeach
                         </div>
@@ -165,7 +165,6 @@
                             </div>
                             <div class="d-block">
                                     @if ($info->resident != null)
-                                    
                                             <p class="mb-0"> <i class="far fa-circle"></i> Did the client sell their principal residence last year?</p> 
                                             <div class="ml-5 block">
                                                 <label class="form-check-label">
@@ -466,13 +465,17 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
+                    <div class="text-right mb-3">
+                        <a class="add-dependent" > <i class='fa fa-plus mr-2' style='font-size:16px' data-toggle="modal" data-target="#eidt_spouse"></i>Dependent</a>
+                    </div>
+                    
                     <form action="{{ route('admin.dependents.edit') }}">
                         <div class="form-group ">
                             <div class="input-field">
                                 @foreach ($fullname as $parameter)
                                     <div>
                                         <label for="fname" class="my-2 label-style">Dependet Name :</label>
-                                        <input type="text" value="{{$parameter->full_name}}" id="dependents_edit" class="dependents_edit w-50"/>
+                                        <input type="text" value="{{$parameter->full_name}}" id="dependents_edit" class="dependents_edit w-50" autocomplete="off"/>
                                         <i class="fas fa-cut cut-icon ml-2" aria-hidden="true" data-id="{{ $info->id }}" data-dependent="{{ $parameter->id }}"></i>
                                         <input type="hidden" name="profile_numbers[]" value="{{$parameter->id}}">
                                         <div style="margin-left:130px;" id="countryList"></div>
@@ -505,14 +508,14 @@
                                 @if ($spouse != null)
                                     <div>
                                         <label for="fname" class="my-2 label-style">Spouse Name :</label>
-                                        <input type="text" value="{{$spouse->full_name}}" id="spouse_edit" class="spouse_edit w-100 d-block" autocomplete="off"/>
+                                        <input type="text" value="{{$spouse->full_name}}" id="spouse_edit" class="spouse_edit  w-50" autocomplete="off"/>
                                         <input type="hidden" name="spouse" value="{{$spouse->id}}">
                                         <div id="countryList"></div>
                                     </div>
                                 @else
                                     <div>
                                         <label for="fname" class="my-2 label-style">Spouse Name :</label>
-                                        <input type="text" value="" id="spouse_edit" class="spouse_edit w-100 d-block" autocomplete="off"/>
+                                        <input type="text" value="" id="spouse_edit" class="spouse_edit w-50 " autocomplete="off"/>
                                         <input type="hidden" name="spouse" value="">
                                         <div id="countryList"></div>
                                     </div>

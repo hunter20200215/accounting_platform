@@ -102,8 +102,8 @@ $(document).ready(function(){
         }
     });
     $(document).on('click', 'li', function(){  
-        $(this).parent().parent().prev().prev().val($(this).text()); 
-        $(this).parent().parent().prev().val($(this).attr('data-id')); 
+        $(this).parents("#countryList").siblings("input.w-50").val($(this).text()); 
+        $(this).parents("#countryList").siblings("input[type='hidden']").val($(this).attr('data-id')); 
         $(this).parent().remove();
     });
 
@@ -193,11 +193,68 @@ $(document).ready(function(){
             $('.tax_input').addClass("d-none");
         }
     });
+    $('.add-dependent').on('click',function(){
+        var html_content = '<div>'+
+        '<label for="fname" style="margin-right:3px" class="my-2 label-style">Dependet Name :</label>'+
+        '<input type="text" value="" id="dependents_edit" class="dependents_edit w-50"/ autocomplete="off">'+
+        '<i class="fas fa-cut cut-icon ml-2" aria-hidden="true" data-id="{{ $info->id }}" data-dependent="{{ $parameter->id }}"></i>'+
+        '<input type="hidden" name="profile_numbers[]" >'+
+        '<div style="margin-left:130px;" id="countryList"></div>'+
+        '</div>';
+        var htm = $(this);
+        $(htm).parent('div').siblings('form').children().children('div.input-field').append(html_content);
+        
+
+        $(".dependents_edit").keyup(function(){ 
+            var query = $(this).val();
+            var htm = $(this);
+            if(query != '')
+            {
+             var _token = token;
+             $.ajax({
+                url:"/api-search",
+                method:"POST",
+                data:{query:query, _token:_token},
+                success:function(data){
+                    $(htm).siblings('div').html(data);
+                }
+            });
+            }
+        });
+
+        $('.cut-icon').on('click',function(){
+            var id = $(this).attr('data-id');
+            var dependent_id = $(this).attr('data-dependent'); 
+            var htm = $(this);
+            var elements_id = "#"+"dependent_id" + dependent_id;
+            if(id != '')
+            {
+             var _token = token;
+             $.ajax({
+                url:"/dependent-del",
+                method:"POST",
+                data:{id:id,dependent:dependent_id, _token:_token},
+                success:function(data){
+                    $(htm).parent('div').remove();
+                    console.log(elements_id);
+                    $(elements_id).remove();
+                }
+            });
+            }
+        });
+
+        $(document).on('click', 'li', function(){  
+            $(this).parents("#countryList").siblings("input.w-50").val($(this).text()); 
+            $(this).parents("#countryList").siblings("input[type='hidden']").val($(this).attr('data-id')); 
+            $(this).parent().remove();
+        });
+    });
 
     $('.cut-icon').on('click',function(){
         var id = $(this).attr('data-id');
         var dependent_id = $(this).attr('data-dependent'); 
         var htm = $(this);
+        var elements_id = "#"+"dependent_id" + dependent_id;
         if(id != '')
         {
          var _token = token;
@@ -206,7 +263,9 @@ $(document).ready(function(){
             method:"POST",
             data:{id:id,dependent:dependent_id, _token:_token},
             success:function(data){
-                $(htm).siblings('div').html(data);
+                $(htm).parent('div').remove();
+                console.log(elements_id);
+                $(elements_id).remove();
             }
         });
         }
