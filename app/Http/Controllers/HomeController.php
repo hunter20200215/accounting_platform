@@ -128,9 +128,6 @@ class HomeController extends Controller
         ]);
     }
 
-    
-
-
     public function adminClientsProfile($id)
     {
         
@@ -188,36 +185,21 @@ class HomeController extends Controller
 
         $flight->save();
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
-        // return view('adminClientsProfile',[
-        //     'info' => DB::table('admin_clients_info')->where('id', $request->id)->first(),
-        //     'incomehighlights' => DB::table('admin_income_highlights')->get(),
-        //     'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
-        // ]);
     }
 
     public function adminClientsBio(Request $request)
     {
         
         $flight = AdminClientCreate::find($request->id);
-
         $flight->client_bio = $request->bio;
-        
-
         $flight->save();
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
-        // return view('adminClientsProfile',[
-        //     'info' => DB::table('admin_clients_info')->where('id',$request->id)->first(),
-        //     'incomehighlights' => DB::table('admin_income_highlights')->get(),
-        //     'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
-
-        // ]);
     }
 
     public function adminIncomeSource(Request $request)
     {
         
         $flight = AdminClientCreate::find($request->id);
-
         $highlight ="";
         if ($request->income) {
             
@@ -231,34 +213,29 @@ class HomeController extends Controller
             $highlight = $highlight.",";
             $flight->income_highlights = $highlight;
         }
-        
-
         $flight->save();
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
-        // return view('adminClientsProfile',[
-        //     'info' => DB::table('admin_clients_info')->where('id', $request->id)->first(),
-        //     'incomehighlights' => DB::table('admin_income_highlights')->get(),
-        //     'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
-        // ]);
     }
 
     public function adminDependentEdit(Request $request)
     {
-        
-        $flight = AdminClientCreate::find($request->id);
-
-        foreach ($request->profile_numbers as $index=>$ids) {
-            if ($ids != null) {
-                if($index == 0){
-                    $dependents_ids = $ids;
-                }else{
-                    $dependents_ids .= ",".$ids;
+        if ($request->profile_numbers != null){
+            $flight = AdminClientCreate::find($request->id);
+            foreach ($request->profile_numbers as $index=>$ids) {
+                if ($ids != null) {
+                    if($index == 0){
+                        $dependents_ids = $ids;
+                    }else{
+                        $dependents_ids .= ",".$ids;
+                    }
                 }
             }
-
+            $flight->dependents_ids = $dependents_ids;
+            $flight->save();
         }
-        $flight->dependents_ids = $dependents_ids;
-        $flight->save();
+        
+        
+            
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
         
     }
