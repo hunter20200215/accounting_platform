@@ -74,6 +74,7 @@ Route::get('admin/home_property/edit', [App\Http\Controllers\HomeController::cla
 
 
 Route::post('/api-search', [App\Http\Controllers\ApiController::class, 'adminApiSearch'])->name('autocomplete.fetch');
+Route::post('/dependent-del', [App\Http\Controllers\ApiController::class, 'adminApiDependentDel'])->name('dependent.del');
 
 
 #Data-entry

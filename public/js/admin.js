@@ -193,5 +193,24 @@ $(document).ready(function(){
             $('.tax_input').addClass("d-none");
         }
     });
+
+    $('.cut-icon').on('click',function(){
+        var id = $(this).attr('data-id');
+        var dependent_id = $(this).attr('data-dependent'); 
+        var htm = $(this);
+        if(id != '')
+        {
+         var _token = token;
+         $.ajax({
+            url:"/dependent-del",
+            method:"POST",
+            data:{id:id,dependent:dependent_id, _token:_token},
+            success:function(data){
+                $(htm).siblings('div').html(data);
+            }
+        });
+        }
+    });
+
     
 });

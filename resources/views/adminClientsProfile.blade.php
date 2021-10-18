@@ -473,7 +473,7 @@
                                     <div>
                                         <label for="fname" class="my-2 label-style">Dependet Name :</label>
                                         <input type="text" value="{{$parameter->full_name}}" id="dependents_edit" class="dependents_edit w-50"/>
-                                        <i class="fas fa-cut cut-icon ml-2" aria-hidden="true" data-toggle="modal" data-target="#delete"></i>
+                                        <i class="fas fa-cut cut-icon ml-2" aria-hidden="true" data-id="{{ $info->id }}" data-dependent="{{ $parameter->id }}"></i>
                                         <input type="hidden" name="profile_numbers[]" value="{{$parameter->id}}">
                                         <div style="margin-left:130px;" id="countryList"></div>
                                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\AdminClientCreate;
 
 class ApiController extends Controller
 {
@@ -23,4 +24,14 @@ class ApiController extends Controller
         $output .= '</ul>';
         echo $output;
     }
+
+    public function adminApiDependentDel(Request $request)
+    {
+        $id = $request->id;
+        $dependent_id = $request->dependent;
+        $flight = AdminClientCreate::find($id);
+        $dependent_ids = $flight->dependents_ids;
+
+    }
 }
+
