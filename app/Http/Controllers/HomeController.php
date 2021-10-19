@@ -340,6 +340,7 @@ class HomeController extends Controller
                               
                     })
                     ->paginate(100);
+                    
         $counters = DB::table('admin_clients_info')
                             ->whereIn('category', $categorys)
                             ->orWhere(function($query) use ($income) {

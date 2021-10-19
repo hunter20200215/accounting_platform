@@ -11,6 +11,14 @@ $(document).ready(function(){
             $('.link-id').css('display','none');
         }
     });
+    $('#spouse').on('change',function(){
+        if ($('#spouse').val() == "Yes"){
+            $('.link-spouse').show();
+            
+        }else{
+            $('.link-spouse').css('display','none');
+        }
+    });
     $(document).on('click', 'li', function(){  
         $(this).parents("#countryList").siblings("input[type='text']").val($(this).text()); 
         $(this).parents("#countryList").siblings("input[type='hidden']").val($(this).attr('data-id')); 
@@ -32,7 +40,7 @@ $(document).ready(function(){
             {
              var _token = token;
              $.ajax({
-                url:"/api-search",
+                url:"/user-search",
                 method:"POST",
                 data:{query:query, _token:_token},
                 success:function(data){
@@ -51,13 +59,30 @@ $(document).ready(function(){
         {
          var _token = token;
          $.ajax({
-            url:"/api-search",
+            url:"/user-search",
             method:"POST",
             data:{query:query, _token:_token},
             success:function(data){
                 
                 $(this).siblings('div').fadeIn();  
                 $('#countryList').html(data);
+            }
+        });
+        }
+    });
+
+    $("#spouse_input").keyup(function(){ 
+        var query = $(this).val();
+        var htm = $(this);
+        if(query != '')
+        {
+         var _token = token;
+         $.ajax({
+            url:"/user-search",
+            method:"POST",
+            data:{query:query, _token:_token},
+            success:function(data){
+                $(htm).siblings('div').html(data);
             }
         });
         }
