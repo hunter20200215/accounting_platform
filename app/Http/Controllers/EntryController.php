@@ -32,10 +32,23 @@ class EntryController extends Controller
     }
     public function entryClients()
     {   
+
+
+        $selected_categorys = DB::table('admin_category')->pluck('name');
+        $clients = DB::table('admin_clients_info')
+                    ->where('user_id', Auth::id())
+                    ->paginate(100);
+        $rolls = [];
+        foreach ($clients as $client) {
+            $roll = DB::table('users')
+                    ->where('id' ,'=',$client->user_id)
+                    ->pluck('name');
+
+            
+            array_push($rolls,$roll[0]);
+        }
         return view('entryClients',[
-            'clients' => DB::table('admin_clients_info')
-                            ->where('user_id', Auth::id())
-                            ->paginate(100),
+            'clients' => $clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
@@ -43,8 +56,11 @@ class EntryController extends Controller
             'selected_categorys' => [],
             'selected_income' => [],
             'selected_deduction' => [],
+            'rolls'=>$rolls,
+            'counters' => DB::table('admin_clients_info')->where('user_id', Auth::id())->count(),
 
         ]);
+        
         
     }
 
