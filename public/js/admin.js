@@ -76,12 +76,6 @@ $(document).ready(function(){
             });
             }
         });
-
-        $(document).on('click', 'li', function(){  
-            $(this).parent().parent().prev().prev().val($(this).text()); 
-            $(this).parent().parent().prev().val($(this).attr('data-id')); 
-            $(this).parent().remove();
-        });
     });
 
     $(".dependent_input").keyup(function(){ 
@@ -102,7 +96,7 @@ $(document).ready(function(){
         }
     });
     $(document).on('click', 'li', function(){  
-        $(this).parents("#countryList").siblings("input.w-50").val($(this).text()); 
+        $(this).parents("#countryList").siblings("input[type='text']").val($(this).text()); 
         $(this).parents("#countryList").siblings("input[type='hidden']").val($(this).attr('data-id')); 
         $(this).parent().remove();
     });
