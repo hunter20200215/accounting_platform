@@ -78,7 +78,7 @@ class EntryController extends Controller
     public function entryClientsCreateNew(Request $request)
     {   
         $flight = new AdminClientCreate;
-
+        
         $flight->first_name = $request->first_name;
         $flight->last_name = $request->last_name;
         $flight->middle_name = $request->middle_name;
@@ -90,8 +90,18 @@ class EntryController extends Controller
         $flight->citizenship = $request->citizenship;
         $flight->user_id = $request->user()->id;
         $flight->bs_code = $request->bs_code;
+        $flight->spouse_id = $request->spouse_id;
+        $flight->dependents = $request->dependents;
+        $flight->full_name = $request->first_name." ".$request->last_name;
+        $flight->resident = $request->residence_radio;
+        $flight->home_own_status = $request->house_own_status;
+        $flight->home_tax_fee = $request->tax_fee;
+        $flight->rent_fee = $request->rent_fee;
+        
         $highlight ="";
         $highlight2 ="";
+        $dependents_ids ="";
+        
         if ($request->income) {
             
             foreach ( $request->income as $index=>$highlight1) {
@@ -101,7 +111,7 @@ class EntryController extends Controller
                     $highlight .= ",".$highlight1;
                 }
             }
-            
+            $highlight = $highlight.",";
             $flight->income_highlights = $highlight;
         }
         if ($request->deductions) {
@@ -112,19 +122,31 @@ class EntryController extends Controller
                     $highlight2 .= ",".$highlight;
                 }
             }
+            $highlight2 = $highlight2.",";
             $flight->deduction_highlights = $highlight2;
         }
         
         if ($request->file('file')) {
             $image = $request->file("file");
-            $destinationPath = 'entry/';
+            $destinationPath = 'admin/';
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $flight->attached_doc = "$profileImage";
             
         }
+        if ($request->dependents == "Yes"){
+            foreach ($request->profile_numbers as $index=>$ids) {
+                if ($ids != null) {
+                    if($index == 0){
+                        $dependents_ids = $ids;
+                    }else{
+                        $dependents_ids .= ",".$ids;
+                    }
+                }
 
-
+            }
+        }
+        $flight->dependents_ids = $dependents_ids;
         $flight->save();
 
         return redirect()->route('entry.clients');
