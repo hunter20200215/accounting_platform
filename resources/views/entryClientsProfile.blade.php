@@ -97,7 +97,7 @@
                             </div>
                             @foreach ($fullname as $parameter)
                                 @if ($parameter != null)
-                                    <div id=<?php echo "dependent_id".$parameter->id ?>><a href=<?php echo route('admin.clients.profile',['id' => $parameter->id])?>>{{$parameter->first_name}} {{$parameter->middle_name}} {{$parameter->last_name}}</a></div>
+                                    <div id=<?php echo "dependent_id".$parameter->id ?>><a href=<?php echo route('entry.clients.profile',['id' => $parameter->id])?>>{{$parameter->first_name}} {{$parameter->middle_name}} {{$parameter->last_name}}</a></div>
                                 @endif
                             @endforeach
                         </div>
@@ -113,7 +113,7 @@
                             </div>
                             
                             @if ($spouse != null)
-                                <div><a href=<?php echo route('admin.clients.profile',['id' => $spouse->id])?>>{{$spouse->full_name}}</a></div>
+                                <div><a href=<?php echo route('entry.clients.profile',['id' => $spouse->id])?>>{{$spouse->full_name}}</a></div>
                             @endif
                             
                         </div>
@@ -269,7 +269,7 @@
                 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="{{ route('admin.information.edit') }}">
+                    <form action="{{ route('entry.information.edit') }}">
                         <div class="form-group ">
                             <div class="input-field">
 
@@ -345,7 +345,7 @@
                 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="{{ route('admin.bio.edit') }}">
+                    <form action="{{ route('entry.bio.edit') }}">
                         <div class="form-group ">
                             <textarea id="bio" name="bio" rows="4" cols="200" class="w-100">{{$info->client_bio}}
                             </textarea>
@@ -372,7 +372,7 @@
                 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="{{ route('admin.income.edit') }}">
+                    <form action="{{ route('entry.income.edit') }}">
                         <div class="form-group ">
                             <div class="input-field">
                                 <div class="d-block">
@@ -418,7 +418,7 @@
                 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="{{ route('admin.deduction.edit') }}">
+                    <form action="{{ route('entry.deduction.edit') }}">
                         <div class="form-group ">
                             <div class="input-field">
                                 <div class="d-block">
@@ -470,7 +470,7 @@
                         <a class="add-dependent" > <i class='fa fa-plus mr-2' style='font-size:16px' data-toggle="modal" data-target="#eidt_spouse"></i>Dependent</a>
                     </div>
                     
-                    <form action="{{ route('admin.dependents.edit') }}">
+                    <form action="{{ route('entry.dependents.edit') }}">
                         <div class="form-group ">
                             <div class="input-field">
                                 @foreach ($fullname as $parameter)
@@ -503,7 +503,7 @@
                 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="{{ route('admin.spouse.edit') }}">
+                    <form action="{{ route('entry.spouse.edit') }}">
                         <div class="form-group ">
                             <div class="input-field">
                                 @if ($spouse != null)
@@ -540,7 +540,7 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="{{ route('admin.home_property.edit') }}">
+                    <form action="{{ route('entry.home_property.edit') }}">
                         <div class="form-group ">
                             <div class="row ">
                                 <div class="col-md-6">

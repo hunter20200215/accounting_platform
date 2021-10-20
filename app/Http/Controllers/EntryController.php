@@ -185,8 +185,91 @@ class EntryController extends Controller
             'spouse'=> $spouse,
         ]);
         
+    }
+
+    public function entryIncomeSource(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+        $highlight ="";
+        if ($request->income) {
+            
+            foreach ( $request->income as $index=>$highlight1) {
+                if ($index==0){
+                    $highlight = $highlight1;
+                }else{
+                    $highlight .= ",".$highlight1;
+                }
+            }
+            $highlight = $highlight.",";
+            $flight->income_highlights = $highlight;
+        }
+        $flight->save();
+        return redirect()->route('entry.clients.profile',['id' => $request->id]);
+    }
+    public function entryDeductionSource(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+        $highlight2 ="";
+        
+        if ($request->deductions) {
+            foreach ( $request->deductions as $index=>$highlight) {
+                if ($index==0){
+                    $highlight2 = $highlight;
+                }else{
+                    $highlight2 .= ",".$highlight;
+                }
+            }
+            $highlight2 = $highlight2.",";
+            $flight->deduction_highlights = $highlight2;
+        }
+
+        $flight->save();
+        return redirect()->route('entry.clients.profile',['id' => $request->id]);
+    }
+    public function entryDependentEdit(Request $request)
+    {
+        if ($request->profile_numbers != null){
+            $flight = AdminClientCreate::find($request->id);
+            foreach ($request->profile_numbers as $index=>$ids) {
+                if ($ids != null) {
+                    if($index == 0){
+                        $dependents_ids = $ids;
+                    }else{
+                        $dependents_ids .= ",".$ids;
+                    }
+                }
+            }
+            $flight->dependents_ids = $dependents_ids;
+            $flight->save();
+        }
         
         
+            
+        return redirect()->route('entry.clients.profile',['id' => $request->id]);
+        
+    }
+    public function entrySpouseEdit(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+        if ($request->spouse != null) {
+            $flight->spouse_id = intval($request->spouse);
+            $flight->save();
+        }
+        return redirect()->route('entry.clients.profile',['id' => $request->id]);
+        
+    }
+    public function entryHomePropertyEdit(Request $request)
+    {
+        $flight = AdminClientCreate::find($request->id);
+        $flight->resident = $request->residence_radio;
+        $flight->home_own_status = $request->house_own_status;
+        $flight->home_tax_fee = $request->tax_fee;
+        $flight->rent_fee = $request->rent_fee;
+        $flight->save();
+        return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
     public function entryClientsInformation(Request $request)
     {
