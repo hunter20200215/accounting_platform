@@ -154,11 +154,39 @@ class EntryController extends Controller
 
     public function entryClientsProfile($id)
     {
+        $ids = DB::table('admin_clients_info')->where('id', $id)->pluck('dependents_ids');
         
+        
+        $ids = array_map('intval', explode(',', $ids[0]));
+        
+        $full_name = [];
+        foreach ($ids as $_id){
+            if ($_id != null){
+                $full_name_pre = DB::table('admin_clients_info')->where('id', $_id)->first();
+                array_push($full_name,$full_name_pre);
+                
+            }
+        }
+
+        $spouse_id = DB::table('admin_clients_info')->where('id',$id)->pluck('spouse_id');
+        
+        if ($spouse_id[0] != null) {
+            $spouse = DB::table('admin_clients_info')->where('id',$spouse_id[0])->first();
+        }else{
+            $spouse = null;
+        }
         
         return view('entryClientsProfile',[
-            'info' => DB::table('admin_clients_info')->where('id', $id)->first()
+            'info' => DB::table('admin_clients_info')->where('id', $id)->first(),
+            'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
+            'fullname' => $full_name,
+            'ids' => $ids,
+            'spouse'=> $spouse,
         ]);
+        
+        
+        
     }
     public function entryClientsInformation(Request $request)
     {
