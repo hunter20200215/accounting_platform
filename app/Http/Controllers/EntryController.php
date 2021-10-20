@@ -278,25 +278,28 @@ class EntryController extends Controller
 
         $flight->first_name = $request->first_name;
         $flight->last_name = $request->last_name;
+        $flight->full_name = $request->first_name." ".$request->last_name;
         $flight->dob_date = $request->dob_date;
+        $flight->address = $request->address;
+        $flight->primary_phone = $request->phone;
+        $flight->other_phone = $request->other_phone;
+        $flight->sin = $request->sin;
+        $flight->citizenship = $request->citizenship;
+        $flight->marital_status = $request->marital_status;
+        $flight->dependents = $request->dependents;
+        $flight->home_status = $request->home_status;
+        $flight->notes = $request->notes;
 
         $flight->save();
-        return view('entryClientsProfile',[
-            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first()
-        ]);
+        return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
     public function entryClientsBio(Request $request)
     {
         
         $flight = AdminClientCreate::find($request->id);
-
         $flight->client_bio = $request->bio;
-        
-
         $flight->save();
-        return view('entryClientsProfile',[
-            'info' => DB::table('admin_clients_info')->where('id',$request->id)->first()
-        ]);
+        return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
     public function entryClientsAddInformation(Request $request)
     {

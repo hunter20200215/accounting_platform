@@ -91,10 +91,10 @@ Route::get('entry/clients/filter1', [App\Http\Controllers\EntryController::class
 // Route::get('entry/clients/filter2', [App\Http\Controllers\EntryController::class, 'entryClientsFilter2'])->name('entry.clients.filter2')->middleware('is_entry');
 Route::post('entry/clients/create', [App\Http\Controllers\EntryController::class, 'entryClientsCreateNew'])->name('entry.clients.create.new')->middleware('is_entry');
 
-Route::post('entry/clients/information', [App\Http\Controllers\EntryController::class, 'entryClientsInformation'])->name('entry.information.edit')->middleware('is_entry');
+Route::get('entry/clients/information', [App\Http\Controllers\EntryController::class, 'entryClientsInformation'])->name('entry.information.edit')->middleware('is_entry');
 
-Route::post('entry/clients/bio', [App\Http\Controllers\EntryController::class, 'entryClientsBio'])->name('entry.bio.edit')->middleware('is_entry');
-Route::post('entry/clients/additional_information', [App\Http\Controllers\EntryController::class, 'entryClientsAddInformation'])->name('entry.add.edit')->middleware('is_entry');
+Route::get('entry/clients/bio', [App\Http\Controllers\EntryController::class, 'entryClientsBio'])->name('entry.bio.edit')->middleware('is_entry');
+
 Route::get('entry/clients/income_highlights_edit', [App\Http\Controllers\EntryController::class, 'entryIncomeSource'])->name('entry.income.edit')->middleware('is_entry');
 Route::get('entry/clients/deduction_highlights_edit', [App\Http\Controllers\EntryController::class, 'entryDeductionSource'])->name('entry.deduction.edit')->middleware('is_entry');
 Route::get('entry/dependents/edit', [App\Http\Controllers\EntryController::class, 'entryDependentEdit'])->name('entry.dependents.edit')->middleware('is_entry');

@@ -325,7 +325,7 @@
                             
                         </div>
                         
-                        <input type="hidden" name="id" id="id" value= 15>
+                        <input type="hidden" name="id" id="id" value= "{{$info->id}}">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -517,7 +517,7 @@
                                         <label for="fname" class="my-2 label-style">Spouse Name :</label>
                                         <input type="text" value="" id="spouse_edit" class="spouse_edit w-50 " autocomplete="off"/>
                                         <input type="hidden" name="spouse" value="">
-                                        <div id="countryList"></div>
+                                        <div style="margin-left:130px;" id="countryList"></div>
                                     </div>
                                 @endif
                             </div>

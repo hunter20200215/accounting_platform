@@ -75,7 +75,7 @@
                         <label for="fname" class="my-2 label-style right-border">Notes:</label>
                         <p class="d-inline ml-3">{{$info->notes}}</p>
                     </div>
-                    <a id="page_id" data-id={{$info->id}}></a>
+                    <a id="page_id" data-id='{{$info->id}}'></a>
                 </div>
                 <h5 class="mt-3 ml-4">
                     Client Bio
@@ -93,7 +93,7 @@
                         </h5>
                         <div class="radius-border px-3 pb-4 pt-2">
                             <div class="w-100 d-block text-right">
-                                <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#eidt_dependents"></i></a>
+                                <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#edit_dependents"></i></a>
                             </div>
                             @foreach ($fullname as $parameter)
                                 @if ($parameter != null)
@@ -326,7 +326,7 @@
                             
                         </div>
                         
-                        <input type="hidden" name="id" id="id" value= 15>
+                        <input type="hidden" name="id" id="id" value= '{{$info->id}}'>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -351,7 +351,7 @@
                             </textarea>
                         </div>
                         
-                        <input type="hidden" name="id" id="id" value={{$info->id}}>
+                        <input type="hidden" name="id" id="id" value='{{$info->id}}'>
                         
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -397,7 +397,7 @@
                             
                         </div>
                         
-                        <input type="hidden" name="id" id="id" value={{$info->id}}>
+                        <input type="hidden" name="id" id="id" value='{{$info->id}}'>
                         
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -443,7 +443,7 @@
                             
                         </div>
                         
-                        <input type="hidden" name="id" id="id" value={{$info->id}}>
+                        <input type="hidden" name="id" id="id" value='{{$info->id}}'>
                         
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -456,7 +456,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="eidt_dependents">
+    <div class="modal fade" id="edit_dependents">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -518,7 +518,7 @@
                                         <label for="fname" class="my-2 label-style">Spouse Name :</label>
                                         <input type="text" value="" id="spouse_edit" class="spouse_edit w-50 " autocomplete="off"/>
                                         <input type="hidden" name="spouse" value="">
-                                        <div id="countryList"></div>
+                                        <div style="margin-left:130px;" id="countryList"></div>
                                     </div>
                                 @endif
                             </div>
