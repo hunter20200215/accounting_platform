@@ -36,7 +36,7 @@ a {
 .label-profile {
     margin-right: 15px;
 }
-#countryList{float:left;list-style:none;margin-top:-3px;padding:0;width:200px;position: absolute;margin-left:130px;}
+#countryList{float:left;list-style:none;margin-top:-3px;padding:0;width:200px;position: absolute;}
 #countryList li{padding: 8px; background: #f0f0f0; border-bottom: #bbb9b9 1px solid;}
 #countryList li:hover{background:#ece3d2;cursor: pointer;}
 .link-spouse {

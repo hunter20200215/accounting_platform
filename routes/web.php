@@ -88,7 +88,8 @@ Route::get('entry/clients', [App\Http\Controllers\EntryController::class, 'entry
 Route::get('entry/clients/{id}/profile', [App\Http\Controllers\EntryController::class, 'entryClientsProfile'])->name('entry.clients.profile')->middleware('is_entry');
 Route::get('entry/clients/create', [App\Http\Controllers\EntryController::class, 'entryClientsCreate'])->name('entry.clients.create')->middleware('is_entry');
 Route::get('entry/clients/filter1', [App\Http\Controllers\EntryController::class, 'entryClientsFilter1'])->name('entry.clients.filter1')->middleware('is_entry');
-// Route::get('entry/clients/filter2', [App\Http\Controllers\EntryController::class, 'entryClientsFilter2'])->name('entry.clients.filter2')->middleware('is_entry');
+
+Route::get('entry/clients/filter2', [App\Http\Controllers\EntryController::class, 'entryClientsFilter2'])->name('entry.clients.filter2')->middleware('is_entry');
 Route::post('entry/clients/create', [App\Http\Controllers\EntryController::class, 'entryClientsCreateNew'])->name('entry.clients.create.new')->middleware('is_entry');
 
 Route::get('entry/clients/information', [App\Http\Controllers\EntryController::class, 'entryClientsInformation'])->name('entry.information.edit')->middleware('is_entry');

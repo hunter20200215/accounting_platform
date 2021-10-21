@@ -511,7 +511,7 @@
                                         <label for="fname" class="my-2 label-style">Spouse Name :</label>
                                         <input type="text" value="{{$spouse->full_name}}" id="spouse_edit" class="spouse_edit  w-50" autocomplete="off"/>
                                         <input type="hidden" name="spouse" value="{{$spouse->id}}">
-                                        <div id="countryList"></div>
+                                        <div style="margin-left:130px;" id="countryList"></div>
                                     </div>
                                 @else
                                     <div>

@@ -390,5 +390,33 @@ class EntryController extends Controller
         ]);
         // return redirect()->route('admin.clients',['clients' =>$clients]);
     }
+    public function entryClientsFilter2(Request $request)
+    {
+        $full_name = $request->full_name;
+        $clients = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->paginate(100);
+        $rolls = [];
+        foreach ($clients as $client) {
+            $roll = DB::table('users')
+                    ->where('id' ,'=',$client->user_id)
+                    ->pluck('name');
+
+            
+            array_push($rolls,$roll[0]);
+        }
+        return view('entryClients',[
+            'clients' =>$clients,
+            'categorys' => DB::table('admin_category')->get(),
+            'highlights' => DB::table('admin_highlights')->get(),
+            'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
+            'selected_categorys' => [],
+            'selected_income' => [],
+            'selected_deduction' =>[],
+            'rolls' =>$rolls,
+            'counters' => DB::table('admin_clients_info')->where('full_name', 'LIKE', "%".$full_name.'%')->count(),
+        ]);
+    }
     
 }
