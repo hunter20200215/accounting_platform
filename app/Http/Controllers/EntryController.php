@@ -324,7 +324,6 @@ class EntryController extends Controller
 
     public function entryClientsFilter1(Request $request)
     {   
-        
         $categorys=[];
         $income = [];
         $deduction =[];
@@ -343,40 +342,72 @@ class EntryController extends Controller
                 $deduction[] = $value;
             }
         }
+        
         $clients = DB::table('admin_clients_info')
                     ->whereIn('category', $categorys)
-                    ->where('user_id', $request->user()->id)
                     ->orWhere(function($query) use ($income) {
                         foreach ($income as $value) {
-                            $query->orWhere('income_highlights', 'LIKE', "%$value%");
-                                    
+                            $query->orWhere('income_highlights', 'LIKE', "%".$value.","."%");
                         }
                     })
-                    ->where('user_id', $request->user()->id)
+                    ->where('user_id',$request->user()->id)
                     ->orWhere(function($query) use ($deduction) {
                         foreach ($deduction as $value) {
-                            $query->orWhere('deduction_highlights', 'LIKE', "%$value%");
+                            $query->orWhere('deduction_highlights', 'LIKE', "%".$value.",".'%');
                         }
                     })
-                    ->where('user_id', $request->user()->id)
+                    ->where('user_id',$request->user()->id)
                     ->orWhere(function($query) use ($request) {
                         if ($request->start_date){
-                            $query->orWhere('dob_date', ">=",$request->start_date);
+                            $query->where('dob_date', ">=",$request->start_date);
                         }
                     })
-                    ->where('user_id', $request->user()->id)
-                    ->where(function($query) use ($request) {
+                    ->where('user_id',$request->user()->id)
+                    ->orWhere(function($query) use ($request) {
                         if ($request->end_date){
-                            $query->orWhere('dob_date', "<",$request->end_date);
-                                    
+                            $query->where('dob_date', "<",$request->end_date);
                         }
                               
                     })
-                    
-                    ->where('user_id', $request->user()->id)
+                    ->where('user_id',$request->user()->id)
                     ->paginate(100);
-
-        
+                    
+        $counters = DB::table('admin_clients_info')
+                            ->whereIn('category', $categorys)
+                            ->orWhere(function($query) use ($income) {
+                                foreach ($income as $value) {
+                                    $query->orWhere('income_highlights', 'LIKE', "%".$value.","."%");
+                                }
+                            })
+                            ->where('user_id',$request->user()->id)
+                            ->orWhere(function($query) use ($deduction) {
+                                foreach ($deduction as $value) {
+                                    $query->orWhere('deduction_highlights', 'LIKE', "%".$value.",".'%');
+                                }
+                            })
+                            ->where('user_id',$request->user()->id)
+                            ->orWhere(function($query) use ($request) {
+                                if ($request->start_date){
+                                    $query->where('dob_date', ">=",$request->start_date);
+                                }
+                            })
+                            ->where('user_id',$request->user()->id)
+                            ->orWhere(function($query) use ($request) {
+                                if ($request->end_date){
+                                    $query->where('dob_date', "<",$request->end_date);
+                                }
+                                    
+                            })
+                            ->where('user_id',$request->user()->id)
+                            ->count();
+              
+        $rolls = [];
+        foreach ($clients as $client) {
+            $roll = DB::table('users')
+                    ->where('id' ,'=',$client->user_id)
+                    ->pluck('name');
+            array_push($rolls,$roll[0]);
+        }
         return view('entryClients',[
             'clients' =>$clients,
             'categorys' => DB::table('admin_category')->get(),
@@ -386,6 +417,8 @@ class EntryController extends Controller
             'selected_categorys' => $categorys,
             'selected_income' => $income,
             'selected_deduction' =>$deduction,
+            'rolls' =>$rolls,
+            'counters' => $counters,
 
         ]);
         // return redirect()->route('admin.clients',['clients' =>$clients]);
@@ -395,14 +428,13 @@ class EntryController extends Controller
         $full_name = $request->full_name;
         $clients = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->where('user_id',$request->user()->id)
                     ->paginate(100);
         $rolls = [];
         foreach ($clients as $client) {
             $roll = DB::table('users')
                     ->where('id' ,'=',$client->user_id)
                     ->pluck('name');
-
-            
             array_push($rolls,$roll[0]);
         }
         return view('entryClients',[
@@ -415,7 +447,7 @@ class EntryController extends Controller
             'selected_income' => [],
             'selected_deduction' =>[],
             'rolls' =>$rolls,
-            'counters' => DB::table('admin_clients_info')->where('full_name', 'LIKE', "%".$full_name.'%')->count(),
+            'counters' => DB::table('admin_clients_info')->where('full_name', 'LIKE', "%".$full_name.'%')->where('user_id',$request->user()->id)->count(),
         ]);
     }
     

@@ -340,7 +340,7 @@ class HomeController extends Controller
                               
                     })
                     ->paginate(100);
-                    
+
         $counters = DB::table('admin_clients_info')
                             ->whereIn('category', $categorys)
                             ->orWhere(function($query) use ($income) {
@@ -449,7 +449,6 @@ class HomeController extends Controller
         $dependents_ids ="";
         
         if ($request->income) {
-            
             foreach ( $request->income as $index=>$highlight1) {
                 if ($index==0){
                     $highlight = $highlight1;
