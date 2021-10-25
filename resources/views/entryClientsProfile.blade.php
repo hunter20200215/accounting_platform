@@ -75,6 +75,10 @@
                         <label for="fname" class="my-2 label-style right-border">Notes:</label>
                         <p class="d-inline ml-3">{{$info->notes}}</p>
                     </div>
+                    <div>
+                        <label for="fname" class="my-2 label-style right-border">Category:</label>
+                        <p class="d-inline ml-3">{{$info->category}}</p>
+                    </div>
                     <a id="page_id" data-id='{{$info->id}}'></a>
                 </div>
                 <h5 class="mt-3 ml-4">
@@ -321,6 +325,15 @@
                                 <div>
                                     <label for="fname" class="my-2 label-style">Notes:</label>
                                     <input type="text" id="notes" name="notes" class="mb-1 w-50" value="{{$info->notes}}">
+                                </div>
+                                <div>
+                                    <label for="fname" class="my-2 label-style">Category:</label>
+                                    <select name="category" id="" class="mb-1 w-50" >
+                                        @foreach ($categories  as $category)
+                                            <option value="{{ $category->name }}"<?php if ($info->category == $category->name) echo ' selected="selected"'; ?>>{{$category->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    
                                 </div>
                             </div>
                             

@@ -178,6 +178,7 @@ class EntryController extends Controller
         
         return view('entryClientsProfile',[
             'info' => DB::table('admin_clients_info')->where('id', $id)->first(),
+            'categories' =>DB::table('admin_category')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
             'fullname' => $full_name,
@@ -288,6 +289,7 @@ class EntryController extends Controller
         $flight->marital_status = $request->marital_status;
         $flight->dependents = $request->dependents;
         $flight->home_status = $request->home_status;
+        $flight->category = $request->category;
         $flight->notes = $request->notes;
 
         $flight->save();

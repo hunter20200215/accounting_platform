@@ -56,7 +56,6 @@ class HomeController extends Controller
     {   
 
         $flight = User::find($request->id);
-
         $flight->name = $request->name;
         $flight->email = $request->email;
         $flight->password = Hash::make($request->password);
@@ -146,7 +145,7 @@ class HomeController extends Controller
         }
 
         $spouse_id = DB::table('admin_clients_info')->where('id',$id)->pluck('spouse_id');
-        
+
         if ($spouse_id[0] != null) {
             $spouse = DB::table('admin_clients_info')->where('id',$spouse_id[0])->first();
         }else{
@@ -155,6 +154,7 @@ class HomeController extends Controller
         
         return view('adminClientsProfile',[
             'info' => DB::table('admin_clients_info')->where('id', $id)->first(),
+            'categories' =>DB::table('admin_category')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
             'fullname' => $full_name,
@@ -162,13 +162,11 @@ class HomeController extends Controller
             'spouse'=> $spouse,
         ]);
     }
-    
 
     public function adminClientsInformation(Request $request)
     {
         
         $flight = AdminClientCreate::find($request->id);
-
         $flight->first_name = $request->first_name;
         $flight->last_name = $request->last_name;
         $flight->full_name = $request->first_name." ".$request->last_name;
@@ -182,8 +180,9 @@ class HomeController extends Controller
         $flight->dependents = $request->dependents;
         $flight->home_status = $request->home_status;
         $flight->notes = $request->notes;
-
+        $flight->category = $request->category;
         $flight->save();
+
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
     }
 
@@ -477,7 +476,7 @@ class HomeController extends Controller
             $flight->attached_doc = "$profileImage";
             
         }
-        
+
         if ($request->dependents == "Yes"){
             foreach ($request->profile_numbers as $index=>$ids) {
                 if ($ids != null) {
