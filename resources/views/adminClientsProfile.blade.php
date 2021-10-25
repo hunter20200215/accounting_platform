@@ -43,7 +43,7 @@
                         <p class="d-inline ml-3">{{$info->primary_phone}}</p>
                     </div>    
                     <div>
-                        <label for="fname" class="my-2 label-style right-border">Business Phone:</label>
+                        <label for="fname" class="my-2 label-style right-border">Work Phone:</label>
                         <p class="d-inline ml-3">{{$info->other_phone}}</p>
                     </div>
                     <div>
@@ -294,7 +294,7 @@
                                     <input type="text" id="phone" name="phone" class="mb-1 w-50" value="{{$info->primary_phone}}">
                                 </div>    
                                 <div>
-                                    <label for="fname" class="my-2 label-style">Business Phone:</label>
+                                    <label for="fname" class="my-2 label-style">Work Phone:</label>
                                     <input type="text" id="other_phone" name="other_phone" class="mb-1 w-50" value="{{$info->other_phone}}">
                                 </div>
                                 <div>

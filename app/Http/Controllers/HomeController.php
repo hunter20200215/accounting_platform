@@ -443,11 +443,9 @@ class HomeController extends Controller
         $flight->home_own_status = $request->house_own_status;
         $flight->home_tax_fee = $request->tax_fee;
         $flight->rent_fee = $request->rent_fee;
-        
         $highlight ="";
         $highlight2 ="";
         $dependents_ids ="";
-        
         if ($request->income) {
             foreach ( $request->income as $index=>$highlight1) {
                 if ($index==0){
@@ -479,6 +477,7 @@ class HomeController extends Controller
             $flight->attached_doc = "$profileImage";
             
         }
+        
         if ($request->dependents == "Yes"){
             foreach ($request->profile_numbers as $index=>$ids) {
                 if ($ids != null) {
