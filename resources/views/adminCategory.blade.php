@@ -4,7 +4,7 @@
 <div class="container">
     <div class="subtitle">
         <div class="d-flex ">
-            <span class="bg-light px-4 py-2 border-shadow"><h5 class="d-inline">Setting</h5><h5 class="d-inline"> / </h5><h5 class="d-inline">Categories</h5></span>
+            <span class="bg-light px-4 py-2 border-shadow"><h5 class="d-inline">Settings</h5><h5 class="d-inline"> / </h5><h5 class="d-inline">Categories</h5></span>
         </div>
     </div>
     <div class="my-5"></div>
