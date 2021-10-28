@@ -58,3 +58,7 @@ a {
     padding-right: 5px;
     cursor: pointer;
 }
+.none-decoration {
+    color: inherit !important;
+    text-decoration: none !important;
+}

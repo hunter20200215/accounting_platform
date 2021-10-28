@@ -4,7 +4,12 @@
 <div class="container">
     <div class="subtitle">
         <div class="d-flex ">
-            <span class="bg-light px-4 py-2 border-shadow"><h5 class="d-inline">Settings</h5><h5 class="d-inline"> / </h5><h5 class="d-inline">Highlights</h5><h5 class="d-inline"> / </h5><h5 class="d-inline">Income</h5></span>
+            <span class="bg-light px-4 py-2 border-shadow">
+                <h5 class="d-inline">Settings</h5><h5 class="d-inline"> / </h5>
+                <h5 class="d-inline"><a href="{{route('admin.highlights')}}" class="none-decoration">Highlights</a> </h5>
+                <h5 class="d-inline"> / </h5>
+                <h5 class="d-inline"><a href="{{route('admin.highlights.income')}}" class="none-decoration">Income</a></h5>
+            </span>
         </div>
     </div>
     <div class="my-3"></div>
@@ -33,14 +38,6 @@
                     <td><a class="edit-icon" data-name="{{$highlight->name}}" data-value="{{$highlight->value}}" data-id="{{$highlight->id}}"> <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#edit"></i></a><a class="delete-icon" data-id="{{$highlight->id}}"><i class="fa fa-trash ml-2" aria-hidden="true" data-toggle="modal" data-target="#delete"></i></a></td>
                 </tr>
             @endforeach
-                
-                <!-- <tr>
-                    <td>2</td>
-                    <td>T5</td>
-                    <td>07/16/2021</td>
-                    <td></td>
-                </tr> -->
-                
             </tbody>
         </table>
         
