@@ -5,7 +5,7 @@
         @csrf
         <div class="subtitle">
             <div class="d-flex ">
-                <span class="heading-less"><a href="{{route('admin.clients')}}"> Clients</a></span><span class="heading-less">  /  </span><span class="heading-less"><a href="{{route('admin.clients.create')}}">+ Client</a></span>
+                <span class="heading-less"><a href="{{route('admin.clients')}}" class="none-decoration"> Clients</a></span><span class="heading-less">  /  </span><span class="heading-less"><a class="none-decoration" href="{{route('admin.clients.create')}}">+ Client</a></span>
             </div>
         </div>
 
@@ -34,7 +34,6 @@
                     <input type="text" class="form-control" value=""  name="bs_code" >
                 </div>
             </div>
-               
         </div>
 
         <div class="row mt-3">
@@ -70,6 +69,7 @@
                 @endforeach
             </div>    
         </div>
+
         <div class="row mt-3">
             <div class="col-md-6">
                 <h5 class="d-inline mr-auto">Dependents?</h5>
@@ -173,14 +173,10 @@
         <div class="modal fade" id="create">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                
-                    
                     <div class="modal-header">
                         <h4 class="modal-title">Link dependents's Profile</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    
-                    
                     <div class="modal-body">
                         <form action="{{ route('admin.highlights.create') }}">
                             <div class="form-group">
@@ -195,5 +191,4 @@
         </div>
     </form>
 </div>
-
 @endsection
