@@ -115,11 +115,9 @@
                             <div class="w-100 d-block text-right">
                                 <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#eidt_spouse"></i></a>
                             </div>
-                            
                             @if ($spouse != null)
                                 <div><a href=<?php echo route('entry.clients.profile',['id' => $spouse->id])?>>{{$spouse->full_name}}</a></div>
                             @endif
-                            
                         </div>
                         
                     </div>

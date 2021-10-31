@@ -6,7 +6,13 @@
         @csrf
         <div class="subtitle">
             <div class="d-flex ">
-                <span class="font-weight-bold py-2"><h5 class="d-inline">Clients</h5><h5 class="d-inline"> / </h5><h5 class="d-inline">+Client</h5></span>
+                <span class="heading-less">
+                    <a href="{{route('entry.clients')}}" class="none-decoration"> Clients</a>
+                </span>
+                <span class="heading-less">  /  </span>
+                <span class="heading-less">
+                    <a class="none-decoration" href="{{route('entry.clients.create')}}">+ Client</a>
+                </span>
             </div>
         </div>
 

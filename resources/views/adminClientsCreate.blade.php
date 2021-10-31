@@ -5,7 +5,13 @@
         @csrf
         <div class="subtitle">
             <div class="d-flex ">
-                <span class="heading-less"><a href="{{route('admin.clients')}}" class="none-decoration"> Clients</a></span><span class="heading-less">  /  </span><span class="heading-less"><a class="none-decoration" href="{{route('admin.clients.create')}}">+ Client</a></span>
+                <span class="heading-less">
+                    <a href="{{route('admin.clients')}}" class="none-decoration"> Clients</a>
+                </span>
+                <span class="heading-less">  /  </span>
+                <span class="heading-less">
+                    <a class="none-decoration" href="{{route('admin.clients.create')}}">+ Client</a>
+                </span>
             </div>
         </div>
 
