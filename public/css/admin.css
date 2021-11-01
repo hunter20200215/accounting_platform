@@ -62,3 +62,7 @@ a {
     color: inherit !important;
     text-decoration: none !important;
 }
+.image-style {
+    
+    width: 30px;
+}

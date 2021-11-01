@@ -56,7 +56,8 @@
                     </div>
                     <div>
                         <label for="fname" class="my-2 label-style right-border">Citizenship:</label>
-                        <p class="d-inline ml-3">{{$info->citizenship}}</p>
+                        <img src="{{asset('/img/flags/4^3/ca.svg')}}" class="image-style ml-3">
+                        <p class="d-inline ml-1">{{$info->citizenship}}</p>
                     </div>
                     <div>
                         <label for="fname" class="my-2 label-style right-border">Marital Status:</label>
