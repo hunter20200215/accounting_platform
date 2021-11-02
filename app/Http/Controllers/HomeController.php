@@ -160,6 +160,7 @@ class HomeController extends Controller
             'fullname' => $full_name,
             'ids' => $ids,
             'spouse'=> $spouse,
+            'countries'=>DB::table('countries')->get(),
         ]);
     }
 
@@ -232,9 +233,6 @@ class HomeController extends Controller
             $flight->dependents_ids = $dependents_ids;
             $flight->save();
         }
-        
-        
-            
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
         
     }
