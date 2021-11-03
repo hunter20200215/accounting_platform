@@ -238,9 +238,11 @@ class HomeController extends Controller
     }
     public function adminSpouseEdit(Request $request)
     {
-        
         $flight = AdminClientCreate::find($request->id);
         if ($request->spouse != null) {
+            $flight_other = AdminClientCreate::find(intval($request->spouse));
+            $flight_other->spouse_id = intval($request->id);
+            $flight_other->save();
             $flight->spouse_id = intval($request->spouse);
             $flight->save();
         }
