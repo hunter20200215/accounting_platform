@@ -329,7 +329,7 @@
 
         <div class="row mt-3">
             <div class="col-md-6">
-                <h5 class="d-inline mr-auto">Dependents?</h5>
+                <h5 class="d-inline mr-auto">Are there any Dependents?</h5>
                 <div class="ml-4">
                     <select name="dependents" id="dependents"  style="width:100px;border: 1px solid #ced4da;border-radius: 0.25rem;">
                         <option value="No">No</option>
@@ -349,7 +349,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <h5 class="d-inline mr-auto">Spouse?</h5>
+                <h5 class="d-inline mr-auto">Does the Client have a Partner or Spouse?</h5>
                 <div class="ml-4">
                     <select name="spouse" id="spouse"  style="width:100px;border: 1px solid #ced4da;border-radius: 0.25rem;">
                         <option value="No">No</option>
