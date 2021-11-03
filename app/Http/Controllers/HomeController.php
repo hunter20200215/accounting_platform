@@ -433,13 +433,21 @@ class HomeController extends Controller
         $flight->citizenship = $request->citizenship;
         $flight->user_id = $request->user()->id;
         $flight->bs_code = $request->bs_code;
-        $flight->spouse_id = $request->spouse_id;
+        
         $flight->dependents = $request->dependents;
         $flight->full_name = $request->first_name." ".$request->last_name;
         $flight->resident = $request->residence_radio;
         $flight->home_own_status = $request->house_own_status;
         $flight->home_tax_fee = $request->tax_fee;
         $flight->rent_fee = $request->rent_fee;
+        
+        if ($request->spouse_id) {
+            $flight->spouse_id = $request->spouse_id;
+            $flight_other = AdminClientCreate::find($request->spouse_id);
+            $flight_other->spouse_id = $flight->id;
+            $flight_other->save();
+        }
+        
         $highlight ="";
         $highlight2 ="";
         $dependents_ids ="";
