@@ -160,7 +160,8 @@
                                 @endforeach
                             </div>  
                         </div>
-                        <div class="mt-3 ml-3">
+                        <div class="mt-3 ml-1">
+                            <i class='fas fa-bed' style='font-size:25px;color:rgba(0,0,0,0.5)'></i>
                             <h5 class="d-inline-block ml-1">
                                 Property Information
                             </h5>
