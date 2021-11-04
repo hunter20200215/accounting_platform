@@ -46,10 +46,10 @@
                         <label for="fname" class="my-2 label-style right-border">Work Phone:</label>
                         <p class="d-inline ml-3">{{$info->other_phone}}</p>
                     </div>
-                    <div>
+                    <!-- <div>
                         <label for="fname" class="my-2 label-style right-border">SIN:</label>
                         <p class="d-inline ml-3"> {{$info->sin}}</p>
-                    </div>
+                    </div> -->
                     <div>
                         <label for="fname" class="my-2 label-style right-border">Bar Code:</label>
                         <p class="d-inline ml-3"> {{$info->bs_code}}</p>
