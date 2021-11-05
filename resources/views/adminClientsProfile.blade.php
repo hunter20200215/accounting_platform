@@ -89,7 +89,9 @@
                     <div class="w-100 d-block text-right">
                         <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#bio"></i></a>
                     </div>
-                    {{$info->client_bio}}
+                    
+                    <?php echo $info->client_bio ?>
+                    
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -363,7 +365,7 @@
                 <div class="modal-body">
                     <form action="{{ route('admin.bio.edit') }}">
                         <div class="form-group ">
-                            <textarea id="bio" name="bio" rows="4"  class="w-100">{{$info->client_bio}}</textarea>
+                            <textarea id="mytextarea" name="bio" rows="4"  class="w-100">{{$info->client_bio}}</textarea>
                         </div>
                         
                         <input type="hidden" name="id" id="id" value={{$info->id}}>
@@ -675,5 +677,9 @@
         </div>
     </div>
 </div>
-
+<script>
+    tinymce.init({
+        selector: '#mytextarea'
+      });
+</script>
 @endsection
