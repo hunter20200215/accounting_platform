@@ -83,7 +83,7 @@
                     <a id="page_id" data-id={{$info->id}}></a>
                 </div>
                 <h5 class="mt-3 ml-4">
-                    Client Bio
+                    Additional Notes
                 </h5>
                 <div class="radius-border px-3 pb-4 pt-2">
                     <div class="w-100 d-block text-right">
@@ -355,7 +355,7 @@
             
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Bio</h4>
+                    <h4 class="modal-title">Additional Notes</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 
