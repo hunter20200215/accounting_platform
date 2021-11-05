@@ -363,8 +363,7 @@
                 <div class="modal-body">
                     <form action="{{ route('admin.bio.edit') }}">
                         <div class="form-group ">
-                            <textarea id="bio" name="bio" rows="4" cols="200" class="w-100">{{$info->client_bio}}
-                            </textarea>
+                            <textarea id="bio" name="bio" rows="4"  class="w-100">{{$info->client_bio}}</textarea>
                         </div>
                         
                         <input type="hidden" name="id" id="id" value={{$info->id}}>
