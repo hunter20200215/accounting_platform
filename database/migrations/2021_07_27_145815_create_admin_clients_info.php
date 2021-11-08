@@ -41,6 +41,7 @@ class CreateAdminClientsInfo extends Migration
             $table->integer('rent_fee')->nullable();
             $table->integer('home_tax_fee')->nullable();
             $table->string('dependents_ids')->nullable();
+            $table->string('email')->nullable();
             $table->integer('spouse_id')->nullable();
             $table->timestamps();
         });
