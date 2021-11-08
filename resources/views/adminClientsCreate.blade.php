@@ -40,6 +40,13 @@
                     <input type="text" class="form-control" value=""  name="bs_code" >
                 </div>
             </div>
+
+            <div class="col-md-3">
+                <h5 class="d-inline mr-auto">Email Address</h5>
+                <div class="block">
+                    <input type="text" class="form-control" value=""  name="email" >
+                </div>
+            </div>
         </div>
 
         <div class="row mt-3">
