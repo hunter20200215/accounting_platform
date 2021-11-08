@@ -46,10 +46,10 @@
                         <label for="fname" class="my-2 label-style right-border">Work Phone:</label>
                         <p class="d-inline ml-3">{{$info->other_phone}}</p>
                     </div>
-                    <!-- <div>
-                        <label for="fname" class="my-2 label-style right-border">SIN:</label>
-                        <p class="d-inline ml-3"> {{$info->sin}}</p>
-                    </div> -->
+                    <div>
+                        <label for="fname" class="my-2 label-style right-border">Email:</label>
+                        <p class="d-inline ml-3"> {{$info->email}}</p>
+                    </div>
                     <div>
                         <label for="fname" class="my-2 label-style right-border">Bar Code:</label>
                         <p class="d-inline ml-3"> {{$info->bs_code}}</p>
@@ -304,8 +304,12 @@
                                     <input type="text" id="other_phone" name="other_phone" class="mb-1 w-50" value="{{$info->other_phone}}">
                                 </div>
                                 <div>
-                                    <label for="fname" class="my-2 label-style">SIN:</label>
-                                    <input type="text" id="sin" name="sin" class="mb-1 w-50" value="{{$info->sin}}">
+                                    <label for="fname" class="my-2 label-style">Email Address</label>
+                                    <input type="text" id="sin" name="email" class="mb-1 w-50" value="{{$info->email}}">
+                                </div>
+                                <div>
+                                    <label for="fname" class="my-2 label-style">Bar code</label>
+                                    <input type="text" id="sin" name="bs_code" class="mb-1 w-50" value="{{$info->bs_code}}">
                                 </div>
                                 <div>
                                     <label for="fname" class="my-2 label-style">Citizenship:</label>

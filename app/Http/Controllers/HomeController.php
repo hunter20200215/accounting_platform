@@ -175,7 +175,8 @@ class HomeController extends Controller
         $flight->address = $request->address;
         $flight->primary_phone = $request->phone;
         $flight->other_phone = $request->other_phone;
-        $flight->sin = $request->sin;
+        $flight->email = $request->email;
+        $flight->bs_code = $request->bs_code;
         $flight->citizenship = $request->citizenship;
         $flight->marital_status = $request->marital_status;
         $flight->dependents = $request->dependents;
