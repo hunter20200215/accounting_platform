@@ -277,6 +277,7 @@
                     <form action="{{ route('admin.information.edit') }}">
                         <div class="form-group ">
                             <div class="input-field">
+                                
 
                                 <div>
                                     <label for="fname" class="my-2 label-style">First Name:</label>
