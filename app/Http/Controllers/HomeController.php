@@ -502,6 +502,10 @@ class HomeController extends Controller
             $flight_other->spouse_id = $flight->id;
             $flight_other->save();
         }
+        $Logs = new Log;
+        $Logs->content = "just created";
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $flight->id;
         return redirect()->route('admin.clients');
     }
     public function adminCategory()
