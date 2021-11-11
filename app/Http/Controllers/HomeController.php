@@ -11,6 +11,7 @@ use App\Models\AdminDeduction;
 use App\Models\AdminHighlights;
 use App\Models\AdminClientCreate;
 use App\Models\User;
+use App\Models\Log;
 use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
@@ -444,13 +445,8 @@ class HomeController extends Controller
         $flight->home_own_status = $request->house_own_status;
         $flight->home_tax_fee = $request->tax_fee;
         $flight->rent_fee = $request->rent_fee;
+        $flight->spouse_id = $request->spouse_id;
         
-        if ($request->spouse_id) {
-            $flight->spouse_id = $request->spouse_id;
-            $flight_other = AdminClientCreate::find($request->spouse_id);
-            $flight_other->spouse_id = $flight->id;
-            $flight_other->save();
-        }
         
         $highlight ="";
         $highlight2 ="";
@@ -501,7 +497,11 @@ class HomeController extends Controller
         }
         $flight->dependents_ids = $dependents_ids;
         $flight->save();
-
+        if ($request->spouse_id) {
+            $flight_other = AdminClientCreate::find($request->spouse_id);
+            $flight_other->spouse_id = $flight->id;
+            $flight_other->save();
+        }
         return redirect()->route('admin.clients');
     }
     public function adminCategory()
