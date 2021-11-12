@@ -11,7 +11,7 @@ use App\Models\AdminDeduction;
 use App\Models\AdminHighlights;
 use App\Models\AdminClientCreate;
 use App\Models\User;
-use App\Models\Log;
+use App\Models\LogDetails;
 use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
@@ -187,10 +187,12 @@ class HomeController extends Controller
         $flight->category = $request->category;
         $flight->save();
 
-        $Logs = new Log;
+        $Logs = new LogDetails;
         $Logs->content = "Edited Information";
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
+        $Logs->save();
+        
 
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
     }
@@ -202,10 +204,11 @@ class HomeController extends Controller
         $flight->client_bio = $request->bio;
         $flight->save();
 
-        $Logs = new Log;
+        $Logs = new LogDetails;
         $Logs->content = "Edited Additional Notes";
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
+        $Logs->save();
 
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
     }
@@ -228,10 +231,11 @@ class HomeController extends Controller
             $flight->income_highlights = $highlight;
         }
         $flight->save();
-        $Logs = new Log;
+        $Logs = new LogDetails;
         $Logs->content = "Edited Sources of Incomehighlights";
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
+        $Logs->save();
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
     }
 
@@ -251,10 +255,11 @@ class HomeController extends Controller
             $flight->dependents_ids = $dependents_ids;
             $flight->save();
         }
-        $Logs = new Log;
+        $Logs = new LogDetails;
         $Logs->content = "Edited Dependent";
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
+        $Logs->save();
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
         
     }
@@ -268,10 +273,11 @@ class HomeController extends Controller
             $flight->spouse_id = intval($request->spouse);
             $flight->save();
         }
-        $Logs = new Log;
+        $Logs = new LogDetails;
         $Logs->content = "Edited spouse";
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
+        $Logs->save();
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
         
     }
@@ -283,10 +289,11 @@ class HomeController extends Controller
         $flight->home_tax_fee = $request->tax_fee;
         $flight->rent_fee = $request->rent_fee;
         $flight->save();
-        $Logs = new Log;
+        $Logs = new LogDetails;
         $Logs->content = "Edited Home property";
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
+        $Logs->save();
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
     }
 
@@ -309,10 +316,11 @@ class HomeController extends Controller
         }
 
         $flight->save();
-        $Logs = new Log;
+        $Logs = new LogDetails;
         $Logs->content = "Edited Sources of Deduction highlights";
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
+        $Logs->save();
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
     }
     
@@ -534,7 +542,7 @@ class HomeController extends Controller
             $flight_other->spouse_id = $flight->id;
             $flight_other->save();
         }
-        $Logs = new Log;
+        $Logs = new LogDetails;
         $Logs->content = "just created";
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $flight->id;
