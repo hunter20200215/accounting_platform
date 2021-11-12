@@ -87,12 +87,12 @@
                     Update Logs
                 </h5>
                 <div class="radius-border px-3 pb-4 pt-2">
-                    <div class="w-100 d-block text-right">
-                        <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#bio"></i></a>
-                    </div>
-                    
-                    <?php echo $info->client_bio ?>
-                    
+                    @foreach ($logs as $log)
+                        <div>
+                            <label for="fname" class="my-2 label-style ">{{$log->created_at}} : </label>
+                            <p class="d-inline ml-3">{{$log->content}}</p>
+                        </div>
+                    @endforeach
                 </div>
 
                 <h5 class="mt-3 ml-4">
