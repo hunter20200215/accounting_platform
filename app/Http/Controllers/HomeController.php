@@ -153,16 +153,35 @@ class HomeController extends Controller
             $spouse = null;
         }
         $logs = DB::table('log')->where('client_id',$id)->latest()->take(5)->get();
+
+
+
+        $income_highlights = DB::table('admin_clients_info')->where('id', $id)->pluck('income_highlights')->first();
+        $highlights_arr = explode (",", $income_highlights);
+
+        $SQL = "SELECT i.id, i.name, d.Amount, d.DYear FROM admin_income_highlights i LEFT JOIN 
+                    (SELECT IncomeID, Amount, DYear FROM admin_income_detail WHERE ClientID=$id) d 
+                    ON i.id=d.IncomeID";
+        $incomes = DB::select(DB::raw($SQL));
+
+        foreach ($incomes as $income) {
+            if (in_array($income->id, $highlights_arr))
+                $income->checked = 1;
+            else
+                $income->checked = 0;
+        }
+
         return view('adminClientsProfile',[
             'info' => DB::table('admin_clients_info')->where('id', $id)->first(),
             'categories' =>DB::table('admin_category')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'incomes' => $incomes,
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
             'fullname' => $full_name,
             'ids' => $ids,
             'spouse'=> $spouse,
             'countries'=>DB::table('countries')->get(),
-            'logs'=>$logs
+            'logs'=>$logs,
         ]);
     }
 

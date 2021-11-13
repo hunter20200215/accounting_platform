@@ -411,8 +411,23 @@
                         <div class="form-group ">
                             <div class="input-field">
                                 <div class="d-block">
-                                    @foreach ($incomehighlights as $income)
-                                        @if (in_array($income->id, $str_arr))
+                                    @foreach ($incomes as $income)
+                                        @if ($income->checked)
+                                            <div class="d-inline-block form-check w-49">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $income->id?> > {{$income->name}}
+                                                </label>
+                                            </div>
+                                            
+                                        @else
+                                            <div class="d-inline-block form-check w-49">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" name="income[]"  value=<?php echo $income->id?> > {{$income->name}}
+                                                </label>
+                                            </div>
+                                        @endif
+                                        <br>    
+                                        <!-- @if (in_array($income->id, $str_arr))
                                             <div class="d-inline-block form-check w-49">
                                                 <label class="form-check-label">
                                                     <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $income->id?> > {{$income->name}}
@@ -424,7 +439,7 @@
                                                     <input class="form-check-input" type="checkbox" name="income[]"  value=<?php echo $income->id?> > {{$income->name}}
                                                 </label>
                                             </div>
-                                        @endif
+                                        @endif -->
                                     @endforeach
                                 </div>  
                                 
