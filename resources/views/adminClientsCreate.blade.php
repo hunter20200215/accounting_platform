@@ -312,9 +312,13 @@
             <div class="row">
                 @foreach ($incomehighlights as $incomehighlight)
                     <div class="col-md-3 form-check ml-5 mb-2">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="income[]" value=<?php echo $incomehighlight->id?> > {{$incomehighlight->name}}
+                        <label class="form-check-label ">
+                            <input class="form-check-input checkbox-style" type="checkbox" name="income[]" value=<?php echo $incomehighlight->id?> > {{$incomehighlight->name}}
                         </label>
+                        <div class="d-none">
+                            <input type="text" class="salary-input" placeholder="Income in CAD" name="amount[]" pattern="^[\d,]+$">
+                            <input type="text" class="year" name="year[]" value=<?php echo date("Y"); ?>>
+                        </div>
                     </div>
                 @endforeach
                 
@@ -327,7 +331,7 @@
                 @foreach ($deductionhighlights as $deductionhighlight)
                     <div class="col-md-4 form-check ml-5 mb-2">
                         <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="deductions[]" value=<?php echo $deductionhighlight->id?> > {{$deductionhighlight->name}}
+                            <input class="form-check-input checkbox-style" type="checkbox" name="deductions[]" value=<?php echo $deductionhighlight->id?> > {{$deductionhighlight->name}}
                         </label>
                     </div>
                 @endforeach

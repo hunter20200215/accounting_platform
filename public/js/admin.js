@@ -265,5 +265,17 @@ $(document).ready(function(){
         }
     });
 
-    
+    $('.checkbox-style').on('click',function(){
+        let objEle = $(this);
+        
+        if (objEle.prop('checked') == true) {
+            objEle.parent().siblings("div").removeClass("d-none");
+        }else {
+            objEle.parent().siblings("div").addClass("d-none");
+        }
+
+    });
+    $('.salary-input').on('input propertychange', (event)=>{
+        event.target.value = (parseInt(event.target.value.replace(/[^\d]+/gi, '')) || 0).toLocaleString('en-US')
+    });
 });
