@@ -16,8 +16,9 @@ class CreateAdminIncomeDetailTable extends Migration
         Schema::create('admin_income_detail', function (Blueprint $table) {
             $table->id();
             $table->integer('IncomeID');
-            $table->double('Amount', 8, 2);
+            $table->string('Amount');
             $table->integer('DYear');
+            $table->integer("ClientID");
             $table->timestamps();
         });
     }

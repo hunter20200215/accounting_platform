@@ -333,6 +333,10 @@
                         <label class="form-check-label">
                             <input class="form-check-input checkbox-style" type="checkbox" name="deductions[]" value=<?php echo $deductionhighlight->id?> > {{$deductionhighlight->name}}
                         </label>
+                        <div class="d-none">
+                            <input type="text" class="salary-input" placeholder="Deduction in CAD" name="Damount[]" pattern="^[\d,]+$">
+                            <input type="text" class="year" name="Dyear[]" value=<?php echo date("Y"); ?>>
+                        </div>
                     </div>
                 @endforeach
             </div>    

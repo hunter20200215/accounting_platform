@@ -16,8 +16,9 @@ class CreateAdminDeductionDetailTable extends Migration
         Schema::create('admin_deduction_detail', function (Blueprint $table) {
             $table->id();
             $table->integer('DeductionID');
-            $table->double('Amount', 8, 2);
+            $table->string('Amount');
             $table->integer('DYear');
+            $table->integer("ClientID");
             $table->timestamps();
         });
     }

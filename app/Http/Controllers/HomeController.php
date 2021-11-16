@@ -12,6 +12,8 @@ use App\Models\AdminHighlights;
 use App\Models\AdminClientCreate;
 use App\Models\User;
 use App\Models\LogDetails;
+use App\Models\AdminIncomeDetail;
+use App\Models\AdminDeductionDetail;
 use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
@@ -505,13 +507,19 @@ class HomeController extends Controller
         $flight->home_tax_fee = $request->tax_fee;
         $flight->rent_fee = $request->rent_fee;
         $flight->spouse_id = $request->spouse_id;
-        
-        
         $highlight ="";
         $highlight2 ="";
         $dependents_ids ="";
+
+        $incomes = [];
+        $deductions  = [];
+        $amounts = [];
+        $years = [];
+        $Damounts = [];
+        $Dyears = [];
         if ($request->income) {
             foreach ( $request->income as $index=>$highlight1) {
+                array_push($incomes, $highlight1);
                 if ($index==0){
                     $highlight = $highlight1;
                 }else{
@@ -523,6 +531,7 @@ class HomeController extends Controller
         }
         if ($request->deductions) {
             foreach ( $request->deductions as $index=>$highlight) {
+                array_push($deductions, $highlight);
                 if ($index==0){
                     $highlight2 = $highlight;
                 }else{
@@ -539,7 +548,6 @@ class HomeController extends Controller
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $flight->attached_doc = "$profileImage";
-            
         }
 
         if ($request->dependents == "Yes"){
@@ -554,6 +562,20 @@ class HomeController extends Controller
 
             }
         }
+        
+        foreach ($request->amount as $index=>$data) {
+            if ($data != null) {
+                array_push($amounts,$data);
+                array_push($years,$request->year[$index]);
+            }
+        }
+        foreach ($request->Damount as $index=>$data) {
+            if ($data != null) {
+                array_push($Damounts,$data);
+                array_push($Dyears,$request->Dyear[$index]);
+            }
+        }
+        
         $flight->dependents_ids = $dependents_ids;
         $flight->save();
         if ($request->spouse_id) {
@@ -565,6 +587,25 @@ class HomeController extends Controller
         $Logs->content = "just created";
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $flight->id;
+        $Logs->save();
+
+        foreach ($incomes as $index=>$income_id) {
+            $IncomeDetails = new AdminIncomeDetail;
+            $IncomeDetails->IncomeID = $income_id;
+            $IncomeDetails->Amount = $amounts[$index];
+            $IncomeDetails->DYear = $years[$index];
+            $IncomeDetails->ClientID = $flight->id;
+            $IncomeDetails->save();            
+        }
+        foreach ($deductions as $index=>$deduction_id) {
+            $DeductionDetails = new AdminDeductionDetail;
+            $DeductionDetails->DeductionID = $deduction_id;
+            $DeductionDetails->Amount = $Damounts[$index];
+            $DeductionDetails->DYear = $Dyears[$index];
+            $DeductionDetails->ClientID = $flight->id; 
+            $DeductionDetails->save();
+        }
+        
         return redirect()->route('admin.clients');
     }
     public function adminCategory()
