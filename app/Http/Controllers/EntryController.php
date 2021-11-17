@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\AdminClientCreate;
+use App\Models\LogDetails;
+use App\Models\AdminIncomeDetail;
+use App\Models\AdminDeductionDetail;
+
 
 class EntryController extends Controller
 {
@@ -88,18 +92,25 @@ class EntryController extends Controller
         $flight->citizenship = $request->citizenship;
         $flight->user_id = $request->user()->id;
         $flight->bs_code = $request->bs_code;
-        $flight->spouse_id = $request->spouse_id;
+        $flight->email = $request->email;
+        
         $flight->dependents = $request->dependents;
         $flight->full_name = $request->first_name." ".$request->last_name;
         $flight->resident = $request->residence_radio;
         $flight->home_own_status = $request->house_own_status;
         $flight->home_tax_fee = $request->tax_fee;
         $flight->rent_fee = $request->rent_fee;
-        
+        $flight->spouse_id = $request->spouse_id;
         $highlight ="";
         $highlight2 ="";
         $dependents_ids ="";
-        
+
+        $incomes = [];
+        $deductions  = [];
+        $amounts = [];
+        $years = [];
+        $Damounts = [];
+        $Dyears = [];
         if ($request->income) {
             
             foreach ( $request->income as $index=>$highlight1) {
