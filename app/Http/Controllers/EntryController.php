@@ -32,8 +32,6 @@ class EntryController extends Controller
     }
     public function entryClients()
     {   
-
-
         $selected_categorys = DB::table('admin_category')->pluck('name');
         $clients = DB::table('admin_clients_info')
                     ->where('user_id', Auth::id())
@@ -347,6 +345,7 @@ class EntryController extends Controller
         
         $clients = DB::table('admin_clients_info')
                     ->whereIn('category', $categorys)
+                    ->where('user_id',$request->user()->id)
                     ->orWhere(function($query) use ($income) {
                         foreach ($income as $value) {
                             $query->orWhere('income_highlights', 'LIKE', "%".$value.","."%");
