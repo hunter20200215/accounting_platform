@@ -442,25 +442,7 @@
                 <input type="submit" value="Submit" class="btn btn-success mr-0">
             </div>    
         </div>
-        <div class="modal fade" id="create">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Link dependents's Profile</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('admin.highlights.create') }}">
-                            <div class="form-group">
-                                <label for="usr">Name:</label>
-                                <input type="text" class="form-control" id="name" name="name">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </form>
 </div>
 @endsection
