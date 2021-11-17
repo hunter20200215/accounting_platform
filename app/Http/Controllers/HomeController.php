@@ -172,12 +172,20 @@ class HomeController extends Controller
             else
                 $income->checked = 0;
         }
+        $Deduction_highlights = DB::table('admin_clients_info')->where('id', $id)->pluck('deduction_highlights')->first();
+        $highlights_arr1 = explode (",", $Deduction_highlights);
 
+        $SQL1 = "SELECT i.id, i.name, d.Amount, d.DYear FROM admin_deduction_highlights i LEFT JOIN 
+                    (SELECT DeductionID, Amount, DYear FROM admin_deduction_detail WHERE ClientID=$id) d 
+                    ON i.id=d.DeductionID";
+        $deductions = DB::select(DB::raw($SQL1));
+        
         return view('adminClientsProfile',[
             'info' => DB::table('admin_clients_info')->where('id', $id)->first(),
             'categories' =>DB::table('admin_category')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'incomes' => $incomes,
+            'deductions' => $deductions,
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
             'fullname' => $full_name,
             'ids' => $ids,
@@ -239,9 +247,14 @@ class HomeController extends Controller
         
         $flight = AdminClientCreate::find($request->id);
         $highlight ="";
+        $incomes = [];
+        $amounts = [];
+        $years = [];
+        
         if ($request->income) {
             
             foreach ( $request->income as $index=>$highlight1) {
+                array_push($incomes, $highlight1);
                 if ($index==0){
                     $highlight = $highlight1;
                 }else{
@@ -251,12 +264,99 @@ class HomeController extends Controller
             $highlight = $highlight.",";
             $flight->income_highlights = $highlight;
         }
+
+        foreach ($request->amount as $index=>$data) {
+            if ($data != null) {
+                array_push($amounts, $data);
+                array_push($years, $request->year[$index]);
+            }
+        }
         $flight->save();
         $Logs = new LogDetails;
         $Logs->content = "Edited Sources of Incomehighlights";
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
         $Logs->save();
+
+        foreach ($incomes as $index=>$income_id) {
+            $model = AdminIncomeDetail::where('IncomeID',$income_id)
+                                        ->where('ClientID',$flight->id)
+                                        ->first();
+            if ($model) {
+                $model->IncomeID = $income_id;
+                $model->Amount = $amounts[$index];
+                $model->DYear = $years[$index];
+                $model->ClientID = $flight->id;
+                $model->save();
+            } else {
+                $IncomeDetails = new AdminIncomeDetail;
+                $IncomeDetails->IncomeID = $income_id;
+                $IncomeDetails->Amount = $amounts[$index];
+                $IncomeDetails->DYear = $years[$index];
+                $IncomeDetails->ClientID = $flight->id;
+                $IncomeDetails->save();
+            }
+                        
+        }
+
+        return redirect()->route('admin.clients.profile',['id' => $request->id]);
+    }
+    public function adminDeductionSource(Request $request)
+    {
+        
+        $flight = AdminClientCreate::find($request->id);
+        $highlight2 ="";
+        
+        $deductions  = [];
+        $Damounts = [];
+        $Dyears = [];
+
+        if ($request->deductions) {
+            foreach ( $request->deductions as $index=>$highlight) {
+                array_push($deductions, $highlight);
+                if ($index==0){
+                    $highlight2 = $highlight;
+                }else{
+                    $highlight2 .= ",".$highlight;
+                }
+            }
+            $highlight2 = $highlight2.",";
+            $flight->deduction_highlights = $highlight2;
+        }
+
+        foreach ($request->Damount as $index=>$data) {
+            if ($data != null) {
+                array_push($Damounts,$data);
+                array_push($Dyears,$request->Dyear[$index]);
+            }
+        }
+
+        $flight->save();
+        $Logs = new LogDetails;
+        $Logs->content = "Edited Sources of Deduction highlights";
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $request->id;
+        $Logs->save();
+
+        foreach ($deductions as $index=>$deduction_id) {
+            $model = AdminDeductionDetail::where('DeductionID',$deduction_id)
+                                        ->where('ClientID',$flight->id)
+                                        ->first();
+            if ($model) {
+                $model->DeductionID = $deduction_id;
+                $model->Amount = $Damounts[$index];
+                $model->DYear = $Dyears[$index];
+                $model->ClientID = $flight->id;
+                $model->save();
+            } else {
+                $DeductionDetailModel= new AdminDeductionDetail;
+                $DeductionDetailModel->DeductionID = $deduction_id;
+                $DeductionDetailModel->Amount = $Damounts[$index];
+                $DeductionDetailModel->DYear = $Dyears[$index];
+                $DeductionDetailModel->ClientID = $flight->id;
+                $DeductionDetailModel->save();
+            }       
+        }
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
     }
 
@@ -317,33 +417,6 @@ class HomeController extends Controller
         $Logs->save();
         return redirect()->route('admin.clients.profile',['id' => $request->id]);
     }
-
-    public function adminDeductionSource(Request $request)
-    {
-        
-        $flight = AdminClientCreate::find($request->id);
-        $highlight2 ="";
-        
-        if ($request->deductions) {
-            foreach ( $request->deductions as $index=>$highlight) {
-                if ($index==0){
-                    $highlight2 = $highlight;
-                }else{
-                    $highlight2 .= ",".$highlight;
-                }
-            }
-            $highlight2 = $highlight2.",";
-            $flight->deduction_highlights = $highlight2;
-        }
-
-        $flight->save();
-        $Logs = new LogDetails;
-        $Logs->content = "Edited Sources of Deduction highlights";
-        $Logs->user_id = $request->user()->id;
-        $Logs->client_id = $request->id;
-        $Logs->save();
-        return redirect()->route('admin.clients.profile',['id' => $request->id]);
-    }
     
     public function adminClientsCreate()
     {
@@ -358,7 +431,6 @@ class HomeController extends Controller
     }
     public function adminClientsFilter1(Request $request)
     {   
-        
         $categorys=[];
         $income = [];
         $deduction =[];

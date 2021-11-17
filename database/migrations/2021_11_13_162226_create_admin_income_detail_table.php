@@ -15,10 +15,10 @@ class CreateAdminIncomeDetailTable extends Migration
     {
         Schema::create('admin_income_detail', function (Blueprint $table) {
             $table->id();
-            $table->integer('IncomeID');
-            $table->string('Amount');
-            $table->integer('DYear');
-            $table->integer("ClientID");
+            $table->integer('IncomeID')->nullable();
+            $table->string('Amount')->nullable();
+            $table->integer('DYear')->nullable();
+            $table->integer("ClientID")->nullable();
             $table->timestamps();
         });
     }

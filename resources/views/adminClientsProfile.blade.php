@@ -415,31 +415,32 @@
                                         @if ($income->checked)
                                             <div class="d-inline-block form-check w-49">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $income->id?> > {{$income->name}}
+                                                    <input class="form-check-input checkbox-style" type="checkbox" name="income[]" checked value=<?php echo $income->id?> > {{$income->name}}
                                                 </label>
+                                                @if ($income->Amount)
+                                                    <div class="">
+                                                        <input type="text" class="salary-input" placeholder="Income in CAD" name="amount[]" pattern="^[\d,]+$" value='{{$income->Amount}}'>
+                                                        <input type="text" class="year" name="year[]" value='{{$income->DYear}}'>
+                                                    </div>
+                                                @else
+                                                    <div class="">
+                                                        <input type="text" class="salary-input" placeholder="Income in CAD" name="amount[]" pattern="^[\d,]+$" value='{{$income->Amount}}'>
+                                                        <input type="text" class="year" name="year[]" value='{{date("Y")}}'>
+                                                    </div>
+                                                @endif
                                             </div>
-                                            
                                         @else
                                             <div class="d-inline-block form-check w-49">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="income[]"  value=<?php echo $income->id?> > {{$income->name}}
+                                                    <input class="form-check-input checkbox-style" type="checkbox" name="income[]"  value=<?php echo $income->id?> > {{$income->name}}
                                                 </label>
+                                                <div class="d-none">
+                                                    <input type="text" class="salary-input" placeholder="Income in CAD" name="amount[]" pattern="^[\d,]+$">
+                                                    <input type="text" class="year" name="year[]" value=<?php echo date("Y"); ?>>
+                                                </div>
                                             </div>
                                         @endif
-                                        <br>    
-                                        <!-- @if (in_array($income->id, $str_arr))
-                                            <div class="d-inline-block form-check w-49">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="income[]" checked value=<?php echo $income->id?> > {{$income->name}}
-                                                </label>
-                                            </div>
-                                        @else
-                                            <div class="d-inline-block form-check w-49">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="income[]"  value=<?php echo $income->id?> > {{$income->name}}
-                                                </label>
-                                            </div>
-                                        @endif -->
+                                        <br>
                                     @endforeach
                                 </div>  
                                 
@@ -472,18 +473,34 @@
                         <div class="form-group ">
                             <div class="input-field">
                                 <div class="d-block">
-                                    @foreach ($deductionhighlights as $deduction)
+                                    @foreach ($deductions as $deduction)
                                         @if (in_array($deduction->id, $str_arr1))
                                             <div class="d-block form-check ">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="deductions[]" checked value='{{$deduction->id}}' > {{$deduction->name}}
+                                                    <input class="form-check-input checkbox-style" type="checkbox" name="deductions[]" checked value='{{$deduction->id}}' > {{$deduction->name}}
                                                 </label>
+                                                @if ($deduction->Amount)
+                                                    <div class="">
+                                                        <input type="text" class="salary-input" placeholder="Deduction in CAD" name="Damount[]" pattern="^[\d,]+$" value='{{$deduction->Amount}}' >
+                                                        <input type="text" class="year" name="Dyear[]" value='{{$deduction->DYear}}'>
+                                                    </div>
+                                                @else
+                                                    <div class="">
+                                                        <input type="text" class="salary-input" placeholder="Deduction in CAD" name="Damount[]" pattern="^[\d,]+$" value='{{$deduction->Amount}}' >
+                                                        <input type="text" class="year" name="Dyear[]" value='{{date("Y")}}'>
+                                                    </div>
+                                                @endif
+                                                
                                             </div>
                                         @else
                                             <div class="d-block form-check ">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="deductions[]"  value='{{$deduction->id}}' > {{$deduction->name}}
+                                                    <input class="form-check-input checkbox-style" type="checkbox" name="deductions[]"  value='{{$deduction->id}}' > {{$deduction->name}}
                                                 </label>
+                                                <div class="d-none">
+                                                    <input type="text" class="salary-input" placeholder="Deduction in CAD" name="Damount[]" pattern="^[\d,]+$">
+                                                    <input type="text" class="year" name="Dyear[]" value=<?php echo date("Y"); ?>>
+                                                </div>
                                             </div>
                                         @endif
                                     @endforeach

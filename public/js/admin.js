@@ -267,7 +267,7 @@ $(document).ready(function(){
 
     $('.checkbox-style').on('click',function(){
         let objEle = $(this);
-        
+        console.log("kikiki");
         if (objEle.prop('checked') == true) {
             objEle.parent().siblings("div").removeClass("d-none");
         }else {

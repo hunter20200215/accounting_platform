@@ -15,10 +15,10 @@ class CreateAdminDeductionDetailTable extends Migration
     {
         Schema::create('admin_deduction_detail', function (Blueprint $table) {
             $table->id();
-            $table->integer('DeductionID');
-            $table->string('Amount');
-            $table->integer('DYear');
-            $table->integer("ClientID");
+            $table->integer('DeductionID')->nullable();
+            $table->string('Amount')->nullable();
+            $table->integer('DYear')->nullable();
+            $table->integer("ClientID")->nullable();
             $table->timestamps();
         });
     }
