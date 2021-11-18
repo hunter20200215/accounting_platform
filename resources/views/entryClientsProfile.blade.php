@@ -32,10 +32,6 @@
                         <p class="d-inline ml-3">{{$info->dob_date}}</p>
                     </div>
                     <div>
-                        <label for="fname" class="my-2 label-style right-border">Last Update:</label>
-                        <p class="d-inline ml-3">{{$info->updated_at}}</p>
-                    </div>
-                    <div>
                         <label for="fname" class="my-2 label-style right-border">Address:</label>
                         <p class="d-inline ml-3">{{$info->address}}</p>
                     </div>
@@ -82,13 +78,26 @@
                     <a id="page_id" data-id='{{$info->id}}'></a>
                 </div>
                 <h5 class="mt-3 ml-4">
-                    Client Bio
+                    Update Logs
+                </h5>
+                <div class="radius-border px-3 pb-4 pt-2">
+                    @foreach ($logs as $log)
+                        <div>
+                            <label for="fname" class="my-2 label-style ">{{$log->created_at}} : </label>
+                            <p class="d-inline ml-3">{{$log->content}}</p>
+                        </div>
+                    @endforeach
+                </div>
+                <h5 class="mt-3 ml-4">
+                    Additional Notes
                 </h5>
                 <div class="radius-border px-3 pb-4 pt-2">
                     <div class="w-100 d-block text-right">
                         <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#bio"></i></a>
                     </div>
-                    {{$info->client_bio}}
+                    
+                    <?php echo $info->client_bio ?>
+                    
                 </div>
                 <div class="row">
                     <div class="col-md-6">

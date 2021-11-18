@@ -22,10 +22,6 @@
                     <div class="w-100 d-block text-right">
                         <a class="edit-icon1" > <i class='fas fa-pencil-alt mr-2' style='font-size:16px' data-toggle="modal" data-target="#edit"></i></a>
                     </div>
-                    <!-- <div>
-                        <label for="fname" class="my-2 label-style right-border">Last Update:</label>
-                        <p class="d-inline ml-3">{{$info->updated_at}}</p>
-                    </div> -->
                     <div>
                         <label for="fname" class="my-2 label-style right-border">Full Name:</label>
                         <p class="d-inline ml-3">{{$info->first_name}} {{$info->middle_name}} {{$info->last_name}}</p>
@@ -34,7 +30,6 @@
                         <label for="fname" class="my-2 label-style right-border ">Date of Birth:</label>
                         <p class="d-inline ml-3">{{$info->dob_date}}</p>
                     </div>
-                    
                     <div>
                         <label for="fname" class="my-2 label-style right-border">Address:</label>
                         <p class="d-inline ml-3">{{$info->address}}</p>
