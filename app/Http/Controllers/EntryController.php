@@ -112,8 +112,8 @@ class EntryController extends Controller
         $Damounts = [];
         $Dyears = [];
         if ($request->income) {
-            
             foreach ( $request->income as $index=>$highlight1) {
+                array_push($incomes, $highlight1);
                 if ($index==0){
                     $highlight = $highlight1;
                 }else{
@@ -125,6 +125,7 @@ class EntryController extends Controller
         }
         if ($request->deductions) {
             foreach ( $request->deductions as $index=>$highlight) {
+                array_push($deductions, $highlight);
                 if ($index==0){
                     $highlight2 = $highlight;
                 }else{
@@ -141,8 +142,8 @@ class EntryController extends Controller
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $flight->attached_doc = "$profileImage";
-            
         }
+
         if ($request->dependents == "Yes"){
             foreach ($request->profile_numbers as $index=>$ids) {
                 if ($ids != null) {
@@ -155,8 +156,49 @@ class EntryController extends Controller
 
             }
         }
+        
+        foreach ($request->amount as $index=>$data) {
+            if ($data != null) {
+                array_push($amounts,$data);
+                array_push($years,$request->year[$index]);
+            }
+        }
+        foreach ($request->Damount as $index=>$data) {
+            if ($data != null) {
+                array_push($Damounts,$data);
+                array_push($Dyears,$request->Dyear[$index]);
+            }
+        }
+        
         $flight->dependents_ids = $dependents_ids;
         $flight->save();
+        if ($request->spouse_id) {
+            $flight_other = AdminClientCreate::find($request->spouse_id);
+            $flight_other->spouse_id = $flight->id;
+            $flight_other->save();
+        }
+        $Logs = new LogDetails;
+        $Logs->content = "just created";
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $flight->id;
+        $Logs->save();
+
+        foreach ($incomes as $index=>$income_id) {
+            $IncomeDetails = new AdminIncomeDetail;
+            $IncomeDetails->IncomeID = $income_id;
+            $IncomeDetails->Amount = $amounts[$index];
+            $IncomeDetails->DYear = $years[$index];
+            $IncomeDetails->ClientID = $flight->id;
+            $IncomeDetails->save();            
+        }
+        foreach ($deductions as $index=>$deduction_id) {
+            $DeductionDetails = new AdminDeductionDetail;
+            $DeductionDetails->DeductionID = $deduction_id;
+            $DeductionDetails->Amount = $Damounts[$index];
+            $DeductionDetails->DYear = $Dyears[$index];
+            $DeductionDetails->ClientID = $flight->id; 
+            $DeductionDetails->save();
+        }
 
         return redirect()->route('entry.clients');
     }
