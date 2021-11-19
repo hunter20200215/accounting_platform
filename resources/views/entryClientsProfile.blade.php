@@ -53,7 +53,9 @@
                     </div>
                     <div>
                         <label for="fname" class="my-2 label-style right-border">Citizenship:</label>
-                        <p class="d-inline ml-3">{{$info->citizenship}}</p>
+                        
+                        <img src="{{ asset('/img/flags/4^3/'.strtolower($info->citizenship).'.svg')}}" class="image-style ml-3" alt="">
+                        <p class="d-inline ml-1">{{$info->citizenship}}</p>
                     </div>
                     <div>
                         <label for="fname" class="my-2 label-style right-border">Marital Status:</label>
@@ -283,6 +285,7 @@
                     <form action="{{ route('entry.information.edit') }}">
                         <div class="form-group ">
                             <div class="input-field">
+                                
 
                                 <div>
                                     <label for="fname" class="my-2 label-style">First Name:</label>
@@ -310,12 +313,20 @@
                                     <input type="text" id="other_phone" name="other_phone" class="mb-1 w-50" value="{{$info->other_phone}}">
                                 </div>
                                 <div>
-                                    <label for="fname" class="my-2 label-style">SIN:</label>
-                                    <input type="text" id="sin" name="sin" class="mb-1 w-50" value="{{$info->sin}}">
+                                    <label for="fname" class="my-2 label-style">Email Address</label>
+                                    <input type="text" id="sin" name="email" class="mb-1 w-50" value="{{$info->email}}">
+                                </div>
+                                <div>
+                                    <label for="fname" class="my-2 label-style">Bar code</label>
+                                    <input type="text" id="sin" name="bs_code" class="mb-1 w-50" value="{{$info->bs_code}}">
                                 </div>
                                 <div>
                                     <label for="fname" class="my-2 label-style">Citizenship:</label>
-                                    <input type="text" id="citizenship" name="citizenship" class="mb-1 w-50" value="{{$info->citizenship}}">
+                                    <select id="country" class="mb-1 w-50" name="citizenship">
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country->country_code }}"<?php if ($info->citizenship == $country->country_code) echo ' selected="selected"'; ?>>{{$country->country_name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div>
                                     <label for="fname" class="my-2 label-style">Marital Status:</label>

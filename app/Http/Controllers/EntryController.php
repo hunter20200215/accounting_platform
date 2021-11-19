@@ -252,7 +252,7 @@ class EntryController extends Controller
                     ON i.id=d.DeductionID";
         $deductions = DB::select(DB::raw($SQL1));
         
-        return view('adminClientsProfile',[
+        return view('entryClientsProfile',[
             'info' => DB::table('admin_clients_info')->where('id', $id)->first(),
             'categories' =>DB::table('admin_category')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
@@ -356,7 +356,6 @@ class EntryController extends Controller
     {
         
         $flight = AdminClientCreate::find($request->id);
-
         $flight->first_name = $request->first_name;
         $flight->last_name = $request->last_name;
         $flight->full_name = $request->first_name." ".$request->last_name;
@@ -364,15 +363,21 @@ class EntryController extends Controller
         $flight->address = $request->address;
         $flight->primary_phone = $request->phone;
         $flight->other_phone = $request->other_phone;
-        $flight->sin = $request->sin;
+        $flight->email = $request->email;
+        $flight->bs_code = $request->bs_code;
         $flight->citizenship = $request->citizenship;
         $flight->marital_status = $request->marital_status;
         $flight->dependents = $request->dependents;
         $flight->home_status = $request->home_status;
-        $flight->category = $request->category;
         $flight->notes = $request->notes;
-
+        $flight->category = $request->category;
         $flight->save();
+
+        $Logs = new LogDetails;
+        $Logs->content = "Edited Information";
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $request->id;
+        $Logs->save();
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
     public function entryClientsBio(Request $request)
