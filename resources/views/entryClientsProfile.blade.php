@@ -417,11 +417,13 @@
                                                     <div class="">
                                                         <input type="text" class="salary-input" placeholder="Income in CAD" name="amount[]" pattern="^[\d,]+$" value='{{$income->Amount}}'>
                                                         <input type="text" class="year" name="year[]" value='{{$income->DYear}}'>
+                                                        <input type="hidden" name="check[]" value="1">
                                                     </div>
                                                 @else
                                                     <div class="">
                                                         <input type="text" class="salary-input" placeholder="Income in CAD" name="amount[]" pattern="^[\d,]+$" value='{{$income->Amount}}'>
                                                         <input type="text" class="year" name="year[]" value='{{date("Y")}}'>
+                                                        <input type="hidden" name="check[]" value="1">
                                                     </div>
                                                 @endif
                                             </div>
@@ -433,6 +435,7 @@
                                                 <div class="d-none">
                                                     <input type="text" class="salary-input" placeholder="Income in CAD" name="amount[]" pattern="^[\d,]+$">
                                                     <input type="text" class="year" name="year[]" value=<?php echo date("Y"); ?>>
+                                                    <input type="hidden" name="check[]" value="0">
                                                 </div>
                                             </div>
                                         @endif

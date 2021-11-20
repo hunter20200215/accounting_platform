@@ -265,10 +265,10 @@ class HomeController extends Controller
             $flight->income_highlights = $highlight;
         }
 
-        foreach ($request->amount as $index=>$data) {
-            if ($data != null) {
-                array_push($amounts, $data);
+        foreach ($request->check as $index=>$data) {
+            if ($data == 1) {
                 array_push($years, $request->year[$index]);
+                array_push($amounts, $request->amount[$index]);
             }
         }
         $flight->save();

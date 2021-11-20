@@ -208,8 +208,10 @@ $(document).ready(function(){
         console.log("kikiki");
         if (objEle.prop('checked') == true) {
             objEle.parent().siblings("div").removeClass("d-none");
+            objEle.parent().siblings("div").find("input[type='hidden']").val('1');
         }else {
             objEle.parent().siblings("div").addClass("d-none");
+            objEle.parent().siblings("div").find("input[type='hidden']").val('0');
         }
 
     });

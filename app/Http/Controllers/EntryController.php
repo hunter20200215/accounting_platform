@@ -273,9 +273,14 @@ class EntryController extends Controller
         
         $flight = AdminClientCreate::find($request->id);
         $highlight ="";
+        $incomes = [];
+        $amounts = [];
+        $years = [];
+        
         if ($request->income) {
             
             foreach ( $request->income as $index=>$highlight1) {
+                array_push($incomes, $highlight1);
                 if ($index==0){
                     $highlight = $highlight1;
                 }else{
@@ -285,7 +290,41 @@ class EntryController extends Controller
             $highlight = $highlight.",";
             $flight->income_highlights = $highlight;
         }
+
+        foreach ($request->check as $index=>$data) {
+            if ($data == 1) {
+                array_push($years, $request->year[$index]);
+                array_push($amounts, $request->amount[$index]);
+            }
+        }
+        
         $flight->save();
+        $Logs = new LogDetails;
+        $Logs->content = "Edited Sources of Incomehighlights";
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $request->id;
+        $Logs->save();
+
+        foreach ($incomes as $index=>$income_id) {
+            $model = AdminIncomeDetail::where('IncomeID',$income_id)
+                                        ->where('ClientID',$flight->id)
+                                        ->first();
+            if ($model) {
+                $model->IncomeID = $income_id;
+                $model->Amount = $amounts[$index];
+                $model->DYear = $years[$index];
+                $model->ClientID = $flight->id;
+                $model->save();
+            } else {
+                $IncomeDetails = new AdminIncomeDetail;
+                $IncomeDetails->IncomeID = $income_id;
+                $IncomeDetails->Amount = $amounts[$index];
+                $IncomeDetails->DYear = $years[$index];
+                $IncomeDetails->ClientID = $flight->id;
+                $IncomeDetails->save();
+            }
+                        
+        }
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
     public function entryDeductionSource(Request $request)
