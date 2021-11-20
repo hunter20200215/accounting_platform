@@ -333,8 +333,13 @@ class EntryController extends Controller
         $flight = AdminClientCreate::find($request->id);
         $highlight2 ="";
         
+        $deductions  = [];
+        $Damounts = [];
+        $Dyears = [];
+
         if ($request->deductions) {
             foreach ( $request->deductions as $index=>$highlight) {
+                array_push($deductions, $highlight);
                 if ($index==0){
                     $highlight2 = $highlight;
                 }else{
@@ -345,7 +350,39 @@ class EntryController extends Controller
             $flight->deduction_highlights = $highlight2;
         }
 
+        foreach ($request->check as $index=>$data) {
+            if ($data != 0) {
+                array_push($Damounts,$request->Damount[$index]);
+                array_push($Dyears,$request->Dyear[$index]);
+            }
+        }
+
         $flight->save();
+        $Logs = new LogDetails;
+        $Logs->content = "Edited Sources of Deduction highlights";
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $request->id;
+        $Logs->save();
+
+        foreach ($deductions as $index=>$deduction_id) {
+            $model = AdminDeductionDetail::where('DeductionID',$deduction_id)
+                                        ->where('ClientID',$flight->id)
+                                        ->first();
+            if ($model) {
+                $model->DeductionID = $deduction_id;
+                $model->Amount = $Damounts[$index];
+                $model->DYear = $Dyears[$index];
+                $model->ClientID = $flight->id;
+                $model->save();
+            } else {
+                $DeductionDetailModel= new AdminDeductionDetail;
+                $DeductionDetailModel->DeductionID = $deduction_id;
+                $DeductionDetailModel->Amount = $Damounts[$index];
+                $DeductionDetailModel->DYear = $Dyears[$index];
+                $DeductionDetailModel->ClientID = $flight->id;
+                $DeductionDetailModel->save();
+            }       
+        }
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
     public function entryDependentEdit(Request $request)

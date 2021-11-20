@@ -482,11 +482,13 @@
                                                     <div class="">
                                                         <input type="text" class="salary-input" placeholder="Deduction in CAD" name="Damount[]" pattern="^[\d,]+$" value='{{$deduction->Amount}}' >
                                                         <input type="text" class="year" name="Dyear[]" value='{{$deduction->DYear}}'>
+                                                        <input type="hidden" name="check[]" value="1">
                                                     </div>
                                                 @else
                                                     <div class="">
                                                         <input type="text" class="salary-input" placeholder="Deduction in CAD" name="Damount[]" pattern="^[\d,]+$" value='{{$deduction->Amount}}' >
                                                         <input type="text" class="year" name="Dyear[]" value='{{date("Y")}}'>
+                                                        <input type="hidden" name="check[]" value="1">
                                                     </div>
                                                 @endif
                                                 
@@ -499,6 +501,7 @@
                                                 <div class="d-none">
                                                     <input type="text" class="salary-input" placeholder="Deduction in CAD" name="Damount[]" pattern="^[\d,]+$">
                                                     <input type="text" class="year" name="Dyear[]" value=<?php echo date("Y"); ?>>
+                                                    <input type="hidden" name="check[]" value="0">
                                                 </div>
                                             </div>
                                         @endif

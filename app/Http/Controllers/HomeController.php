@@ -324,10 +324,10 @@ class HomeController extends Controller
             $flight->deduction_highlights = $highlight2;
         }
 
-        foreach ($request->Dyear as $index=>$data) {
-            if ($data != null) {
+        foreach ($request->check as $index=>$data) {
+            if ($data != 0) {
                 array_push($Damounts,$request->Damount[$index]);
-                array_push($Dyears,$data);
+                array_push($Dyears,$request->Dyear[$index]);
             }
         }
 
