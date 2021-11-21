@@ -402,7 +402,11 @@ class EntryController extends Controller
             $flight->save();
         }
         
-        
+        $Logs = new LogDetails;
+        $Logs->content = "Edited Dependent";
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $request->id;
+        $Logs->save();
             
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
         
@@ -432,7 +436,7 @@ class EntryController extends Controller
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
         $Logs->save();
-        
+
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
     public function entryClientsInformation(Request $request)
