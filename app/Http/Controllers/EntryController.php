@@ -426,6 +426,13 @@ class EntryController extends Controller
         $flight->home_tax_fee = $request->tax_fee;
         $flight->rent_fee = $request->rent_fee;
         $flight->save();
+
+        $Logs = new LogDetails;
+        $Logs->content = "Edited Home property";
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $request->id;
+        $Logs->save();
+        
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
     public function entryClientsInformation(Request $request)
