@@ -370,7 +370,7 @@
             
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Bio</h4>
+                    <h4 class="modal-title">Additional Notes</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 
@@ -378,8 +378,7 @@
                 <div class="modal-body">
                     <form action="{{ route('entry.bio.edit') }}">
                         <div class="form-group ">
-                            <textarea id="bio" name="bio" rows="4" cols="200" class="w-100">{{$info->client_bio}}
-                            </textarea>
+                            <textarea id="mytextarea" name="bio" rows="4"  class="w-100">{{$info->client_bio}}</textarea>
                         </div>
                         
                         <input type="hidden" name="id" id="id" value='{{$info->id}}'>
@@ -729,4 +728,9 @@
         </div>
     </div>
 </div>
+<script>
+    tinymce.init({
+        selector: '#mytextarea'
+      });
+</script>
 @endsection

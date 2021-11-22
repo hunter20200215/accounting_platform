@@ -12,7 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/entry.js') }}" defer></script>
-
+    <script src="https://cdn.tiny.cloud/1/ivj8o5ht1v5laqfzfhe2p8gh4gnountg5jjoriow59hcfioi/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
