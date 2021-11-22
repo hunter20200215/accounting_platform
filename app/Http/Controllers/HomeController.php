@@ -50,7 +50,7 @@ class HomeController extends Controller
     {
         return view('adminUsers',[
             'users' => DB::table('users')
-                        // ->whereIn('roll', [1,2])
+                        ->whereIn('roll', [1,2])
                         ->paginate(10),
         ]);
     }
