@@ -416,9 +416,19 @@ class EntryController extends Controller
         
         $flight = AdminClientCreate::find($request->id);
         if ($request->spouse != null) {
+            $flight_other = AdminClientCreate::find(intval($request->spouse));
+            $flight_other->spouse_id = intval($request->id);
+            $flight_other->save();
             $flight->spouse_id = intval($request->spouse);
             $flight->save();
         }
+        
+        $Logs = new LogDetails;
+        $Logs->content = "Edited spouse";
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $request->id;
+        $Logs->save();
+
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
         
     }
