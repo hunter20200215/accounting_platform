@@ -422,7 +422,7 @@ class EntryController extends Controller
             $flight->spouse_id = intval($request->spouse);
             $flight->save();
         }
-        
+
         $Logs = new LogDetails;
         $Logs->content = "Edited spouse";
         $Logs->user_id = $request->user()->id;
@@ -483,6 +483,13 @@ class EntryController extends Controller
         $flight = AdminClientCreate::find($request->id);
         $flight->client_bio = $request->bio;
         $flight->save();
+
+        $Logs = new LogDetails;
+        $Logs->content = "Edited Additional Notes";
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $request->id;
+        $Logs->save();
+        
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
     public function entryClientsAddInformation(Request $request)
