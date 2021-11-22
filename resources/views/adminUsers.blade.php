@@ -104,6 +104,7 @@
                         <div class="form-group">
                             <label for="usr">Select Roll:</label>
                             <select name="roll" id="roll" class="form-control">
+                                <option id="data_entry" value="0">Admin</option>
                                 <option id="data_entry" value="1">Data Entry</option>
                                 <option id="bookkeeper" value="2">Bookkeeper</option>
                             </select>
