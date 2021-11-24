@@ -9,7 +9,7 @@
                     <div class="p-1">
                         <div class="d-flex md-4">
                             <h4 class="d-inline mr-auto">Filter By</h4>
-                            <a href="#" class="">Clear filters</a>
+                            <a href="{{ route('admin.clients') }}" class="">Clear filters</a>
                         </div>
                         <div class="mb-4">
                             <h5 class="d-inline mr-auto">Categories</h5>
