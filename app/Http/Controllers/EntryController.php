@@ -642,5 +642,11 @@ class EntryController extends Controller
             'counters' => DB::table('admin_clients_info')->where('full_name', 'LIKE', "%".$full_name.'%')->where('user_id',$request->user()->id)->count(),
         ]);
     }
+
+    public function entryOpportunities(Request $request)
+    {   
+
+        return view('entryOpportunities');
+    }
     
 }

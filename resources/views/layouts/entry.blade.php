@@ -46,6 +46,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('entry.clients') }}"><i class='fas fa-users' style='font-size:18px'></i>{{ __('Clients') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('entry.opportunities') }}"><i class='fas fa-atom' style='font-size:18px'></i> {{ __(' Opportunities') }}</a>
+                        </li>
                     @endauth
                 </ul>
                 <ul class="navbar-nav ml-auto">
