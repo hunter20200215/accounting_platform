@@ -853,4 +853,9 @@ class HomeController extends Controller
         $flight->delete();
         return redirect()->route('admin.highlights.Deduction');
     }
+    public function adminOpportunities(Request $request)
+    {   
+
+        return view('adminOpportunities');
+    }
 }
