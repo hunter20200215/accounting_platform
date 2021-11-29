@@ -104,8 +104,14 @@
                         <div class="d-flex"> 
                             <h4 class="mt-1">Clients: {{$counters}}</h4>
                             <div class="input-group ml-auto mr-0" style="width:65%;">
-                                <input type="text" class="form-control" placeholder="Search by Client name" name="full_name">
+                                <input type="text" class="border border-secondary h-100 form-control" placeholder="Input search query" name="full_name">
                                 <div class="input-group-append">
+                                    <a class="border-top border-bottom border-secondary bg-white btn-secondary" data-toggle="modal" data-target="#edit_filter">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="98%"  viewBox="0 0 512 512">
+                                            <path id="control-panel-8-icon" d="M50 279.694h119v69h-39.5V442h-40v-93.306H50v-69zm147-32.444h39.5V442h40V247.25H316v-69H197v69zM276.5 70h-40v78.25h40V70zM462 279.89H343v69h39.5V442h40v-93.11H462v-69zM129.5 70h-40v179.694h40V70zm293 0h-40v179.694h40V70z">
+                                            </path>
+                                        </svg>
+                                    </a>
                                     <button class="btn btn-secondary" type="submit">
                                         <i class="fa fa-search"></i>
                                     </button>
@@ -141,6 +147,37 @@
                         </table>
                         <div class="d-flex justify-content-center">
                             {{ $clients->links() }}
+                        </div>
+                    </div>
+                    <div class="modal fade" id="edit_filter">
+                        <div class="modal-dialog modal-md">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Setting your filter</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="ml-5">
+                                        <div>
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" name="sets[]" checked value='0' >Search in names
+                                            </label>
+                                            
+                                        </div>
+                                        <div>
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" name="sets[]" value='1' >Search in Additional information
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                        
+                                    <button type="button" class="d-flex ml-auto btn btn-primary" data-dismiss="modal">Save</button>
+                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
