@@ -617,16 +617,61 @@ class EntryController extends Controller
     }
     public function entryClientsFilter2(Request $request)
     {
+        $sets = [];
         $full_name = $request->full_name;
-        $clients = DB::table('admin_clients_info')
+        
+        if ($request->sets) {
+            foreach ( $request->sets as $index=>$value) {
+                $sets[] = $value;
+            }
+        }
+        if (count($sets) == 2) {
+            $clients = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
+                    ->where('user_id',$request->user()->id)
+                    ->paginate(100);
+            $counters = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
+                    ->where('user_id',$request->user()->id)
+                    ->count();
+        } elseif ($sets[0]==0) {
+            $clients = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
                     ->where('user_id',$request->user()->id)
                     ->paginate(100);
+            $counters = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->where('user_id',$request->user()->id)
+                    ->count();
+        } elseif ($sets[0] == 1) {
+            $clients = DB::table('admin_clients_info')
+                    ->where('client_bio', 'LIKE', "%".$full_name.'%')
+                    ->where('user_id',$request->user()->id)
+                    ->paginate(100);
+            $counters = DB::table('admin_clients_info')
+                    ->where('client_bio', 'LIKE', "%".$full_name.'%')
+                    ->where('user_id',$request->user()->id)
+                    ->count();
+        } else {
+            $clients = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->where('user_id',$request->user()->id)
+                    ->paginate(100);
+            $counters = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->where('user_id',$request->user()->id)
+                    ->count();
+        }
+        
         $rolls = [];
         foreach ($clients as $client) {
             $roll = DB::table('users')
                     ->where('id' ,'=',$client->user_id)
                     ->pluck('name');
+
+            
             array_push($rolls,$roll[0]);
         }
         return view('entryClients',[
@@ -639,7 +684,7 @@ class EntryController extends Controller
             'selected_income' => [],
             'selected_deduction' =>[],
             'rolls' =>$rolls,
-            'counters' => DB::table('admin_clients_info')->where('full_name', 'LIKE', "%".$full_name.'%')->where('user_id',$request->user()->id)->count(),
+            'counters' => $counters,
         ]);
     }
 

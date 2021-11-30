@@ -540,18 +540,31 @@ class HomeController extends Controller
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
                     ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
                     ->paginate(100);
+            $counters = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
+                    ->count();
         } elseif ($sets[0]==0) {
             $clients = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
                     ->paginate(100);
+            $counters = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->count();
         } elseif ($sets[0] == 1) {
             $clients = DB::table('admin_clients_info')
                     ->where('client_bio', 'LIKE', "%".$full_name.'%')
                     ->paginate(100);
+            $counters = DB::table('admin_clients_info')
+                    ->where('client_bio', 'LIKE', "%".$full_name.'%')
+                    ->count();
         } else {
             $clients = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
                     ->paginate(100);
+            $counters = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->count();
         }
         
         $rolls = [];
@@ -573,7 +586,7 @@ class HomeController extends Controller
             'selected_income' => [],
             'selected_deduction' =>[],
             'rolls' =>$rolls,
-            'counters' => DB::table('admin_clients_info')->where('full_name', 'LIKE', "%".$full_name.'%')->count(),
+            'counters' => $counters,
         ]);
     }
 
