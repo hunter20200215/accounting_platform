@@ -168,7 +168,7 @@
                                         </div>
                                         <div>
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="sets[]" value='1' >Search in Additional information
+                                                <input class="form-check-input" type="checkbox" name="sets[]" value='1' >Search in Additional Notes
                                             </label>
                                         </div>
                                     </div>

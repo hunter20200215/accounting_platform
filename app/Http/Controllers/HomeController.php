@@ -527,10 +527,33 @@ class HomeController extends Controller
 
     public function adminClientsFilter2(Request $request)
     {
+        $sets = [];
         $full_name = $request->full_name;
-        $clients = DB::table('admin_clients_info')
+        
+        if ($request->sets) {
+            foreach ( $request->sets as $index=>$value) {
+                $sets[] = $value;
+            }
+        }
+        if (count($sets) == 2) {
+            $clients = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
+                    ->paginate(100);
+        } elseif ($sets[0]==0) {
+            $clients = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
                     ->paginate(100);
+        } elseif ($sets[0] == 1) {
+            $clients = DB::table('admin_clients_info')
+                    ->where('client_bio', 'LIKE', "%".$full_name.'%')
+                    ->paginate(100);
+        } else {
+            $clients = DB::table('admin_clients_info')
+                    ->where('full_name', 'LIKE', "%".$full_name.'%')
+                    ->paginate(100);
+        }
+        
         $rolls = [];
         foreach ($clients as $client) {
             $roll = DB::table('users')
