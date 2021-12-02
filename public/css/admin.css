@@ -73,3 +73,9 @@ a {
 .year {
     width: 35%;
 }
+.sub-title-style {
+    width: 100px;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+}

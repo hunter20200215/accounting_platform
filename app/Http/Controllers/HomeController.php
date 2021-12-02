@@ -892,6 +892,10 @@ class HomeController extends Controller
     public function adminOpportunities(Request $request)
     {   
 
-        return view('adminOpportunities');
+        
+        return view('adminOpportunities',[
+            'clients' =>[],
+            'counters' =>'',
+        ]);
     }
 }
