@@ -15,7 +15,7 @@ use App\Models\LogDetails;
 use App\Models\AdminIncomeDetail;
 use App\Models\AdminDeductionDetail;
 use Illuminate\Support\Facades\Hash;
-
+use Carbon\Carbon;
 class HomeController extends Controller
 {
     /**
@@ -891,8 +891,51 @@ class HomeController extends Controller
     }
     public function adminOpportunities(Request $request)
     {   
+        $today = date('Y-m-d');
+        $sDate = new \DateTime($today);
+        $sDate->sub(new \DateInterval('P71Y'));
+        $sDate= $sDate->format('Y-m-d');
+        $eDate = new \DateTime($today);
+        $eDate->sub(new \DateInterval('P69Y'));
+        $eDate= $eDate->format('Y-m-d');
 
+        $clients = DB::table('admin_clients_info')
+                    ->where('dob_date', '>=', $sDate)
+                    ->where('dob_date', '<=', $eDate)
+                    ->paginate(100);
+        $counters = [];
+        $ages = [];
+        $activities = [];
+        foreach ($clients as $client) {
+            if ($client->dependents_ids) {
+                $counter1 = count(explode(',',$client->dependents_ids));
+            } else {
+                $counter1 = 0;
+            }
+
+            if ($client->spouse_id) {
+                $counter2 = 1;
+            } else {
+                $counter2 = 0;
+            }
+            $counter = $counter1 + $counter2;
+            array_push($counters,$counter);
+            
+            $age = Carbon::parse($client->dob_date)->age;
+            array_push($ages,$age);
+
+            
         
+            $activity = DB::table('admin_income_detail')
+                    ->where('id' ,'=',$client->id)
+                    ->orderBy('Dyear', 'desc')
+                    ->pluck('Dyear')
+                    ->first();
+            array_push($activities,$activity);
+       
+            
+        }
+        dd($activities);
         return view('adminOpportunities',[
             'clients' =>[],
             'counters' =>'',
