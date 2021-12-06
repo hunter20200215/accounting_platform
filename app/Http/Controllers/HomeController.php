@@ -142,7 +142,10 @@ class HomeController extends Controller
         foreach ($ids as $_id){
             if ($_id != null){
                 $full_name_pre = DB::table('admin_clients_info')->where('id', $_id)->first();
-                array_push($full_name,$full_name_pre);
+                if ($full_name_pre) {
+                    array_push($full_name,$full_name_pre);
+                }
+                
                 
             }
         }
@@ -893,33 +896,39 @@ class HomeController extends Controller
     {   
         $today = date('Y-m-d');
         $sDate = new \DateTime($today);
-        $sDate->sub(new \DateInterval('P71Y'));
+        $sDate->sub(new \DateInterval('P72Y'));
         $sDate= $sDate->format('Y-m-d');
         $eDate = new \DateTime($today);
-        $eDate->sub(new \DateInterval('P69Y'));
+        $eDate->sub(new \DateInterval('P68Y'));
         $eDate= $eDate->format('Y-m-d');
 
         $clients = DB::table('admin_clients_info')
+                    ->where('dob_date', '>', $sDate)
+                    ->where('dob_date', '<', $eDate)
+                    ->orderBy('dob_date', 'asc')
+                    ->paginate(100);
+        $counters = DB::table('admin_clients_info')
                     ->where('dob_date', '>=', $sDate)
                     ->where('dob_date', '<=', $eDate)
-                    ->paginate(100);
-        $counters = [];
+                    ->count();
+        $links = [];
         $ages = [];
         $activities = [];
+        $updates = [];
         foreach ($clients as $client) {
             if ($client->dependents_ids) {
-                $counter1 = count(explode(',',$client->dependents_ids));
+                $link1 = count(explode(',',$client->dependents_ids));
             } else {
-                $counter1 = 0;
+                $link1 = 0;
             }
 
             if ($client->spouse_id) {
-                $counter2 = 1;
+                $link2 = 1;
             } else {
-                $counter2 = 0;
+                $link2 = 0;
             }
-            $counter = $counter1 + $counter2;
-            array_push($counters,$counter);
+            $link = $link1 + $link2;
+            array_push($links,$link);
             
             $age = Carbon::parse($client->dob_date)->age;
             array_push($ages,$age);
@@ -927,18 +936,37 @@ class HomeController extends Controller
             
         
             $activity = DB::table('admin_income_detail')
-                    ->where('id' ,'=',$client->id)
-                    ->orderBy('Dyear', 'desc')
-                    ->pluck('Dyear')
+                    ->where('ClientID' ,'=',$client->id)
+                    ->orderBy('DYear', 'desc')
+                    ->pluck('DYear')
                     ->first();
             array_push($activities,$activity);
-       
+            
+            $now = time(); // or your date as well
+            $your_date = strtotime($client->updated_at);
+            $datediff = $now - $your_date;
+            if ($datediff / (60 * 60 * 24) < 1) {
+                $update = "in the last 24hrs";
+            } elseif ($datediff / (60 * 60 * 24) < 30) {
+                $update = "in the past week";
+            } elseif ($datediff / (60 * 60 * 24) > 30) {
+                $update = "in the past month";
+            } elseif ($datediff / (60 * 60 * 24) < 365) {
+                $update = "in the past year";
+            } else {
+                $update = "not recently";
+            }
+            array_push($updates,$update);
             
         }
-        dd($activities);
+        
         return view('adminOpportunities',[
-            'clients' =>[],
-            'counters' =>'',
+            'clients' =>$clients,
+            'counters' =>$counters,
+            'links' => $links,
+            'ages' => $ages,
+            'activities' => $activities,
+            'updates' => $updates,
         ]);
     }
 }

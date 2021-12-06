@@ -26,10 +26,10 @@
                 <tr>
                     <td><a href=<?php echo route('admin.clients.profile',['id' => $client->id])?>>{{$client->id}}</a></td>
                     <td><a href=<?php echo route('admin.clients.profile',['id' => $client->id])?>>{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}</a></td>
-                    <td>{{$client->primary_phone}}</td>
-                    <td><?php echo $rolls[$i]?></td>
-                    <td>{{$client->created_at}}</td>
-                    <td>{{$client->updated_at}}</td>
+                    <td><?php echo $ages[$i]?></td>
+                    <td><?php echo $links[$i]?></td>
+                    <td><?php echo $activities[$i]?></td>
+                    <td><?php echo $updates[$i]?></td>
                 </tr>
                 <?php $i= $i + 1;?>
             @endforeach
