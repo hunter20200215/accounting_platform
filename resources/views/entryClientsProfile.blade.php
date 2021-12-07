@@ -6,8 +6,6 @@
     
     $str_arr = explode (",", $info->income_highlights);
     $str_arr1 = explode (",", $info->deduction_highlights);
-    
-    
 ?>
 <div class="container-fluid py-3 px-4">
     <div class="row">
@@ -241,29 +239,6 @@
                             </div>  
                         </div>
                     </div>
-                </div>
-                <div class="px-5 py-5">
-                    <h5 class="ml-5 mb-3">
-                        Opportunities
-                    </h5>
-                    <div class="double-border row py-2">
-                        <div class="col-4">
-                            <h5 class="text-right mb-3">
-                                Seg Funds Invester
-                            </h5>
-                        </div>
-                        <div class="col-4">
-                            We are going to have a formula that calculates the potential of an investment deal 
-                            according to a formula that uses the client's information already entered.
-                        </div>
-                        <div class="col-4">
-                            <h5>Formula:</h5>
-                            (Total Dollar Amt for T3) + (Total dollar Amt for T5) for most recent tax return / Months left to die = a number that will allow 
-                            us to screen for annuity contract apps.
-                        </div>
-
-                    </div>
-
                 </div>
             </div>
 

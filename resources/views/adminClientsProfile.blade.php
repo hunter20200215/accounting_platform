@@ -245,7 +245,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="px-5 py-5">
+                <!-- <div class="px-5 py-5">
                     <h5 class="ml-5 mb-3">
                         Opportunities
                     </h5>
@@ -265,7 +265,7 @@
                             us to screen for annuity contract apps.
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

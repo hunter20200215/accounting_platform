@@ -908,16 +908,16 @@ class HomeController extends Controller
         $sDate->sub(new \DateInterval('P72Y'));
         $sDate= $sDate->format('Y-m-d');
         $eDate = new \DateTime($today);
-        $eDate->sub(new \DateInterval('P68Y'));
+        $eDate->sub(new \DateInterval('P69Y'));
         $eDate= $eDate->format('Y-m-d');
 
         $clients = DB::table('admin_clients_info')
                     ->where('dob_date', '>', $sDate)
-                    ->where('dob_date', '<', $eDate)
+                    ->where('dob_date', '<=', $eDate)
                     ->orderBy('dob_date', 'asc')
                     ->paginate(100);
         $counters = DB::table('admin_clients_info')
-                    ->where('dob_date', '>=', $sDate)
+                    ->where('dob_date', '>', $sDate)
                     ->where('dob_date', '<=', $eDate)
                     ->count();
         $links = [];
