@@ -540,13 +540,13 @@ class EntryController extends Controller
                     ->where('user_id',$request->user()->id)
                     ->orWhere(function($query) use ($income) {
                         foreach ($income as $value) {
-                            $query->orWhere('income_highlights', 'LIKE', "%".$value.","."%");
+                            $query->where('income_highlights', 'LIKE', "%".$value.","."%");
                         }
                     })
                     ->where('user_id',$request->user()->id)
                     ->orWhere(function($query) use ($deduction) {
                         foreach ($deduction as $value) {
-                            $query->orWhere('deduction_highlights', 'LIKE', "%".$value.",".'%');
+                            $query->where('deduction_highlights', 'LIKE', "%".$value.",".'%');
                         }
                     })
                     ->where('user_id',$request->user()->id)
@@ -570,13 +570,13 @@ class EntryController extends Controller
                             ->whereIn('category', $categorys)
                             ->orWhere(function($query) use ($income) {
                                 foreach ($income as $value) {
-                                    $query->orWhere('income_highlights', 'LIKE', "%".$value.","."%");
+                                    $query->where('income_highlights', 'LIKE', "%".$value.","."%");
                                 }
                             })
                             ->where('user_id',$request->user()->id)
                             ->orWhere(function($query) use ($deduction) {
                                 foreach ($deduction as $value) {
-                                    $query->orWhere('deduction_highlights', 'LIKE', "%".$value.",".'%');
+                                    $query->where('deduction_highlights', 'LIKE', "%".$value.",".'%');
                                 }
                             })
                             ->where('user_id',$request->user()->id)

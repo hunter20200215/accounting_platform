@@ -458,12 +458,12 @@ class HomeController extends Controller
                     ->whereIn('category', $categorys)
                     ->orWhere(function($query) use ($income) {
                         foreach ($income as $value) {
-                            $query->orWhere('income_highlights', 'LIKE', "%".$value.","."%");
+                            $query->where('income_highlights', 'LIKE', "%".$value.","."%");
                         }
                     })
                     ->orWhere(function($query) use ($deduction) {
                         foreach ($deduction as $value) {
-                            $query->orWhere('deduction_highlights', 'LIKE', "%".$value.",".'%');
+                            $query->where('deduction_highlights', 'LIKE', "%".$value.",".'%');
                         }
                     })
                     ->orWhere(function($query) use ($request) {
@@ -477,18 +477,19 @@ class HomeController extends Controller
                         }
                               
                     })
+                    ->orderBy('id', 'desc')
                     ->paginate(100);
 
         $counters = DB::table('admin_clients_info')
                             ->whereIn('category', $categorys)
                             ->orWhere(function($query) use ($income) {
                                 foreach ($income as $value) {
-                                    $query->orWhere('income_highlights', 'LIKE', "%".$value.","."%");
+                                    $query->where('income_highlights', 'LIKE', "%".$value.","."%");
                                 }
                             })
                             ->orWhere(function($query) use ($deduction) {
                                 foreach ($deduction as $value) {
-                                    $query->orWhere('deduction_highlights', 'LIKE', "%".$value.",".'%');
+                                    $query->where('deduction_highlights', 'LIKE', "%".$value.",".'%');
                                 }
                             })
                             ->orWhere(function($query) use ($request) {
