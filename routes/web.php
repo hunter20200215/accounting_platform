@@ -118,4 +118,4 @@ Route::get('bookkeeper/clients/{id}/profile', [App\Http\Controllers\BookkeeperCo
 Route::post('bookkeeper/clients/information', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsInformation'])->name('bookkeeper.information.edit')->middleware('is_bookkeeper');
 
 Route::post('bookkeeper/clients/bio', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsBio'])->name('bookkeeper.bio.edit')->middleware('is_bookkeeper');
-Route::post('bookkeeper/clients/additional_information', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsAddInformation'])->name('bookkeeper.add.edit')->middleware('is_bookkeeper');
+// Route::post('bookkeeper/clients/additional_information', [App\Http\Controllers\BookkeeperController::class, 'bookkeeperClientsAddInformation'])->name('bookkeeper.add.edit')->middleware('is_bookkeeper');

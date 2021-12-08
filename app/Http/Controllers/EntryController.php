@@ -179,7 +179,7 @@ class EntryController extends Controller
             $flight_other->save();
         }
         $Logs = new LogDetails;
-        $Logs->content = "just created";
+        $Logs->content = "just created"." by ".$request->user()->name;
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $flight->id;
         $Logs->save();
@@ -301,7 +301,7 @@ class EntryController extends Controller
         
         $flight->save();
         $Logs = new LogDetails;
-        $Logs->content = "Edited Sources of Incomehighlights";
+        $Logs->content = "Edited Sources of Income"." by ".$request->user()->name;
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
         $Logs->save();
@@ -360,7 +360,7 @@ class EntryController extends Controller
 
         $flight->save();
         $Logs = new LogDetails;
-        $Logs->content = "Edited Sources of Deduction highlights";
+        $Logs->content = "Edited Sources of Deduction"." by ".$request->user()->name;
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
         $Logs->save();
@@ -404,7 +404,7 @@ class EntryController extends Controller
         }
         
         $Logs = new LogDetails;
-        $Logs->content = "Edited Dependent";
+        $Logs->content = "Edited Dependent"." by ".$request->user()->name;
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
         $Logs->save();
@@ -425,7 +425,7 @@ class EntryController extends Controller
         }
 
         $Logs = new LogDetails;
-        $Logs->content = "Edited spouse";
+        $Logs->content = "Edited spouse"." by ".$request->user()->name;
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
         $Logs->save();
@@ -443,7 +443,7 @@ class EntryController extends Controller
         $flight->save();
 
         $Logs = new LogDetails;
-        $Logs->content = "Edited Home property";
+        $Logs->content = "Edited Home property"." by ".$request->user()->name;
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
         $Logs->save();
@@ -472,7 +472,7 @@ class EntryController extends Controller
         $flight->save();
 
         $Logs = new LogDetails;
-        $Logs->content = "Edited Information";
+        $Logs->content = "Edited Information"." by ".$request->user()->name;
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
         $Logs->save();
@@ -486,7 +486,7 @@ class EntryController extends Controller
         $flight->save();
 
         $Logs = new LogDetails;
-        $Logs->content = "Edited Additional Notes";
+        $Logs->content = "Edited Additional Notes"." by ".$request->user()->name;
         $Logs->user_id = $request->user()->id;
         $Logs->client_id = $request->id;
         $Logs->save();
