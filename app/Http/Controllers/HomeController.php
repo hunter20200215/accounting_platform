@@ -127,6 +127,7 @@ class HomeController extends Controller
             'selected_deduction' => [],
             'rolls'=>$rolls,
             'counters' => DB::table('admin_clients_info')->count(),
+            'sortId' => 'desc',
 
         ]);
     }
