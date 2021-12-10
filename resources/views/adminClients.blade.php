@@ -1,6 +1,9 @@
 @extends('layouts.app')
    
 @section('content')
+<?php 
+
+?>
 <div class="mx-auto  mt-1" style="width:93%;">
     <div class="row">
         <div class="col-md-3" >
@@ -124,12 +127,12 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Full Name</th>
-                                <th>Phone</th>
-                                <th>Created By</th>
-                                <th>Date added</th>
-                                <th>Last Touch</th>
+                                <th class="sort-style" id="sortId">ID</th>
+                                <th class="sort-style" id="sortName">Full Name</th>
+                                <th class="sort-style" id="sortPhone">Phone</th>
+                                <th class="sort-style" id="sortCreated">Created By</th>
+                                <th class="sort-style" id="sortDate">Date added</th>
+                                <th class="sort-style" id="sortLast">Last Touch</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -187,5 +190,14 @@
         </div>
     </div>
 </div>
-
+<form action="{{ route('admin.clients.filter1') }}" method="GET" id="sortById">
+    <input type="hidden" value="{{$sortId}}">
+    <input type="hidden" value="" name="categorys">
+    <input type="hidden" value="" name="income">
+    <input type="hidden" value="" name="deduction">
+    <input type="hidden" value="" name="start_date">
+    <input type="hidden" value="" name="end_date">
+    <input type="hidden" value="" name="sets">
+    <input type="hidden" value="" name="full_name">
+</form>
 @endsection

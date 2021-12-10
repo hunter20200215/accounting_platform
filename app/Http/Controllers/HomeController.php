@@ -599,6 +599,7 @@ class HomeController extends Controller
             'selected_deduction' =>[],
             'rolls' =>$rolls,
             'counters' => $counters,
+            'sortId' => 'desc',
         ]);
     }
 

@@ -79,3 +79,6 @@ a {
     text-align: center;
     display: inline-block;
 }
+.sort-style {
+    cursor: pointer;
+}
