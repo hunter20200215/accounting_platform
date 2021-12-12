@@ -1,9 +1,7 @@
 @extends('layouts.app')
    
 @section('content')
-<?php 
 
-?>
 <div class="mx-auto  mt-1" style="width:93%;">
     <div class="row">
         <div class="col-md-3" >
@@ -205,6 +203,7 @@
         </div>
     </div>
 </div>
+
 <form action="{{ route('admin.clients.filter1') }}" method="GET" id="sortById">
     <input type="hidden" value="{{$sortId}}" name="sortId">
     <input type="hidden" value="" name="categorys">

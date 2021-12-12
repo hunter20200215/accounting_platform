@@ -304,13 +304,13 @@ $(document).ready(function(){
 
         for(let i=0; inputElements2[i]; ++i){
             if(inputElements2[i].checked){
-                deduction.push(inputElements1[i].value);
+                deduction.push(inputElements2[i].value);
             }
         }
 
         for(let i=0; inputElements3[i]; ++i){
             if(inputElements3[i].checked){
-                sets.push(inputElements1[i].value);
+                sets.push(inputElements3[i].value);
             }
         }
         document.querySelector('input[name="categorys"]').value = categorys;

@@ -527,6 +527,8 @@ class HomeController extends Controller
             'selected_income' => $income,
             'selected_deduction' =>$deduction,
             'rolls' =>$rolls,
+            'sets' => [0],
+            'full_name' => "",
             'counters' => $counters,
 
         ]);

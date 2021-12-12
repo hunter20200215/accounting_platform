@@ -104,7 +104,7 @@
                         <div class="d-flex"> 
                             <h4 class="mt-1">Clients: {{$counters}}</h4>
                             <div class="input-group ml-auto mr-0" style="width:65%;">
-                                <input type="text" class="border border-secondary h-100 form-control" placeholder="Input search query" name="full_name">
+                                <input type="text" class="border border-secondary h-100 form-control" placeholder="Input search query" name="full_name" value="{{ $full_name }}">
                                 <div class="input-group-append">
                                     <a class="border-top border-bottom border-secondary bg-white btn-secondary" data-toggle="modal" data-target="#edit_filter">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="98%"  viewBox="0 0 512 512">
@@ -122,12 +122,12 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Full Name</th>
-                                <th>Phone</th>
-                                <th>Created By</th>
-                                <th>Date added</th>
-                                <th>Last Touch</th>
+                                <th class="sort-style" id="sortId">ID</th>
+                                <th class="sort-style" id="sortName">Full Name</th>
+                                <th class="sort-style" id="sortPhone">Phone</th>
+                                <th class="sort-style" id="sortCreated">Created By</th>
+                                <th class="sort-style" id="sortDate">Date added</th>
+                                <th class="sort-style" id="sortLast">Last Touch</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -160,19 +160,34 @@
                                 <!-- Modal body -->
                                 <div class="modal-body">
                                     <div class="ml-5">
-                                        <div>
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="sets[]" checked value='0' >Search in names
-                                            </label>
-                                            
-                                        </div>
-                                        <div>
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" name="sets[]" value='1' >Search in Additional Notes
-                                            </label>
-                                        </div>
+                                        @if (in_array(0, $sets))
+                                            <div>
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" name="sets[]" checked value='0' >Search in names
+                                                </label>
+                                            </div>
+                                        @else
+                                            <div>
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" name="sets[]" value='0' >Search in names
+                                                </label>
+                                            </div>
+                                        @endif
+
+                                        @if (in_array(1, $sets))
+                                            <div>
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" name="sets[]" checked value='1' >Search in names
+                                                </label>
+                                            </div>
+                                        @else
+                                            <div>
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" name="sets[]" value='1' >Search in names
+                                                </label>
+                                            </div>
+                                        @endif
                                     </div>
-                                    
                                         
                                     <button type="button" class="d-flex ml-auto btn btn-primary" data-dismiss="modal">Save</button>
                                     
@@ -185,4 +200,15 @@
         </div>
     </div>
 </div>
+
+<form action="{{ route('admin.clients.filter1') }}" method="GET" id="sortById">
+    <input type="hidden" value="{{$sortId}}" name="sortId">
+    <input type="hidden" value="" name="categorys">
+    <input type="hidden" value="" name="income">
+    <input type="hidden" value="" name="deduction">
+    <input type="hidden" value="" name="start_date1">
+    <input type="hidden" value="" name="end_date1">
+    <input type="hidden" value="" name="sets">
+    <input type="hidden" value="" name="full_name">
+</form>
 @endsection

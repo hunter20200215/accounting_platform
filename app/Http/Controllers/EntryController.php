@@ -60,6 +60,9 @@ class EntryController extends Controller
             'selected_income' => [],
             'selected_deduction' => [],
             'rolls'=>$rolls,
+            'sets' => [0],
+            'full_name' => "",
+            'sortId' => 'desc',
             'counters' => DB::table('admin_clients_info')->where('user_id', Auth::id())->count(),
 
         ]);
@@ -612,7 +615,10 @@ class EntryController extends Controller
             'selected_income' => $income,
             'selected_deduction' =>$deduction,
             'rolls' =>$rolls,
+            'sets' => [0],
+            'full_name' => "",
             'counters' => $counters,
+            'sortId' => 'desc',
 
         ]);
         // return redirect()->route('admin.clients',['clients' =>$clients]);
@@ -694,6 +700,9 @@ class EntryController extends Controller
             'selected_income' => [],
             'selected_deduction' =>[],
             'rolls' =>$rolls,
+            'sets' => $sets,
+            'full_name' => $full_name,
+            'sortId' => 'desc',
             'counters' => $counters,
         ]);
     }
