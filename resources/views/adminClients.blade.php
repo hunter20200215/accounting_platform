@@ -204,7 +204,7 @@
     </div>
 </div>
 
-<form action="{{ route('admin.clients.filter1') }}" method="GET" id="sortById">
+<form action="{{ route('admin.clients.sortid') }}" method="GET" id="sortById">
     <input type="hidden" value="{{$sortId}}" name="sortId">
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
@@ -212,6 +212,6 @@
     <input type="hidden" value="" name="start_date1">
     <input type="hidden" value="" name="end_date1">
     <input type="hidden" value="" name="sets">
-    <input type="hidden" value="" name="full_name">
+    <input type="hidden" value="" name="full_name1">
 </form>
 @endsection

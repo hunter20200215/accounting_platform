@@ -78,6 +78,8 @@ Route::post('/api-search', [App\Http\Controllers\ApiController::class, 'adminApi
 Route::post('/dependent-del', [App\Http\Controllers\ApiController::class, 'adminApiDependentDel'])->name('dependent.del');
 Route::post('/user-search', [App\Http\Controllers\ApiController::class, 'userApiSearch'])->name('autocomplete.user.fetch');
 
+Route::get('admin/sort-by-ID', [App\Http\Controllers\HomeController::class, 'adminSortById'])->name('admin.clients.sortid');
+
 
 #Data-entry
 Route::get('/entry/home', [App\Http\Controllers\EntryController::class, 'index'])->name('entry.home')->middleware('is_entry');
