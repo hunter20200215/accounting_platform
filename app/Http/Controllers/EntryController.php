@@ -124,7 +124,7 @@ class EntryController extends Controller
                     $highlight .= ",".$highlight1;
                 }
             }
-            $highlight = $highlight.",";
+            $highlight = ",".$highlight.",";
             $flight->income_highlights = $highlight;
         }
         if ($request->deductions) {
@@ -136,7 +136,7 @@ class EntryController extends Controller
                     $highlight2 .= ",".$highlight;
                 }
             }
-            $highlight2 = $highlight2.",";
+            $highlight2 = ",".$highlight2.",";
             $flight->deduction_highlights = $highlight2;
         }
         
@@ -291,7 +291,7 @@ class EntryController extends Controller
                     $highlight .= ",".$highlight1;
                 }
             }
-            $highlight = $highlight.",";
+            $highlight = ",".$highlight.",";
             $flight->income_highlights = $highlight;
         }
 
@@ -350,7 +350,7 @@ class EntryController extends Controller
                     $highlight2 .= ",".$highlight;
                 }
             }
-            $highlight2 = $highlight2.",";
+            $highlight2 = ",".$highlight2.",";
             $flight->deduction_highlights = $highlight2;
         }
 
@@ -522,6 +522,9 @@ class EntryController extends Controller
         $categorys=[];
         $income = [];
         $deduction =[];
+
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
         if ($request->categorys) {
             foreach ( $request->categorys as $index=>$value) {
                 $categorys[] = $value;
@@ -539,61 +542,56 @@ class EntryController extends Controller
         }
         
         $clients = DB::table('admin_clients_info')
-                    ->whereIn('category', $categorys)
-                    ->where('user_id',$request->user()->id)
-                    ->orWhere(function($query) use ($income) {
-                        foreach ($income as $value) {
-                            $query->where('income_highlights', 'LIKE', "%".$value.","."%");
-                        }
+                    ->when($categorys, function ($query, $categorys) {
+                        return $query->whereIn('category', $categorys);
                     })
-                    ->where('user_id',$request->user()->id)
-                    ->orWhere(function($query) use ($deduction) {
-                        foreach ($deduction as $value) {
-                            $query->where('deduction_highlights', 'LIKE', "%".$value.",".'%');
-                        }
+                    ->when($income, function ($query, $income) {
+                        return $query->where(function($query) use ($income) {
+                            foreach ($income as $value) {
+                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
+                            }
+                        });
                     })
-                    ->where('user_id',$request->user()->id)
-                    ->orWhere(function($query) use ($request) {
-                        if ($request->start_date){
-                            $query->where('dob_date', ">=",$request->start_date);
-                        }
+                    ->when($deduction, function ($query, $deduction) {
+                        return $query->where(function($query) use ($deduction) {
+                                foreach ($deduction as $value) {
+                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
+                                }
+                            });
                     })
-                    ->where('user_id',$request->user()->id)
-                    ->orWhere(function($query) use ($request) {
-                        if ($request->end_date){
-                            $query->where('dob_date', "<",$request->end_date);
-                        }
-                              
+                    ->when( $start_date, function ($query, $start_date) {
+                        return $query->where('dob_date', ">=", $start_date);
+                    })
+                    ->when($end_date, function ($query, $end_date) {
+                        return $query->where('dob_date', "<",$end_date);
                     })
                     ->where('user_id',$request->user()->id)
                     ->orderBy('id', 'desc')
                     ->paginate(100);
                     
         $counters = DB::table('admin_clients_info')
-                            ->whereIn('category', $categorys)
-                            ->orWhere(function($query) use ($income) {
-                                foreach ($income as $value) {
-                                    $query->where('income_highlights', 'LIKE', "%".$value.","."%");
-                                }
+                            ->when($categorys, function ($query, $categorys) {
+                                return $query->whereIn('category', $categorys);
                             })
-                            ->where('user_id',$request->user()->id)
-                            ->orWhere(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".$value.",".'%');
-                                }
+                            ->when($income, function ($query, $income) {
+                                return $query->where(function($query) use ($income) {
+                                    foreach ($income as $value) {
+                                        $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
+                                    }
+                                });
                             })
-                            ->where('user_id',$request->user()->id)
-                            ->orWhere(function($query) use ($request) {
-                                if ($request->start_date){
-                                    $query->where('dob_date', ">=",$request->start_date);
-                                }
+                            ->when($deduction, function ($query, $deduction) {
+                                return $query->where(function($query) use ($deduction) {
+                                        foreach ($deduction as $value) {
+                                            $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
+                                        }
+                                    });
                             })
-                            ->where('user_id',$request->user()->id)
-                            ->orWhere(function($query) use ($request) {
-                                if ($request->end_date){
-                                    $query->where('dob_date', "<",$request->end_date);
-                                }
-                                    
+                            ->when( $start_date, function ($query, $start_date) {
+                                return $query->where('dob_date', ">=", $start_date);
+                            })
+                            ->when($end_date, function ($query, $end_date) {
+                                return $query->where('dob_date', "<",$end_date);
                             })
                             ->where('user_id',$request->user()->id)
                             ->count();
