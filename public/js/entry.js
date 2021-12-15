@@ -231,6 +231,7 @@ $(document).ready(function(){
 
         let start_date = document.querySelector('input[name="start_date"]').value;
         let end_date = document.querySelector('input[name="end_date"]').value;
+        let full_name = document.querySelector('input[name="full_name"]').value;
 
         for(let i=0; inputElements[i]; ++i){
             if(inputElements[i].checked){
@@ -255,7 +256,7 @@ $(document).ready(function(){
                 sets.push(inputElements3[i].value);
             }
         }
-        console.log(sets);
+        
         document.querySelector('input[name="categorys"]').value = categorys;
         document.querySelector('input[name="income"]').value = income;
         document.querySelector('input[name="deduction"]').value = deduction;
