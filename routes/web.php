@@ -106,7 +106,7 @@ Route::get('entry/spouse/edit', [App\Http\Controllers\EntryController::class, 'e
 Route::get('entry/home_property/edit', [App\Http\Controllers\EntryController::class, 'entryHomePropertyEdit'])->name('entry.home_property.edit')->middleware('is_entry');
 
 Route::get('entry/opportunities', [App\Http\Controllers\EntryController::class, 'entryOpportunities'])->name('entry.opportunities')->middleware('is_entry');
-
+Route::get('entry/sort-by-ID', [App\Http\Controllers\EntryController::class, 'entrySortById'])->name('entry.clients.sortid');
 #Book-keeper
 Route::get('/bookkeepr/home', [App\Http\Controllers\BookkeeperController::class, 'index'])->name('bookkeeper.home')->middleware('is_bookkeeper');
 Route::get('/bookkeeper/clients', [App\Http\Controllers\BookkeeperController::class, 'clients'])->name('bookkeeper.clients')->middleware('is_bookkeeper');

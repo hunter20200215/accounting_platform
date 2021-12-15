@@ -710,5 +710,8 @@ class EntryController extends Controller
 
         return view('entryOpportunities');
     }
+    public function entrySortById(Request $request)
+    { 
+    }
     
 }

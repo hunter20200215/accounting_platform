@@ -262,5 +262,8 @@ $(document).ready(function(){
         document.querySelector('input[name="start_date1"]').value = start_date;
         document.querySelector('input[name="end_date1"]').value = end_date;
         document.querySelector('input[name="sets"]').value = sets;
+        document.querySelector('input[name="full_name1"]').value = full_name;
+        
+        document.querySelector('form#sortById').submit();
     });
 });
