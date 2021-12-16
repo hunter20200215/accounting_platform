@@ -130,6 +130,7 @@ class HomeController extends Controller
             'sets' => [0],
             'full_name' => "",
             'sortId' => 'desc',
+            'sortName' => 'desc',
 
         ]);
     }
@@ -535,6 +536,7 @@ class HomeController extends Controller
             'full_name' => "",
             'counters' => $counters,
             'sortId' => 'desc',
+            'sortName' => 'desc',
 
         ]);
     }
@@ -612,6 +614,7 @@ class HomeController extends Controller
             'sets' => $sets,
             'full_name' => $full_name,
             'sortId' => 'desc',
+            'sortName' => 'desc',
             
         ]);
     }
@@ -1158,6 +1161,7 @@ class HomeController extends Controller
             'full_name' => $full_name,
             'counters' => $counters,
             'sortId' => $sortby,
+            'sortName' => 'desc',
         ]);
     }
 }
