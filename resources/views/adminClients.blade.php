@@ -206,6 +206,7 @@
 
 <form action="{{ route('admin.clients.sortid') }}" method="GET" id="sortById">
     <input type="hidden" value="{{$sortId}}" name="sortId">
+    <input type="hidden" value="{{$sortName}}" name="sortName">
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
     <input type="hidden" value="" name="deduction">
@@ -214,8 +215,9 @@
     <input type="hidden" value="" name="sets">
     <input type="hidden" value="" name="full_name1">
 </form>
-<form action="{{ route('admin.clients.sortid') }}" method="GET" id="sortByName">
+<form action="{{ route('admin.clients.sortname') }}" method="GET" id="sortByName">
     <input type="hidden" value="{{$sortName}}" name="sortName">
+    <input type="hidden" value="{{$sortId}}" name="sortId">
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
     <input type="hidden" value="" name="deduction">

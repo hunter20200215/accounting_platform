@@ -79,7 +79,7 @@ Route::post('/dependent-del', [App\Http\Controllers\ApiController::class, 'admin
 Route::post('/user-search', [App\Http\Controllers\ApiController::class, 'userApiSearch'])->name('autocomplete.user.fetch');
 
 Route::get('admin/sort-by-ID', [App\Http\Controllers\HomeController::class, 'adminSortById'])->name('admin.clients.sortid');
-
+Route::get('admin/sort-by-Name', [App\Http\Controllers\HomeController::class, 'adminSortByName'])->name('admin.clients.sortname');
 
 #Data-entry
 Route::get('/entry/home', [App\Http\Controllers\EntryController::class, 'index'])->name('entry.home')->middleware('is_entry');
@@ -107,6 +107,8 @@ Route::get('entry/home_property/edit', [App\Http\Controllers\EntryController::cl
 
 Route::get('entry/opportunities', [App\Http\Controllers\EntryController::class, 'entryOpportunities'])->name('entry.opportunities')->middleware('is_entry');
 Route::get('entry/sort-by-ID', [App\Http\Controllers\EntryController::class, 'entrySortById'])->name('entry.clients.sortid');
+Route::get('entry/sort-by-Name', [App\Http\Controllers\EntryController::class, 'entrySortByName'])->name('entry.clients.sortname');
+
 #Book-keeper
 Route::get('/bookkeepr/home', [App\Http\Controllers\BookkeeperController::class, 'index'])->name('bookkeeper.home')->middleware('is_bookkeeper');
 Route::get('/bookkeeper/clients', [App\Http\Controllers\BookkeeperController::class, 'clients'])->name('bookkeeper.clients')->middleware('is_bookkeeper');
