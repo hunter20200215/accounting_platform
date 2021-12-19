@@ -202,7 +202,19 @@
 </div>
 
 <form action="{{ route('entry.clients.sortid') }}" method="GET" id="sortById">
-    <input type="hidden" value="{{ $sortId }}" name="sortId">
+    <input type="hidden" value="{{$sortName}}" name="sortName">
+    <input type="hidden" value="{{$sortId}}" name="sortId">
+    <input type="hidden" value="" name="categorys">
+    <input type="hidden" value="" name="income">
+    <input type="hidden" value="" name="deduction">
+    <input type="hidden" value="" name="start_date1">
+    <input type="hidden" value="" name="end_date1">
+    <input type="hidden" value="" name="sets">
+    <input type="hidden" value="" name="full_name1">
+</form>
+<form action="{{ route('entry.clients.sortname') }}" method="GET" id="sortByName">
+    <input type="hidden" value="{{$sortName}}" name="sortName">
+    <input type="hidden" value="{{$sortId}}" name="sortId">
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
     <input type="hidden" value="" name="deduction">
