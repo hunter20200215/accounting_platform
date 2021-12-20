@@ -131,6 +131,7 @@ class HomeController extends Controller
             'full_name' => "",
             'sortId' => 'desc',
             'sortName' => 'desc',
+            'sortPhone' => 'desc',
 
         ]);
     }
@@ -537,6 +538,7 @@ class HomeController extends Controller
             'counters' => $counters,
             'sortId' => 'desc',
             'sortName' => 'desc',
+            'sortPhone' => 'desc',
 
         ]);
     }
@@ -615,6 +617,7 @@ class HomeController extends Controller
             'full_name' => $full_name,
             'sortId' => 'desc',
             'sortName' => 'desc',
+            'sortPhone' => 'desc',
             
         ]);
     }
