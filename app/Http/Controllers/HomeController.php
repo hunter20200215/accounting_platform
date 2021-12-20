@@ -1165,6 +1165,7 @@ class HomeController extends Controller
             'counters' => $counters,
             'sortId' => $sortby,
             'sortName' => 'desc',
+            'sortPhone' => 'desc',
         ]);
     }
 
@@ -1340,6 +1341,182 @@ class HomeController extends Controller
             'counters' => $counters,
             'sortId' => 'desc',
             'sortName' => $sortName,
+            'sortPhone' => 'desc',
+        ]);
+    }
+
+    public function adminSortByPhone(Request $request)
+    {   
+        $categorys=[];
+        $income = [];
+        $deduction =[];
+        $rolls =[];
+        $sortPhone ="";
+        $full_name = $request->full_name1;
+        $sets = explode(",", $request->sets);
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        if ($request->sortPhone == "desc") {
+            $sortPhone = 'asc';
+        } else {
+            $sortPhone = 'desc';
+        }
+
+        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
+            if ($request->categorys) {
+                $categorys = explode(",", $request->categorys);
+            } else {
+                $categorys = [];
+            }
+
+            if ($request->income) {
+                $income = explode(",", $request->income);
+            } else {
+                $income = [];
+            }
+
+            if ($request->deduction) {
+                $deduction = explode(",", $request->deduction);
+            } else {
+                $deduction = [];
+            }
+            
+            $clients = DB::table('admin_clients_info')
+                    ->when($categorys, function ($query, $categorys) {
+                        return $query->whereIn('category', $categorys);
+                    })
+                    ->when($income, function ($query, $income) {
+                        return $query->where(function($query) use ($income) {
+                            foreach ($income as $value) {
+                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
+                            }
+                        });
+                    })
+                    ->when($deduction, function ($query, $deduction) {
+                        return $query->where(function($query) use ($deduction) {
+                                foreach ($deduction as $value) {
+                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
+                                }
+                            });
+                    })
+                    ->when( $start_date, function ($query, $start_date) {
+                        return $query->where('dob_date', ">=", $start_date);
+                    })
+                    ->when($end_date, function ($query, $end_date) {
+                        return $query->where('dob_date', "<",$end_date);
+                    })
+                    ->orderBy('primary_phone', $sortPhone)
+                    ->paginate(100);
+            $counters = DB::table('admin_clients_info')
+                    ->when($categorys, function ($query, $categorys) {
+                        return $query->whereIn('category', $categorys);
+                    })
+                    ->when($income, function ($query, $income) {
+                        return $query->where(function($query) use ($income) {
+                            foreach ($income as $value) {
+                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
+                            }
+                        });
+                    })
+                    ->when($deduction, function ($query, $deduction) {
+                        return $query->where(function($query) use ($deduction) {
+                                foreach ($deduction as $value) {
+                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
+                                }
+                            });
+                    })
+                    ->when( $start_date, function ($query, $start_date) {
+                        return $query->where('dob_date', ">=", $start_date);
+                    })
+                    ->when($end_date, function ($query, $end_date) {
+                        return $query->where('dob_date', "<",$end_date);
+                    })
+                    ->count();
+            
+            foreach ($clients as $client) {
+                $roll = DB::table('users')
+                        ->where('id' ,'=',$client->user_id)
+                        ->pluck('name');
+                array_push($rolls,$roll[0]);
+            }
+        } elseif ($full_name) {
+            if (count($sets) == 2) {
+                $clients = DB::table('admin_clients_info')
+                        ->where('full_name', 'LIKE', "%".$full_name.'%')
+                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
+                        ->orderBy('primary_phone', $sortPhone)
+                        ->paginate(100);
+                $counters = DB::table('admin_clients_info')
+                        ->where('full_name', 'LIKE', "%".$full_name.'%')
+                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
+                        ->orderBy('primary_phone', $sortPhone)
+                        ->count();
+            } elseif ($sets[0]==0) {
+                $clients = DB::table('admin_clients_info')
+                        ->where('full_name', 'LIKE', "%".$full_name.'%')
+                        ->orderBy('primary_phone', $sortPhone)
+                        ->paginate(100);
+                $counters = DB::table('admin_clients_info')
+                        ->where('full_name', 'LIKE', "%".$full_name.'%')
+                        ->orderBy('primary_phone', $sortPhone)
+                        ->count();
+            } elseif ($sets[0] == 1) {
+                $clients = DB::table('admin_clients_info')
+                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
+                        ->orderBy('primary_phone', $sortPhone)
+                        ->paginate(100);
+                $counters = DB::table('admin_clients_info')
+                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
+                        ->orderBy('full_name', 'desc')
+                        ->count();
+            } else {
+                $clients = DB::table('admin_clients_info')
+                        ->where('full_name', 'LIKE', "%".$full_name.'%')
+                        ->orderBy('primary_phone', $sortPhone)
+                        ->paginate(100);
+                $counters = DB::table('admin_clients_info')
+                        ->where('full_name', 'LIKE', "%".$full_name.'%')
+                        ->orderBy('full_name', 'desc')
+                        ->count();
+            }
+
+            foreach ($clients as $client) {
+                $roll = DB::table('users')
+                        ->where('id' ,'=',$client->user_id)
+                        ->pluck('name');
+                array_push($rolls,$roll[0]);
+            }
+        
+        } else {
+            $clients = DB::table('admin_clients_info')
+                        ->orderBy('primary_phone', $sortPhone)
+                        ->paginate(100);
+            $counters = DB::table('admin_clients_info')
+                        ->count();
+            foreach ($clients as $client) {
+                $roll = DB::table('users')
+                        ->where('id' ,'=',$client->user_id)
+                        ->pluck('name');
+                array_push($rolls,$roll[0]);
+            }
+
+        }
+        return view('adminClients',[
+            'clients' =>$clients,
+            'categorys' => DB::table('admin_category')->get(),
+            'highlights' => DB::table('admin_highlights')->get(),
+            'incomehighlights' => DB::table('admin_income_highlights')->get(),
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
+            'selected_categorys' => $categorys,
+            'selected_income' => $income,
+            'selected_deduction' =>$deduction,
+            'rolls' =>$rolls,
+            'sets' => $sets,
+            'full_name' => $full_name,
+            'counters' => $counters,
+            'sortId' => 'desc',
+            'sortName' => 'desc',
+            'sortPhone' => $sortPhone,
         ]);
     }
 }

@@ -228,7 +228,7 @@
     <input type="hidden" value="" name="sets">
     <input type="hidden" value="" name="full_name1">
 </form>
-<form action="{{ route('admin.clients.sortname') }}" method="GET" id="sortByPhone">
+<form action="{{ route('admin.clients.sortphone') }}" method="GET" id="sortByPhone">
     <input type="hidden" value="{{$sortId}}" name="sortId"/>
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
