@@ -109,6 +109,7 @@ Route::get('entry/home_property/edit', [App\Http\Controllers\EntryController::cl
 Route::get('entry/opportunities', [App\Http\Controllers\EntryController::class, 'entryOpportunities'])->name('entry.opportunities')->middleware('is_entry');
 Route::get('entry/sort-by-ID', [App\Http\Controllers\EntryController::class, 'entrySortById'])->name('entry.clients.sortid');
 Route::get('entry/sort-by-Name', [App\Http\Controllers\EntryController::class, 'entrySortByName'])->name('entry.clients.sortname');
+Route::get('entry/sort-by-Phone', [App\Http\Controllers\EntryController::class, 'entrySortByPhone'])->name('entry.clients.sortphone');
 
 #Book-keeper
 Route::get('/bookkeepr/home', [App\Http\Controllers\BookkeeperController::class, 'index'])->name('bookkeeper.home')->middleware('is_bookkeeper');
