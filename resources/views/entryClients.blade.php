@@ -205,6 +205,7 @@
     <input type="hidden" value="{{$sortId}}" name="sortId"/>
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
+    <Input type="hidden" value = "{{$sortCreatedBy}}" name="sortCreatedBy"/>
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
     <input type="hidden" value="" name="deduction">
@@ -217,6 +218,7 @@
     <input type="hidden" value="{{$sortId}}" name="sortId"/>
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
+    <Input type="hidden" value = "{{$sortCreatedBy}}" name="sortCreatedBy"/>
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
     <input type="hidden" value="" name="deduction">
@@ -229,6 +231,20 @@
     <input type="hidden" value="{{$sortId}}" name="sortId"/>
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
+    <Input type="hidden" value = "{{$sortCreatedBy}}" name="sortCreatedBy"/>
+    <input type="hidden" value="" name="categorys">
+    <input type="hidden" value="" name="income">
+    <input type="hidden" value="" name="deduction">
+    <input type="hidden" value="" name="start_date1">
+    <input type="hidden" value="" name="end_date1">
+    <input type="hidden" value="" name="sets">
+    <input type="hidden" value="" name="full_name1">
+</form>
+<form action="{{ route('entry.clients.createdby') }}" method="GET" id="sortCreatedBy">
+    <input type="hidden" value="{{$sortId}}" name="sortId"/>
+    <input type="hidden" value="{{$sortName}}" name="sortName"/>
+    <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
+    <Input type="hidden" value = "{{$sortCreatedBy}}" name="sortCreatedBy"/>
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
     <input type="hidden" value="" name="deduction">
