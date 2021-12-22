@@ -81,6 +81,7 @@ Route::post('/user-search', [App\Http\Controllers\ApiController::class, 'userApi
 Route::get('admin/sort-by-ID', [App\Http\Controllers\HomeController::class, 'adminSortById'])->name('admin.clients.sortid');
 Route::get('admin/sort-by-Name', [App\Http\Controllers\HomeController::class, 'adminSortByName'])->name('admin.clients.sortname');
 Route::get('admin/sort-by-Phone', [App\Http\Controllers\HomeController::class, 'adminSortByPhone'])->name('admin.clients.sortphone');
+Route::get('admin/sort-by-CreateBy', [App\Http\Controllers\HomeController::class, 'adminSortByCreatedBy'])->name('admin.clients.createdby');
 
 #Data-entry
 Route::get('/entry/home', [App\Http\Controllers\EntryController::class, 'index'])->name('entry.home')->middleware('is_entry');
