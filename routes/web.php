@@ -83,6 +83,8 @@ Route::get('admin/sort-by-Name', [App\Http\Controllers\HomeController::class, 'a
 Route::get('admin/sort-by-Phone', [App\Http\Controllers\HomeController::class, 'adminSortByPhone'])->name('admin.clients.sortphone');
 Route::get('admin/sort-by-CreateBy', [App\Http\Controllers\HomeController::class, 'adminSortByCreatedBy'])->name('admin.clients.createdby');
 
+Route::get('admin/sort-by-Data-Added', [App\Http\Controllers\HomeController::class, 'adminSortByDataAdded'])->name('admin.clients.dataadded');
+
 #Data-entry
 Route::get('/entry/home', [App\Http\Controllers\EntryController::class, 'index'])->name('entry.home')->middleware('is_entry');
 // Route::get('/entry/clients', [App\Http\Controllers\EntryController::class, 'clients'])->name('entry.clients')->middleware('is_entry');

@@ -209,7 +209,7 @@
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
     <Input type="hidden" value = "{{$sortCreatedBy}}" name="sortCreatedBy"/>
-    <Input type="hidden" value = "{{$sortDateAdded}}" name="sortDateAdded"/>
+    <Input type="hidden" value = "{{$sortDataAdded}}" name="sortDataAdded"/>
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
     <input type="hidden" value="" name="deduction">
@@ -223,7 +223,7 @@
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
     <Input type="hidden" value = "{{$sortCreatedBy}}" name="sortCreatedBy"/>
-    <Input type="hidden" value = "{{$sortDateAdded}}" name="sortDateAdded"/>
+    <Input type="hidden" value = "{{$sortDataAdded}}" name="sortDataAdded"/>
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
     <input type="hidden" value="" name="deduction">
@@ -237,7 +237,7 @@
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
     <Input type="hidden" value = "{{$sortCreatedBy}}" name="sortCreatedBy"/>
-    <Input type="hidden" value = "{{$sortDateAdded}}" name="sortDateAdded"/>
+    <Input type="hidden" value = "{{$sortDataAdded}}" name="sortDataAdded"/>
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
     <input type="hidden" value="" name="deduction">
@@ -252,7 +252,7 @@
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
     <Input type="hidden" value = "{{$sortCreatedBy}}" name="sortCreatedBy"/>
-    <Input type="hidden" value = "{{$sortDateAdded}}" name="sortDateAdded"/>
+    <Input type="hidden" value = "{{$sortDataAdded}}" name="sortDataAdded"/>
     <input type="hidden" value="" name="categorys">
     <input type="hidden" value="" name="income">
     <input type="hidden" value="" name="deduction">
@@ -262,7 +262,7 @@
     <input type="hidden" value="" name="full_name1">
 </form>
 
-<form action="{{ route('admin.clients.createdby') }}" method="GET" id="sortDataAdded">
+<form action="{{ route('admin.clients.dataadded') }}" method="GET" id="sortDataAdded">
     <input type="hidden" value="{{$sortId}}" name="sortId"/>
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
