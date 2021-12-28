@@ -114,6 +114,7 @@ Route::get('entry/sort-by-ID', [App\Http\Controllers\EntryController::class, 'en
 Route::get('entry/sort-by-Name', [App\Http\Controllers\EntryController::class, 'entrySortByName'])->name('entry.clients.sortname');
 Route::get('entry/sort-by-Phone', [App\Http\Controllers\EntryController::class, 'entrySortByPhone'])->name('entry.clients.sortphone');
 Route::get('entry/sort-by-CreateBy', [App\Http\Controllers\EntryController::class, 'entrySortByCreatedBy'])->name('entry.clients.createdby');
+Route::get('entry/sort-by-Data-Added', [App\Http\Controllers\EntryController::class, 'entrySortByDataAdded'])->name('entry.clients.dataadded');
 
 #Book-keeper
 Route::get('/bookkeepr/home', [App\Http\Controllers\BookkeeperController::class, 'index'])->name('bookkeeper.home')->middleware('is_bookkeeper');
