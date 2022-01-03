@@ -455,4 +455,51 @@ $(document).ready(function(){
 
         document.querySelector('form#sortDataAdded').submit();
     });
+
+    $('#sortLast').on('click',function(){
+        let categorys = [];
+        let income = [];
+        let deduction = [];
+        let sets = [];
+        let inputElements = document.querySelectorAll('.form-check-input[name="categorys[]"]');
+        let inputElements1 = document.querySelectorAll('.form-check-input[name="income[]"]');
+        let inputElements2 = document.querySelectorAll('.form-check-input[name="deduction[]"]');
+        let inputElements3 = document.querySelectorAll('.form-check-input[name="sets[]');
+
+        let start_date = document.querySelector('input[name="start_date"]').value;
+        let end_date = document.querySelector('input[name="end_date"]').value;
+        let full_name = document.querySelector('input[name="full_name"]').value;
+        for(let i=0; inputElements[i]; ++i){
+            if(inputElements[i].checked){
+                categorys.push(inputElements[i].value);
+            }
+        }
+        
+        for(let i=0; inputElements1[i]; ++i){
+            if(inputElements1[i].checked){
+                income.push(inputElements1[i].value);
+            }
+        }
+
+        for(let i=0; inputElements2[i]; ++i){
+            if(inputElements2[i].checked){
+                deduction.push(inputElements2[i].value);
+            }
+        }
+
+        for(let i=0; inputElements3[i]; ++i){
+            if(inputElements3[i].checked){
+                sets.push(inputElements3[i].value);
+            }
+        }
+        document.querySelector('form#sortLastTouch > input[name="categorys"]').value = categorys;
+        document.querySelector('form#sortLastTouch > input[name="income"]').value = income;
+        document.querySelector('form#sortLastTouch > input[name="deduction"]').value = deduction;
+        document.querySelector('form#sortLastTouch > input[name="start_date1"]').value = start_date;
+        document.querySelector('form#sortLastTouch > input[name="end_date1"]').value = end_date;
+        document.querySelector('form#sortLastTouch > input[name="sets"]').value = sets;
+        document.querySelector('form#sortLastTouch > input[name="full_name1"]').value = full_name;
+
+        document.querySelector('form#sortLastTouch').submit();
+    });
 });
