@@ -180,13 +180,13 @@
                                         @if (in_array(1, $sets))
                                             <div>
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="sets[]" checked value='1' >Search in names
+                                                    <input class="form-check-input" type="checkbox" name="sets[]" checked value='1' >Search in Additional Note
                                                 </label>
                                             </div>
                                         @else
                                             <div>
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="checkbox" name="sets[]" value='1' >Search in names
+                                                    <input class="form-check-input" type="checkbox" name="sets[]" value='1' >Search in Additional Note
                                                 </label>
                                             </div>
                                         @endif
