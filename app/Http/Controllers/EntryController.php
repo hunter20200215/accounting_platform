@@ -644,46 +644,38 @@ class EntryController extends Controller
             $clients = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
                     ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                    ->where('user_id',$request->user()->id)
                     ->orderBy('id', 'desc')
                     ->paginate(100);
             $counters = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
                     ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                    ->where('user_id',$request->user()->id)
                     ->orderBy('id', 'desc')
                     ->count();
         } elseif ($sets[0]==0) {
             $clients = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
-                    ->where('user_id',$request->user()->id)
                     ->orderBy('id', 'desc')
                     ->paginate(100);
             $counters = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
-                    ->where('user_id',$request->user()->id)
                     ->orderBy('id', 'desc')
                     ->count();
         } elseif ($sets[0] == 1) {
             $clients = DB::table('admin_clients_info')
                     ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                    ->where('user_id',$request->user()->id)
                     ->orderBy('id', 'desc')
                     ->paginate(100);
             $counters = DB::table('admin_clients_info')
                     ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                    ->where('user_id',$request->user()->id)
                     ->orderBy('id', 'desc')
                     ->count();
         } else {
             $clients = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
-                    ->where('user_id',$request->user()->id)
                     ->orderBy('id', 'desc')
                     ->paginate(100);
             $counters = DB::table('admin_clients_info')
                     ->where('full_name', 'LIKE', "%".$full_name.'%')
-                    ->where('user_id',$request->user()->id)
                     ->orderBy('id', 'desc')
                     ->count();
         }
@@ -703,15 +695,17 @@ class EntryController extends Controller
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
+            'user_id' => $request->user()->id,
             'selected_categorys' => [],
             'selected_income' => [],
             'selected_deduction' =>[],
             'rolls' =>$rolls,
             'sets' => $sets,
             'full_name' => $full_name,
+            'counters' => $counters,
             'sortId' => 'desc',
             'sortName' => 'desc',
-            'counters' => $counters,
+            'sortPhone' => 'desc',
             'sortCreatedBy' =>'desc',
             'sortDataAdded' => 'desc',
             'sortLastTouch' => 'desc',
@@ -905,6 +899,7 @@ class EntryController extends Controller
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
+            'user_id' => $request->user()->id,
             'sortId' => $sortby,
             'sortName' => 'desc',
             'sortPhone' => 'desc',
@@ -1089,6 +1084,7 @@ class EntryController extends Controller
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
+            'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => $sortName,
             'sortPhone' => 'desc',
@@ -1273,6 +1269,7 @@ class EntryController extends Controller
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
+            'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => 'desc',
             'sortPhone' => $sortPhone,
@@ -1508,6 +1505,7 @@ class EntryController extends Controller
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
+            'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => 'desc',
             'sortPhone' => 'desc',
@@ -1738,6 +1736,7 @@ class EntryController extends Controller
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
+            'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => 'desc',
             'sortPhone' => 'desc',
@@ -1969,6 +1968,7 @@ class EntryController extends Controller
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
+            'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => 'desc',
             'sortPhone' => 'desc',

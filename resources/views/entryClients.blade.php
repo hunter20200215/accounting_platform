@@ -1,5 +1,6 @@
 @extends('layouts.entry')
 @section('content')
+
 <div class="mx-auto  mt-1" style="width:93%;">
     <div class="row">
         <div class="col-md-3" >
@@ -133,14 +134,26 @@
                             <tbody>
                                 <?php $i=0?>
                                 @foreach ($clients as $client)
-                                    <tr>
-                                        <td><a href=<?php echo route('entry.clients.profile',['id' => $client->id])?>>{{$client->id}}</a></td>
-                                        <td><a href=<?php echo route('entry.clients.profile',['id' => $client->id])?>>{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}</a></td>
-                                        <td>{{$client->primary_phone}}</td>
-                                        <td><?php echo $rolls[$i]?></td>
-                                        <td>{{$client->created_at}}</td>
-                                        <td>{{$client->updated_at}}</td>
-                                    </tr>
+                                    @if ($client->user_id == $user_id)
+                                        <tr>
+                                            <td><a href=<?php echo route('entry.clients.profile',['id' => $client->id])?>>{{$client->id}}</a></td>
+                                            <td><a href=<?php echo route('entry.clients.profile',['id' => $client->id])?>>{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}</a></td>
+                                            <td>{{$client->primary_phone}}</td>
+                                            <td><?php echo $rolls[$i]?></td>
+                                            <td>{{$client->created_at}}</td>
+                                            <td>{{$client->updated_at}}</td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td><a href="">{{$client->id}}</a></td>
+                                            <td><a href="">{{$client->first_name}} {{$client->middle_name}} {{$client->last_name}}</a></td>
+                                            <td>{{$client->primary_phone}}</td>
+                                            <td><?php echo $rolls[$i]?></td>
+                                            <td>{{$client->created_at}}</td>
+                                            <td>{{$client->updated_at}}</td>
+                                        </tr>
+                                    @endif
+                                    
                                     <?php $i= $i + 1;?>
                                 @endforeach
                             </tbody>
