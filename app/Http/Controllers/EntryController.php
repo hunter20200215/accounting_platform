@@ -1004,18 +1004,15 @@ class EntryController extends Controller
                 $clients = DB::table('admin_clients_info')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
                         ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->orderBy('full_name', $sortName)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
                         ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->count();
             } elseif ($sets[0]==0) {
                 $clients = DB::table('admin_clients_info')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->orderBy('full_name', $sortName)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
@@ -1024,7 +1021,6 @@ class EntryController extends Controller
             } elseif ($sets[0] == 1) {
                 $clients = DB::table('admin_clients_info')
                         ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->orderBy('full_name', $sortName)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
@@ -1033,12 +1029,10 @@ class EntryController extends Controller
             } else {
                 $clients = DB::table('admin_clients_info')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->orderBy('full_name', $sortName)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->count();
             }
 
@@ -1189,18 +1183,15 @@ class EntryController extends Controller
                 $clients = DB::table('admin_clients_info')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
                         ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->orderBy('primary_phone', $sortPhone)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
                         ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->count();
             } elseif ($sets[0]==0) {
                 $clients = DB::table('admin_clients_info')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->orderBy('primary_phone', $sortPhone)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
@@ -1209,7 +1200,6 @@ class EntryController extends Controller
             } elseif ($sets[0] == 1) {
                 $clients = DB::table('admin_clients_info')
                         ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->orderBy('primary_phone', $sortPhone)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
@@ -1218,12 +1208,10 @@ class EntryController extends Controller
             } else {
                 $clients = DB::table('admin_clients_info')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->orderBy('primary_phone', $sortPhone)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->count();
             }
 
