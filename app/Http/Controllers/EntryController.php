@@ -1604,7 +1604,6 @@ class EntryController extends Controller
                         ->select('admin_clients_info.*','users.name as created_name')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
                         ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->orderBy('created_at', $sortDataAdded)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
@@ -1614,7 +1613,6 @@ class EntryController extends Controller
                         ->select('admin_clients_info.*','users.name as created_name')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
                         ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->count();
             } elseif ($sets[0]==0) {
                 $clients = DB::table('admin_clients_info')
@@ -1624,7 +1622,6 @@ class EntryController extends Controller
                         ->select('admin_clients_info.*','users.name as created_name')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
                         ->orderBy('created_at', $sortDataAdded)
-                        ->where('user_id',$request->user()->id)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
                         ->leftJoin('users', function ($join) {
@@ -1632,7 +1629,6 @@ class EntryController extends Controller
                         })
                         ->select('admin_clients_info.*','users.name as created_name')
                         ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->count();
             } elseif ($sets[0] == 1) {
                 $clients = DB::table('admin_clients_info')
@@ -1641,7 +1637,6 @@ class EntryController extends Controller
                         })
                         ->select('admin_clients_info.*','users.name as created_name')
                         ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->orderBy('created_at', $sortDataAdded)
                         ->paginate(100);
                 $counters = DB::table('admin_clients_info')
@@ -1650,7 +1645,6 @@ class EntryController extends Controller
                         })
                         ->select('admin_clients_info.*','users.name as created_name')
                         ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
                         ->count();
             } else {
                 $clients = DB::table('admin_clients_info')
