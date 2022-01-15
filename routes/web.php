@@ -78,13 +78,13 @@ Route::post('/api-search', [App\Http\Controllers\ApiController::class, 'adminApi
 Route::post('/dependent-del', [App\Http\Controllers\ApiController::class, 'adminApiDependentDel'])->name('dependent.del');
 Route::post('/user-search', [App\Http\Controllers\ApiController::class, 'userApiSearch'])->name('autocomplete.user.fetch');
 
-Route::get('admin/sort-by-ID', [App\Http\Controllers\HomeController::class, 'adminSortById'])->name('admin.clients.sortid');
-Route::get('admin/sort-by-Name', [App\Http\Controllers\HomeController::class, 'adminSortByName'])->name('admin.clients.sortname');
-Route::get('admin/sort-by-Phone', [App\Http\Controllers\HomeController::class, 'adminSortByPhone'])->name('admin.clients.sortphone');
-Route::get('admin/sort-by-CreateBy', [App\Http\Controllers\HomeController::class, 'adminSortByCreatedBy'])->name('admin.clients.createdby');
+Route::get('admin/sort-by-ID', [App\Http\Controllers\HomeController::class, 'adminSortById'])->name('admin.clients.sortid')->middleware('is_admin');
+Route::get('admin/sort-by-Name', [App\Http\Controllers\HomeController::class, 'adminSortByName'])->name('admin.clients.sortname')->middleware('is_admin');
+Route::get('admin/sort-by-Phone', [App\Http\Controllers\HomeController::class, 'adminSortByPhone'])->name('admin.clients.sortphone')->middleware('is_admin');
+Route::get('admin/sort-by-CreateBy', [App\Http\Controllers\HomeController::class, 'adminSortByCreatedBy'])->name('admin.clients.createdby')->middleware('is_admin');
 
-Route::get('admin/sort-by-Data-Added', [App\Http\Controllers\HomeController::class, 'adminSortByDataAdded'])->name('admin.clients.dataadded');
-Route::get('admin/sort-by-last-touch', [App\Http\Controllers\HomeController::class, 'adminSortByLastTouch'])->name('admin.clients.lastby');
+Route::get('admin/sort-by-Data-Added', [App\Http\Controllers\HomeController::class, 'adminSortByDataAdded'])->name('admin.clients.dataadded')->middleware('is_admin');
+Route::get('admin/sort-by-last-touch', [App\Http\Controllers\HomeController::class, 'adminSortByLastTouch'])->name('admin.clients.lastby')->middleware('is_admin');
 
 #Data-entry
 Route::get('/entry/home', [App\Http\Controllers\EntryController::class, 'index'])->name('entry.home')->middleware('is_entry');
