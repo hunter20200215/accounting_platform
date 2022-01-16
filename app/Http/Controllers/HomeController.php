@@ -1008,15 +1008,15 @@ class HomeController extends Controller
         $income = [];
         $deduction =[];
         $rolls =[];
-        $sortby ="";
+        $sortby = $request->sortId;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         if ($request->sortId == "desc") {
-            $sortby = 'asc';
+            $rsortby = 'asc';
         } else {
-            $sortby = 'desc';
+            $rsortby = 'desc';
         }
 
         if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
@@ -1172,7 +1172,7 @@ class HomeController extends Controller
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
-            'sortId' => $sortby,
+            'sortId' => $rsortby,
             'sortName' => 'desc',
             'sortPhone' => 'desc',
             'sortCreatedBy' => 'desc',
