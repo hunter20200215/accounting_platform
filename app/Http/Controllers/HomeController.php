@@ -1767,15 +1767,15 @@ class HomeController extends Controller
         $income = [];
         $deduction =[];
         $rolls =[];
-        $sortDataAdded ="";
+        $sortDataAdded = $request->sortDataAdded;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         if ($request->sortDataAdded == "desc") {
-            $sortDataAdded = 'asc';
+            $rsortDataAdded = 'asc';
         } else {
-            $sortDataAdded = 'desc';
+            $rsortDataAdded = 'desc';
         }
 
         if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
@@ -1974,7 +1974,7 @@ class HomeController extends Controller
             'sortName' => 'desc',
             'sortPhone' => 'desc',
             'sortCreatedBy' =>'desc',
-            'sortDataAdded' =>$sortDataAdded,
+            'sortDataAdded' =>$rsortDataAdded,
             'sortLastTouch' =>'desc',
         ]);
     }
@@ -1985,15 +1985,15 @@ class HomeController extends Controller
         $income = [];
         $deduction =[];
         $rolls =[];
-        $sortLastTouch ="";
+        $sortLastTouch = $request->sortLastTouch;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         if ($request->sortLastTouch == "desc") {
-            $sortLastTouch = 'asc';
+            $rsortLastTouch = 'asc';
         } else {
-            $sortLastTouch = 'desc';
+            $rsortLastTouch = 'desc';
         }
 
         if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
@@ -2193,7 +2193,7 @@ class HomeController extends Controller
             'sortPhone' => 'desc',
             'sortCreatedBy' =>'desc',
             'sortDataAdded' =>'desc',
-            'sortLastTouch' => $sortLastTouch,
+            'sortLastTouch' => $rsortLastTouch,
         ]);
     }
 }
