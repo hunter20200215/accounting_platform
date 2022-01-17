@@ -1187,15 +1187,15 @@ class HomeController extends Controller
         $income = [];
         $deduction =[];
         $rolls =[];
-        $sortName ="";
+        $sortName = $request->sortName;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         if ($request->sortName == "desc") {
-            $sortName = 'asc';
+            $rsortName = 'asc';
         } else {
-            $sortName = 'desc';
+            $rsortName = 'desc';
         }
 
         if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
@@ -1352,7 +1352,7 @@ class HomeController extends Controller
             'full_name' => $full_name,
             'counters' => $counters,
             'sortId' => 'desc',
-            'sortName' => $sortName,
+            'sortName' => $rsortName,
             'sortPhone' => 'desc',
             'sortCreatedBy' => 'desc',
             'sortDataAdded' => 'desc',
@@ -1372,9 +1372,9 @@ class HomeController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         if ($request->sortPhone == "desc") {
-            $sortPhone = 'asc';
+            $rsortPhone = 'asc';
         } else {
-            $sortPhone = 'desc';
+            $rsortPhone = 'desc';
         }
 
         if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
@@ -1531,7 +1531,7 @@ class HomeController extends Controller
             'counters' => $counters,
             'sortId' => 'desc',
             'sortName' => 'desc',
-            'sortPhone' => $sortPhone,
+            'sortPhone' => $rsortPhone,
             'sortCreatedBy' => 'desc',
             'sortDataAdded' => 'desc',
             'sortLastTouch' =>'desc',
