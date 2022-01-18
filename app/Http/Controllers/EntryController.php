@@ -1088,15 +1088,15 @@ class EntryController extends Controller
         $income = [];
         $deduction =[];
         $rolls =[];
-        $sortPhone ="";
+        $sortPhone = $request->sortPhone;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         if ($request->sortPhone == "desc") {
-            $sortPhone = 'asc';
+            $rsortPhone = 'asc';
         } else {
-            $sortPhone = 'desc';
+            $rsortPhone = 'desc';
         }
 
         if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
@@ -1254,7 +1254,7 @@ class EntryController extends Controller
             'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => 'desc',
-            'sortPhone' => $sortPhone,
+            'sortPhone' => $rsortPhone,
             'sortCreatedBy' =>'desc',
             'sortDataAdded' => 'desc',
             'sortLastTouch' => 'desc',
@@ -1267,15 +1267,15 @@ class EntryController extends Controller
         $income = [];
         $deduction =[];
         $rolls =[];
-        $sortCreatedBy ="";
+        $sortCreatedBy = $request->sortCreatedBy;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         if ($request->sortCreatedBy == "desc") {
-            $sortCreatedBy = 'asc';
+            $rsortCreatedBy = 'asc';
         } else {
-            $sortCreatedBy = 'desc';
+            $rsortCreatedBy = 'desc';
         }
 
         if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
@@ -1485,7 +1485,7 @@ class EntryController extends Controller
             'sortId' => 'desc',
             'sortName' => 'desc',
             'sortPhone' => 'desc',
-            'sortCreatedBy' =>$sortCreatedBy,
+            'sortCreatedBy' =>$rsortCreatedBy,
             'sortDataAdded' => 'desc',
             'sortLastTouch' => 'desc',
         ]);
