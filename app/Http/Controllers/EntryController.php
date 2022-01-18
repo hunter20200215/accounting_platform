@@ -725,15 +725,15 @@ class EntryController extends Controller
         $income = [];
         $deduction =[];
         $rolls =[];
-        $sortby ="";
+        $sortby = $request->sortId;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         if ($request->sortId == "desc") {
-            $sortby = 'asc';
+            $rsortby = 'asc';
         } else {
-            $sortby = 'desc';
+            $rsortby = 'desc';
         }
 
         if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
@@ -894,7 +894,7 @@ class EntryController extends Controller
             'full_name' => $full_name,
             'counters' => $counters,
             'user_id' => $request->user()->id,
-            'sortId' => $sortby,
+            'sortId' => $rsortby,
             'sortName' => 'desc',
             'sortPhone' => 'desc',
             'sortCreatedBy' =>'desc',
@@ -909,15 +909,15 @@ class EntryController extends Controller
         $income = [];
         $deduction =[];
         $rolls =[];
-        $sortName ="";
+        $sortName = $request->sortName;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         if ($request->sortName == "desc") {
-            $sortName = 'asc';
+            $rsortName = 'asc';
         } else {
-            $sortName = 'desc';
+            $rsortName = 'desc';
         }
 
         if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
@@ -1074,7 +1074,7 @@ class EntryController extends Controller
             'counters' => $counters,
             'user_id' => $request->user()->id,
             'sortId' => 'desc',
-            'sortName' => $sortName,
+            'sortName' => $rsortName,
             'sortPhone' => 'desc',
             'sortCreatedBy' =>'desc',
             'sortDataAdded' => 'desc',
