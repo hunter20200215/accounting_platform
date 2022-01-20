@@ -6,8 +6,27 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\AdminClientCreate;
 
+
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+
+
 class ApiController extends Controller
 {
+
+    public function test(Request $request)
+    {
+        // $response = http::get('https://api.towerdata.com/v5/td?email=lightingmilo@startmail.com&first=Abel&last=Miloslav&api_key=87555f1daf3c8772ae048136577fda8a');
+
+        //https://api.towerdata.com/v5/td?email=sample@towerdata.com&first=caitlin&last=plackard&api_key=87555f1daf3c8772ae048136577fda8a
+
+        // echo $response->body(); 
+        $client = new Client();
+        $res = $client->get('https://api.towerdata.com/v5/ev?email=oaksdentaldesigns@gmail.com&api_key=c19c1c06de9776468cc0c65f47db0783');
+        $response =  $res->getBody();
+        print_r($response);
+
+    }
     public function adminApiSearch(Request $request)
     {
         $query = $request->get('query');
