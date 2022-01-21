@@ -81,8 +81,8 @@ Route::post('/dependent-del', [App\Http\Controllers\ApiController::class, 'admin
 Route::post('/user-search', [App\Http\Controllers\ApiController::class, 'userApiSearch'])->name('autocomplete.user.fetch');
 
 Route::post('admin/sort-by-id', [App\Http\Controllers\HomeController::class, 'adminSortById'])->name('admin.clients.sortid')->middleware('is_admin');
-Route::get('admin/sort-by-name', [App\Http\Controllers\HomeController::class, 'adminSortByName'])->name('admin.clients.sortname')->middleware('is_admin');
-Route::get('admin/sort-by-phone', [App\Http\Controllers\HomeController::class, 'adminSortByPhone'])->name('admin.clients.sortphone')->middleware('is_admin');
+Route::post('admin/sort-by-name', [App\Http\Controllers\HomeController::class, 'adminSortByName'])->name('admin.clients.sortname')->middleware('is_admin');
+Route::post('admin/sort-by-phone', [App\Http\Controllers\HomeController::class, 'adminSortByPhone'])->name('admin.clients.sortphone')->middleware('is_admin');
 Route::get('admin/sort-by-createBy', [App\Http\Controllers\HomeController::class, 'adminSortByCreatedBy'])->name('admin.clients.createdby')->middleware('is_admin');
 
 Route::get('admin/sort-by-Data-Added', [App\Http\Controllers\HomeController::class, 'adminSortByDataAdded'])->name('admin.clients.dataadded')->middleware('is_admin');
