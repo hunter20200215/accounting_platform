@@ -204,7 +204,8 @@
     </div>
 </div>
 
-<form action="{{ route('admin.clients.sortid') }}" method="GET" id="sortById">
+<form action="{{ route('admin.clients.sortid') }}" method="POST" id="sortById">
+    @csrf
     <input type="hidden" value="{{$sortId}}" name="sortId"/>
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
