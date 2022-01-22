@@ -47,14 +47,8 @@
                     <input type="text" class="form-control" value=""  name="email" >
                 </div>
             </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col-md-3"><label class="labels">Primary Phone</label><input type="text" class="form-control"  value="" name="primary_phone" ></div>
-            <div class="col-md-3"><label class="labels">Work or Other Phone</label><input type="text" class="form-control" value=""  name="other_phone"></div>
-            <div class="col-md-3"><label class="labels">Address</label><input type="text" class="form-control" value=""  name="address" ></div>
             <div class="col-md-3">
-                <label class="labels">Citizenship</label>
+                <h5 class="d-inline mr-auto">Citizenship</h5>
                 <!-- <input type="text" class="form-control" value=""  name="citizenship" > -->
                 <select id="country" class="form-control" name="citizenship">
                     <!-- <option value="  " selected>Select a country</option> -->
@@ -305,6 +299,14 @@
                     <option value="mexican">Mexican</option> -->
                 </select>
             </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-3"><label class="labels">Primary Phone</label><input type="text" class="form-control"  value="" name="primary_phone" ></div>
+            <div class="col-md-3"><label class="labels">Work or Other Phone</label><input type="text" class="form-control" value=""  name="other_phone"></div>
+            <div class="col-md-3"><label class="labels">Address 1</label><input type="text" class="form-control" value=""  name="address1" ></div>
+            <div class="col-md-3"><label class="labels">Address 2</label><input type="text" class="form-control" value=""  name="address2" ></div>
+            
         </div>
 
         <div class="mt-3">
