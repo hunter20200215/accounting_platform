@@ -246,7 +246,8 @@
     <input type="hidden" value="" name="sets">
     <input type="hidden" value="" name="full_name1">
 </form>
-<form action="{{ route('entry.clients.sortphone') }}" method="GET" id="sortByPhone">
+<form action="{{ route('entry.clients.sortphone') }}" method="POST" id="sortByPhone">
+    @csrf
     <input type="hidden" value="{{$sortId}}" name="sortId"/>
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
@@ -261,7 +262,8 @@
     <input type="hidden" value="" name="sets">
     <input type="hidden" value="" name="full_name1">
 </form>
-<form action="{{ route('entry.clients.createdby') }}" method="GET" id="sortCreatedBy">
+<form action="{{ route('entry.clients.createdby') }}" method="POST" id="sortCreatedBy">
+    @csrf
     <input type="hidden" value="{{$sortId}}" name="sortId"/>
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
@@ -277,7 +279,8 @@
     <input type="hidden" value="" name="full_name1">
 </form>
 
-<form action="{{ route('entry.clients.dataadded') }}" method="GET" id="sortDataAdded">
+<form action="{{ route('entry.clients.dataadded') }}" method="POST" id="sortDataAdded">
+    @csrf
     <input type="hidden" value="{{$sortId}}" name="sortId"/>
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
@@ -293,7 +296,8 @@
     <input type="hidden" value="" name="full_name1">
 </form>
 
-<form action="{{ route('entry.clients.lastby') }}" method="GET" id="sortLastTouch">
+<form action="{{ route('entry.clients.lastby') }}" method="POST" id="sortLastTouch">
+    @csrf
     <input type="hidden" value="{{$sortId}}" name="sortId"/>
     <input type="hidden" value="{{$sortName}}" name="sortName"/>
     <Input type="hidden" value = "{{$sortPhone}}" name="sortPhone"/>
