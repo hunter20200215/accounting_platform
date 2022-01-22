@@ -1366,7 +1366,7 @@ class HomeController extends Controller
         $income = [];
         $deduction =[];
         $rolls =[];
-        $sortPhone ="";
+        $sortPhone = $request->sortPhone;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;

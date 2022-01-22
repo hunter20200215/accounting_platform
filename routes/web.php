@@ -113,8 +113,8 @@ Route::get('entry/spouse/edit', [App\Http\Controllers\EntryController::class, 'e
 Route::get('entry/home_property/edit', [App\Http\Controllers\EntryController::class, 'entryHomePropertyEdit'])->name('entry.home_property.edit')->middleware('is_entry');
 
 Route::get('entry/opportunities', [App\Http\Controllers\EntryController::class, 'entryOpportunities'])->name('entry.opportunities')->middleware('is_entry');
-Route::get('entry/sort-by-ID', [App\Http\Controllers\EntryController::class, 'entrySortById'])->name('entry.clients.sortid')->middleware('is_entry');
-Route::get('entry/sort-by-Name', [App\Http\Controllers\EntryController::class, 'entrySortByName'])->name('entry.clients.sortname')->middleware('is_entry');
+Route::post('entry/sort-by-ID', [App\Http\Controllers\EntryController::class, 'entrySortById'])->name('entry.clients.sortid')->middleware('is_entry');
+Route::post('entry/sort-by-Name', [App\Http\Controllers\EntryController::class, 'entrySortByName'])->name('entry.clients.sortname')->middleware('is_entry');
 Route::get('entry/sort-by-Phone', [App\Http\Controllers\EntryController::class, 'entrySortByPhone'])->name('entry.clients.sortphone')->middleware('is_entry');
 Route::get('entry/sort-by-CreateBy', [App\Http\Controllers\EntryController::class, 'entrySortByCreatedBy'])->name('entry.clients.createdby')->middleware('is_entry');
 Route::get('entry/sort-by-Data-Added', [App\Http\Controllers\EntryController::class, 'entrySortByDataAdded'])->name('entry.clients.dataadded')->middleware('is_entry');
