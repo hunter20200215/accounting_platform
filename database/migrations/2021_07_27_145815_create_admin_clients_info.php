@@ -23,7 +23,8 @@ class CreateAdminClientsInfo extends Migration
             $table->string('category')->nullable();
             $table->string('primary_phone')->nullable();
             $table->string('other_phone')->nullable();
-            $table->string('address')->nullable();
+            $table->string('address1')->nullable();
+            $table->string('address2')->nullable();
             $table->string('citizenship')->nullable();
             $table->string('income_highlights')->nullable();
             $table->string('deduction_highlights')->nullable();

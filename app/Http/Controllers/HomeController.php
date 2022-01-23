@@ -643,7 +643,8 @@ class HomeController extends Controller
         $flight->category = $request->categorys;
         $flight->primary_phone = $request->primary_phone;
         $flight->other_phone = $request->other_phone;
-        $flight->address = $request->address;
+        $flight->address1 = $request->address1;
+        $flight->address2 = $request->address2;
         $flight->citizenship = $request->citizenship;
         $flight->user_id = $request->user()->id;
         $flight->bs_code = $request->bs_code;
@@ -656,9 +657,9 @@ class HomeController extends Controller
         $flight->home_tax_fee = $request->tax_fee;
         $flight->rent_fee = $request->rent_fee;
         $flight->spouse_id = $request->spouse_id;
-        $highlight ="";
-        $highlight2 ="";
-        $dependents_ids ="";
+        $highlight = "";
+        $highlight2 = "";
+        $dependents_ids = "";
 
         $incomes = [];
         $deductions  = [];
