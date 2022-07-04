@@ -209,6 +209,7 @@ $(document).ready(function(){
         if (objEle.prop('checked') == true) {
             objEle.parent().siblings("div").removeClass("d-none");
             objEle.parent().siblings("div").find("input[type='hidden']").val('1');
+            objEle.parent().siblings("div").find("input.salary-input").val('0');
         }else {
             objEle.parent().siblings("div").addClass("d-none");
             objEle.parent().siblings("div").find("input[type='hidden']").val('0');
@@ -224,6 +225,11 @@ $(document).ready(function(){
         let income = [];
         let deduction = [];
         let sets = [];
+        let campaigns_ids =[];
+        let campaigns = $('[name="campaigns[]"]').select2('data');
+        campaigns.forEach(function(item){
+            campaigns_ids.push(item.id);
+        });
         let inputElements = document.querySelectorAll('.form-check-input[name="categorys[]"]');
         let inputElements1 = document.querySelectorAll('.form-check-input[name="income[]"]');
         let inputElements2 = document.querySelectorAll('.form-check-input[name="deduction[]"]');
@@ -264,7 +270,7 @@ $(document).ready(function(){
         document.querySelector('input[name="end_date1"]').value = end_date;
         document.querySelector('input[name="sets"]').value = sets;
         document.querySelector('input[name="full_name1"]').value = full_name;
-        
+        document.querySelector('input[name="campaigns"]').value = campaigns_ids;
         document.querySelector('form#sortById').submit();
     });
 
@@ -273,6 +279,11 @@ $(document).ready(function(){
         let income = [];
         let deduction = [];
         let sets = [];
+        let campaigns_ids =[];
+        let campaigns = $('[name="campaigns[]"]').select2('data');
+        campaigns.forEach(function(item){
+            campaigns_ids.push(item.id);
+        });
         let inputElements = document.querySelectorAll('.form-check-input[name="categorys[]"]');
         let inputElements1 = document.querySelectorAll('.form-check-input[name="income[]"]');
         let inputElements2 = document.querySelectorAll('.form-check-input[name="deduction[]"]');
@@ -311,7 +322,7 @@ $(document).ready(function(){
         document.querySelector('form#sortByName > input[name="end_date1"]').value = end_date;
         document.querySelector('form#sortByName > input[name="sets"]').value = sets;
         document.querySelector('form#sortByName > input[name="full_name1"]').value = full_name;
-
+        document.querySelector('form#sortByName > input[name="campaigns"]').value = campaigns_ids;
         document.querySelector('form#sortByName').submit();
     });
 
@@ -320,6 +331,11 @@ $(document).ready(function(){
         let income = [];
         let deduction = [];
         let sets = [];
+        let campaigns_ids =[];
+        let campaigns = $('[name="campaigns[]"]').select2('data');
+        campaigns.forEach(function(item){
+            campaigns_ids.push(item.id);
+        });
         let inputElements = document.querySelectorAll('.form-check-input[name="categorys[]"]');
         let inputElements1 = document.querySelectorAll('.form-check-input[name="income[]"]');
         let inputElements2 = document.querySelectorAll('.form-check-input[name="deduction[]"]');
@@ -358,7 +374,7 @@ $(document).ready(function(){
         document.querySelector('form#sortByPhone > input[name="end_date1"]').value = end_date;
         document.querySelector('form#sortByPhone > input[name="sets"]').value = sets;
         document.querySelector('form#sortByPhone > input[name="full_name1"]').value = full_name;
-
+        document.querySelector('form#sortByPhone > input[name="campaigns"]').value = campaigns_ids;
         document.querySelector('form#sortByPhone').submit();
     });
 
@@ -367,6 +383,11 @@ $(document).ready(function(){
         let income = [];
         let deduction = [];
         let sets = [];
+        let campaigns_ids =[];
+        let campaigns = $('[name="campaigns[]"]').select2('data');
+        campaigns.forEach(function(item){
+            campaigns_ids.push(item.id);
+        });
         let inputElements = document.querySelectorAll('.form-check-input[name="categorys[]"]');
         let inputElements1 = document.querySelectorAll('.form-check-input[name="income[]"]');
         let inputElements2 = document.querySelectorAll('.form-check-input[name="deduction[]"]');
@@ -405,7 +426,7 @@ $(document).ready(function(){
         document.querySelector('form#sortCreatedBy > input[name="end_date1"]').value = end_date;
         document.querySelector('form#sortCreatedBy > input[name="sets"]').value = sets;
         document.querySelector('form#sortCreatedBy > input[name="full_name1"]').value = full_name;
-
+        document.querySelector('form#sortCreatedBy > input[name="campaigns"]').value = campaigns_ids;
         document.querySelector('form#sortCreatedBy').submit();
     });
 
@@ -414,6 +435,11 @@ $(document).ready(function(){
         let income = [];
         let deduction = [];
         let sets = [];
+        let campaigns_ids =[];
+        let campaigns = $('[name="campaigns[]"]').select2('data');
+        campaigns.forEach(function(item){
+            campaigns_ids.push(item.id);
+        });
         let inputElements = document.querySelectorAll('.form-check-input[name="categorys[]"]');
         let inputElements1 = document.querySelectorAll('.form-check-input[name="income[]"]');
         let inputElements2 = document.querySelectorAll('.form-check-input[name="deduction[]"]');
@@ -452,7 +478,7 @@ $(document).ready(function(){
         document.querySelector('form#sortDataAdded > input[name="end_date1"]').value = end_date;
         document.querySelector('form#sortDataAdded > input[name="sets"]').value = sets;
         document.querySelector('form#sortDataAdded > input[name="full_name1"]').value = full_name;
-
+        document.querySelector('form#sortDataAdded > input[name="campaigns"]').value = campaigns_ids;
         document.querySelector('form#sortDataAdded').submit();
     });
 
@@ -461,6 +487,11 @@ $(document).ready(function(){
         let income = [];
         let deduction = [];
         let sets = [];
+        let campaigns_ids =[];
+        let campaigns = $('[name="campaigns[]"]').select2('data');
+        campaigns.forEach(function(item){
+            campaigns_ids.push(item.id);
+        });
         let inputElements = document.querySelectorAll('.form-check-input[name="categorys[]"]');
         let inputElements1 = document.querySelectorAll('.form-check-input[name="income[]"]');
         let inputElements2 = document.querySelectorAll('.form-check-input[name="deduction[]"]');
@@ -499,7 +530,65 @@ $(document).ready(function(){
         document.querySelector('form#sortLastTouch > input[name="end_date1"]').value = end_date;
         document.querySelector('form#sortLastTouch > input[name="sets"]').value = sets;
         document.querySelector('form#sortLastTouch > input[name="full_name1"]').value = full_name;
+        document.querySelector('form#sortLastTouch > input[name="campaigns"]').value = campaigns_ids;
 
         document.querySelector('form#sortLastTouch').submit();
+    });
+
+    $('.fa-trash').on('click', function(){
+        
+        let objEle = $(this);
+        console.log(objEle.attr('delete-id'));
+        let product_id = objEle.attr('delete-id');
+        if (product_id) {
+            var _token = token;
+            $.ajax({
+                url:"/product-delete",
+                method:"POST",
+                data:{id:product_id, _token:_token},
+                success:function(data){
+                    objEle.closest('div').remove();
+                },
+                error: function(blob){
+                    console.log(blob);
+                }
+            });
+        } else {
+            objEle.closest('div').remove();
+        }
+    });
+    $('.add-product').on('click', function(){
+        console.log('clicked');
+        var html_content = `<div class="m-1">`+
+        `<input type="text" class="salary-input" placeholder="Product name" name="products[]">`+
+       `<a class="pl-1"><i class="fa fa-trash" aria-hidden="true"></i></a>`+
+       `</div>`;
+        let container = document.getElementsByClassName("insurance-products");
+        $('.insurance-products').append(html_content);
+
+
+        $('.fa-trash').on('click', function(){
+        
+            let objEle = $(this);
+            console.log(objEle.attr('delete-id'));
+            let product_id = objEle.attr('delete-id');
+            if (product_id) {
+                var _token = token;
+                $.ajax({
+                    url:"/product-delete",
+                    method:"POST",
+                    data:{id:product_id, _token:_token},
+                    success:function(data){
+                        console.log(data);
+                        objEle.closest('div').remove();
+                    },
+                    error: function(blob){
+                        console.log(blob);
+                    }
+                });
+            } else {
+                objEle.closest('div').remove();
+            }
+        });
     });
 });

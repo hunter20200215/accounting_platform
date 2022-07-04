@@ -10,18 +10,21 @@
     <title>{{ config('app.name', 'Bookkeeper') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" ></script>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/entry.js') }}" defer></script>
     <script src="https://cdn.tiny.cloud/1/ivj8o5ht1v5laqfzfhe2p8gh4gnountg5jjoriow59hcfioi/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="{{ asset('js/fontawesome.js') }}" defer></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
-
-
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
 <body>
@@ -41,7 +44,7 @@
                 <ul class="navbar-nav mr-auto">
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('entry.home') }}">{{ __('Home') }}</a>
+                            <a class="nav-link" href="{{ route('entry.home') }}">{{ __('Dashboard') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('entry.clients') }}"><i class='fas fa-users' style='font-size:18px'></i>{{ __('Clients') }}</a>
@@ -99,28 +102,5 @@
     <main class="py-4" style="min-height: 71vh;">
         @yield('content')
     </main>
-    <!-- <footer class="bg-dark text-light text-center text-md-left" >
-		<div class="container">
-			<div class="row pt-4">
-				<div class="col-md-12 text-center pb-4">
-					
-					<ul class="list-unstyled">
-						<li>
-							<a href="#" class="text-light">Copyright © 2021. All Rights Reserved.</a>
-						</li>
-						<li>
-							<a href="#" class="text-light">Company: 2705151 Ontario Inc</a>
-						</li>
-						<li>
-							<a href="#" class="text-light">Terms and Conditions  |  Privacy Policy</a>
-						</li>
-					</ul>
-				</div>
-				
-			</div>
-			
-		</div>
-	</footer> -->
-</div>
 </body>
 </html>

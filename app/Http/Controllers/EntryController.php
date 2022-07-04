@@ -11,6 +11,9 @@ use App\Models\AdminClientCreate;
 use App\Models\LogDetails;
 use App\Models\AdminIncomeDetail;
 use App\Models\AdminDeductionDetail;
+use App\Models\ClientProduct;
+use App\Models\Campaigns;
+use App\Models\AdminCampaign;
 
 
 class EntryController extends Controller
@@ -32,15 +35,16 @@ class EntryController extends Controller
      */
     public function index()
     {
-        return view('dataEntryHome');
+        return view('entry.dataEntryHome');
     }
     public function entryClients(Request $request)
     {   
         $selected_categorys = DB::table('admin_category')->pluck('name');
         $clients = DB::table('admin_clients_info')
-                    ->where('user_id', Auth::id())
+                    // ->where('user_id', Auth::id())
                     ->orderBy('id', 'desc')
                     ->paginate(100);
+        
         $rolls = [];
         foreach ($clients as $client) {
             $roll = DB::table('users')
@@ -50,7 +54,8 @@ class EntryController extends Controller
             
             array_push($rolls,$roll[0]);
         }
-        return view('entryClients',[
+        $campaigns = Campaigns::get();
+        return view('entry.entryClients',[
             'clients' => $clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
@@ -62,7 +67,7 @@ class EntryController extends Controller
             'rolls'=>$rolls,
             'sets' => [0],
             'full_name' => "",
-            'counters' => DB::table('admin_clients_info')->where('user_id', Auth::id())->count(),
+            'counters' => DB::table('admin_clients_info')->count(),
             'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => 'desc',
@@ -70,6 +75,8 @@ class EntryController extends Controller
             'sortCreatedBy' =>'desc',
             'sortDataAdded' => 'desc',
             'sortLastTouch' => 'desc',
+            'campaigns' => $campaigns,
+            'selected_campaigns' => [],
 
         ]);
         
@@ -79,26 +86,30 @@ class EntryController extends Controller
     public function entryClientsCreate()
     {
         
-        return view('entryClientsCreate',[
+        return view('entry.entryClientsCreate',[
+            'clients' => DB::table('admin_clients_info')->get(),
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
-            'deductionhighlights' => DB::table('admin_deduction_highlights')->get()
+            'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
+            'countries' => DB::table('countries')->get(),
+            'campaigns' => Campaigns::get(),
             
         ]);
     }
     public function entryClientsCreateNew(Request $request)
     {   
         $flight = new AdminClientCreate;
-        
         $flight->first_name = $request->first_name;
         $flight->last_name = $request->last_name;
         $flight->middle_name = $request->middle_name;
         $flight->dob_date = $request->DOB;
         $flight->category = $request->categorys;
+        $flight->campaign_id = $request->campaign_id;
         $flight->primary_phone = $request->primary_phone;
         $flight->other_phone = $request->other_phone;
-        $flight->address = $request->address;
+        $flight->address1 = $request->address1;
+        $flight->address2 = $request->address2;
         $flight->citizenship = $request->citizenship;
         $flight->user_id = $request->user()->id;
         $flight->bs_code = $request->bs_code;
@@ -237,9 +248,9 @@ class EntryController extends Controller
             $spouse = null;
         }
         $logs = DB::table('log')->where('client_id',$id)->latest()->take(5)->get();
-
-
-
+        $campaigns = Campaigns::get();
+        $selected_campaigns = AdminCampaign::where('client_id',$id)->pluck('campaign_id')->toArray();
+        $clients = AdminClientCreate::get();
         $income_highlights = DB::table('admin_clients_info')->where('id', $id)->pluck('income_highlights')->first();
         $highlights_arr = explode (",", $income_highlights);
 
@@ -262,8 +273,11 @@ class EntryController extends Controller
                     ON i.id=d.DeductionID";
         $deductions = DB::select(DB::raw($SQL1));
         
-        return view('entryClientsProfile',[
+        return view('entry.entryClientsProfile',[
             'info' => DB::table('admin_clients_info')->where('id', $id)->first(),
+            'campaigns' => $campaigns,
+            'selected_campaigns' => $selected_campaigns,
+            'clients' => $clients,
             'categories' =>DB::table('admin_category')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'incomes' => $incomes,
@@ -274,6 +288,7 @@ class EntryController extends Controller
             'spouse'=> $spouse,
             'countries'=>DB::table('countries')->get(),
             'logs'=>$logs,
+            'products' => DB::table('insurance_products')->where('client_id',$id)->get(),
         ]);
         
     }
@@ -336,6 +351,33 @@ class EntryController extends Controller
                         
         }
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
+    }
+    public function entryInsuranceProductEdit(Request $request)
+    {
+        $products = $request->products;
+        $product_ids =$request->product_ids;
+        foreach ($products as $index => $product){
+            if(isset($product)){
+                if (isset($product_ids[$index])){
+                    $flight = ClientProduct::find($product_ids[$index]);
+                    $flight->client_id = $request->id;
+                    $flight->product_name = $product;
+                    $flight->save();
+                } else {
+                    $flight = new ClientProduct;
+                    $flight->client_id = $request->id;
+                    $flight->product_name = $product;
+                    $flight->save();
+                }
+            }
+        }
+        
+        $Logs = new LogDetails;
+        $Logs->content = "Edited Insurance Product" . " by " . $request->user()->name;
+        $Logs->user_id = $request->user()->id;
+        $Logs->client_id = $request->id;
+        $Logs->save();
+        return redirect()->route('entry.clients.profile', ['id' => $request->id]);
     }
     public function entryDeductionSource(Request $request)
     {
@@ -467,7 +509,9 @@ class EntryController extends Controller
         $flight->last_name = $request->last_name;
         $flight->full_name = $request->first_name." ".$request->last_name;
         $flight->dob_date = $request->dob_date;
-        $flight->address = $request->address;
+        $flight->dod_date = $request->dod_date;
+        $flight->address1 = $request->address1;
+        $flight->address2 = $request->address2;
         $flight->primary_phone = $request->phone;
         $flight->other_phone = $request->other_phone;
         $flight->email = $request->email;
@@ -478,6 +522,7 @@ class EntryController extends Controller
         $flight->home_status = $request->home_status;
         $flight->notes = $request->notes;
         $flight->category = $request->category;
+        $flight->campaign_id = $request->campaign_id;
         $flight->save();
 
         $Logs = new LogDetails;
@@ -487,11 +532,11 @@ class EntryController extends Controller
         $Logs->save();
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
-    public function entryClientsBio(Request $request)
+    public function entryClientsNotes(Request $request)
     {
         
         $flight = AdminClientCreate::find($request->id);
-        $flight->client_bio = $request->bio;
+        $flight->notes = $request->notes;
         $flight->save();
 
         $Logs = new LogDetails;
@@ -502,27 +547,6 @@ class EntryController extends Controller
         
         return redirect()->route('entry.clients.profile',['id' => $request->id]);
     }
-    public function entryClientsAddInformation(Request $request)
-    {
-        
-        $flight = AdminClientCreate::find($request->id);
-
-        $flight->address = $request->address;
-        $flight->primary_phone = $request->phone;
-        $flight->other_phone = $request->other_phone;
-        $flight->sin = $request->sin;
-        $flight->citizenship = $request->citizenship;
-        $flight->marital_status = $request->marital_status;
-        $flight->dependents = $request->dependents;
-        $flight->home_status = $request->home_status;
-        $flight->notes = $request->notes;
-
-        $flight->save();
-        return view('entryClientsProfile',[
-            'info' => DB::table('admin_clients_info')->where('id', $request->id)->first()
-        ]);
-    }
-
     public function entryClientsFilter1(Request $request)
     {   
         $categorys=[];
@@ -546,61 +570,79 @@ class EntryController extends Controller
                 $deduction[] = $value;
             }
         }
+        if ($request->campaigns) {
+            foreach ($request->campaigns as $index => $value) {
+                $capmpaign_ids[] = $value;
+            }
+        } else {
+            $capmpaign_ids = [];
+        }
         
         $clients = DB::table('admin_clients_info')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->orderBy('id', 'desc')
-                    ->paginate(100);
-                    
+            ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+            ->select('admin_clients_info.*')
+            ->distinct()
+            ->when($categorys, function ($query, $categorys) {
+                return $query->whereIn('admin_clients_info.category', $categorys);
+            })
+            ->when($income, function ($query, $income) {
+                return $query->where(function ($query) use ($income) {
+                    foreach ($income as $value) {
+                        $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                    }
+                });
+            })
+            ->when($deduction, function ($query, $deduction) {
+                return $query->where(function ($query) use ($deduction) {
+                    foreach ($deduction as $value) {
+                        $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                    }
+                });
+            })
+            ->when($start_date, function ($query, $start_date) {
+                return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+            })
+            ->when($end_date, function ($query, $end_date) {
+                return $query->where('admin_clients_info.dob_date', "<", $end_date);
+            })
+            ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+            })
+            ->orderBy('admin_clients_info.id', 'desc')
+            ->paginate(100);
+        
         $counters = DB::table('admin_clients_info')
-                            ->when($categorys, function ($query, $categorys) {
-                                return $query->whereIn('category', $categorys);
-                            })
-                            ->when($income, function ($query, $income) {
-                                return $query->where(function($query) use ($income) {
-                                    foreach ($income as $value) {
-                                        $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                                    }
-                                });
-                            })
-                            ->when($deduction, function ($query, $deduction) {
-                                return $query->where(function($query) use ($deduction) {
-                                        foreach ($deduction as $value) {
-                                            $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                        }
-                                    });
-                            })
-                            ->when( $start_date, function ($query, $start_date) {
-                                return $query->where('dob_date', ">=", $start_date);
-                            })
-                            ->when($end_date, function ($query, $end_date) {
-                                return $query->where('dob_date', "<",$end_date);
-                            })
-                            ->where('user_id',$request->user()->id)
-                            ->count();
+            ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+            ->select('admin_clients_info.*')
+            ->distinct()
+            ->when($categorys, function ($query, $categorys) {
+                return $query->whereIn('admin_clients_info.category', $categorys);
+            })
+            ->when($income, function ($query, $income) {
+                return $query->where(function ($query) use ($income) {
+                    foreach ($income as $value) {
+                        $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                    }
+                });
+            })
+            ->when($deduction, function ($query, $deduction) {
+                return $query->where(function ($query) use ($deduction) {
+                    foreach ($deduction as $value) {
+                        $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                    }
+                });
+            })
+            ->when($start_date, function ($query, $start_date) {
+                return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+            })
+            ->when($end_date, function ($query, $end_date) {
+                return $query->where('admin_clients_info.dob_date', "<", $end_date);
+            })
+            ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+            })
+            ->get();
+        $counters = count($counters);
               
         $rolls = [];
         foreach ($clients as $client) {
@@ -609,7 +651,8 @@ class EntryController extends Controller
                     ->pluck('name');
             array_push($rolls,$roll[0]);
         }
-        return view('entryClients',[
+        $campaigns = Campaigns::get();
+        return view('entry.entryClients',[
             'clients' =>$clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
@@ -629,8 +672,10 @@ class EntryController extends Controller
             'sortCreatedBy' =>'desc',
             'sortDataAdded' => 'desc',
             'sortLastTouch' => 'desc',
+            'campaigns' => $campaigns,
+            'selected_campaigns' => $capmpaign_ids,
         ]);
-        // return redirect()->route('admin.clients',['clients' =>$clients]);
+        
     }
     public function entryClientsFilter2(Request $request)
     {
@@ -685,13 +730,13 @@ class EntryController extends Controller
         $rolls = [];
         foreach ($clients as $client) {
             $roll = DB::table('users')
-                    ->where('id' ,'=',$client->user_id)
                     ->pluck('name');
 
             
             array_push($rolls,$roll[0]);
         }
-        return view('entryClients',[
+        $campaigns = Campaigns::get();
+        return view('entry.entryClients',[
             'clients' =>$clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
@@ -711,16 +756,19 @@ class EntryController extends Controller
             'sortCreatedBy' =>'desc',
             'sortDataAdded' => 'desc',
             'sortLastTouch' => 'desc',
+            'campaigns' => $campaigns,
+            'selected_campaigns' => [],
         ]);
     }
 
     public function entryOpportunities(Request $request)
     {   
 
-        return view('entryOpportunities');
+        return view('entry.entryOpportunities');
     }
     public function entrySortById(Request $request)
     { 
+        
         $categorys=[];
         $income = [];
         $deduction =[];
@@ -735,8 +783,8 @@ class EntryController extends Controller
         } else {
             $rsortby = 'desc';
         }
-
-        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
+        $capmpaign_ids = [];
+        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1 || $request->campaigns) {
             if ($request->categorys) {
                 $categorys = explode(",", $request->categorys);
             } else {
@@ -754,60 +802,75 @@ class EntryController extends Controller
             } else {
                 $deduction = [];
             }
-            
+            if ($request->campaigns) {
+                $capmpaign_ids = explode(",", $request->campaigns);
+            } else {
+                $capmpaign_ids = [];
+            }
             $clients = DB::table('admin_clients_info')
-                        ->when($categorys, function ($query, $categorys) {
-                            return $query->whereIn('category', $categorys);
-                        })
-                        ->when($income, function ($query, $income) {
-                            return $query->where(function($query) use ($income) {
-                                foreach ($income as $value) {
-                                    $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                                }
-                            });
-                        })
-                        ->when($deduction, function ($query, $deduction) {
-                            return $query->where(function($query) use ($deduction) {
-                                    foreach ($deduction as $value) {
-                                        $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                    }
-                                });
-                        })
-                        ->when( $start_date, function ($query, $start_date) {
-                            return $query->where('dob_date', ">=", $start_date);
-                        })
-                        ->when($end_date, function ($query, $end_date) {
-                            return $query->where('dob_date', "<",$end_date);
-                        })
-                        ->where('user_id',$request->user()->id)
-                        ->orderBy('id', $sortby)
-                        ->paginate(100);
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->orderBy('id', $sortby)
+                ->paginate(100);
+            
             $counters = DB::table('admin_clients_info')
-                        ->when($categorys, function ($query, $categorys) {
-                            return $query->whereIn('category', $categorys);
-                        })
-                        ->when($income, function ($query, $income) {
-                            return $query->where(function($query) use ($income) {
-                                foreach ($income as $value) {
-                                    $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                                }
-                            });
-                        })
-                        ->when($deduction, function ($query, $deduction) {
-                            return $query->where(function($query) use ($deduction) {
-                                    foreach ($deduction as $value) {
-                                        $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                    }
-                                });
-                        })
-                        ->when( $start_date, function ($query, $start_date) {
-                            return $query->where('dob_date', ">=", $start_date);
-                        })
-                        ->when($end_date, function ($query, $end_date) {
-                            return $query->where('dob_date', "<",$end_date);
-                        })
-                        ->where('user_id',$request->user()->id)
-                        ->count();
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->count();
             
             foreach ($clients as $client) {
                 $roll = DB::table('users')
@@ -866,11 +929,11 @@ class EntryController extends Controller
         } else {
             $clients = DB::table('admin_clients_info')
                         ->orderBy('id', $sortby)
-                        ->where('user_id',$request->user()->id)
+                        // ->where('user_id',$request->user()->id)
                         ->paginate(100);
             $counters = DB::table('admin_clients_info')
                         ->orderBy('id', $sortby)
-                        ->where('user_id',$request->user()->id)
+                        // ->where('user_id',$request->user()->id)
                         ->count();
             foreach ($clients as $client) {
                 $roll = DB::table('users')
@@ -880,7 +943,8 @@ class EntryController extends Controller
             }
 
         }
-        return view('entryClients',[
+        $campaigns = Campaigns::get();
+        return view('entry.entryClients',[
             'clients' =>$clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
@@ -900,15 +964,17 @@ class EntryController extends Controller
             'sortCreatedBy' =>'desc',
             'sortDataAdded' => 'desc',
             'sortLastTouch' => 'desc',
+            'campaigns' => $campaigns,
+            'selected_campaigns' => $capmpaign_ids,
         ]);
     }
 
     public function entrySortByName(Request $request)
     {   
-        $categorys=[];
+        $categorys = [];
         $income = [];
-        $deduction =[];
-        $rolls =[];
+        $deduction = [];
+        $rolls = [];
         $sortName = $request->sortName;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
@@ -919,8 +985,8 @@ class EntryController extends Controller
         } else {
             $rsortName = 'desc';
         }
-
-        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
+        $capmpaign_ids = [];
+        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1 || $request->campaigns) {
             if ($request->categorys) {
                 $categorys = explode(",", $request->categorys);
             } else {
@@ -938,168 +1004,188 @@ class EntryController extends Controller
             } else {
                 $deduction = [];
             }
-            
+            if ($request->campaigns) {
+                $capmpaign_ids = explode(",", $request->campaigns);
+            } else {
+                $capmpaign_ids = [];
+            }
+
             $clients = DB::table('admin_clients_info')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->orderBy('full_name', $sortName)
-                    ->paginate(100);
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->orderBy('full_name', $sortName)
+                ->paginate(100);
             $counters = DB::table('admin_clients_info')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->count();
-            
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->count();
+
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
         } elseif ($full_name) {
             if (count($sets) == 2) {
                 $clients = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('full_name', $sortName)
-                        ->paginate(100);
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orWhere('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', $sortName)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->count();
-            } elseif ($sets[0]==0) {
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orWhere('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', $sortName)
+                    ->count();
+            } elseif ($sets[0] == 0) {
                 $clients = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('full_name', $sortName)
-                        ->paginate(100);
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', $sortName)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', $sortName)
+                    ->count();
             } elseif ($sets[0] == 1) {
                 $clients = DB::table('admin_clients_info')
-                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('full_name', $sortName)
-                        ->paginate(100);
+                    ->where('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', $sortName)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->where('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', 'desc')
+                    ->count();
             } else {
                 $clients = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('full_name', $sortName)
-                        ->paginate(100);
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', $sortName)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', 'desc')
+                    ->count();
             }
 
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
-        
         } else {
             $clients = DB::table('admin_clients_info')
-                        ->orderBy('full_name', $sortName)
-                        ->where('user_id',$request->user()->id)
-                        ->paginate(100);
+                ->orderBy('full_name', $sortName)
+                ->paginate(100);
             $counters = DB::table('admin_clients_info')
-                        ->where('user_id',$request->user()->id)
-                        ->count();
+                ->orderBy('full_name', $sortName)
+                ->count();
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
-
         }
-        return view('entryClients',[
-            'clients' =>$clients,
+        $campaigns = Campaigns::get();
+        return view('entry.entryClients', [
+            'clients' => $clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
             'selected_categorys' => $categorys,
             'selected_income' => $income,
-            'selected_deduction' =>$deduction,
-            'rolls' =>$rolls,
+            'selected_deduction' => $deduction,
+            'rolls' => $rolls,
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
-            'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => $rsortName,
             'sortPhone' => 'desc',
-            'sortCreatedBy' =>'desc',
+            'sortCreatedBy' => 'desc',
             'sortDataAdded' => 'desc',
             'sortLastTouch' => 'desc',
+            'campaigns' => $campaigns,
+            'selected_campaigns' => $capmpaign_ids,
         ]);
     }
 
     public function entrySortByPhone(Request $request)
-    {   
-        $categorys=[];
+    {  
+        
+        $categorys = [];
         $income = [];
-        $deduction =[];
-        $rolls =[];
+        $deduction = [];
+        $rolls = [];
         $sortPhone = $request->sortPhone;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $capmpaign_ids = [];
         if ($request->sortPhone == "desc") {
             $rsortPhone = 'asc';
         } else {
             $rsortPhone = 'desc';
         }
 
-        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
+        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1 || $request->campaigns) {
             if ($request->categorys) {
                 $categorys = explode(",", $request->categorys);
             } else {
@@ -1117,168 +1203,187 @@ class EntryController extends Controller
             } else {
                 $deduction = [];
             }
-            
+            if ($request->campaigns) {
+                $capmpaign_ids = explode(",", $request->campaigns);
+            } else {
+                $capmpaign_ids = [];
+            }
+
             $clients = DB::table('admin_clients_info')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->orderBy('primary_phone', $sortPhone)
-                    ->paginate(100);
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->orderBy('primary_phone', $sortPhone)
+                ->paginate(100);
             $counters = DB::table('admin_clients_info')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->count();
-            
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->count();
+
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
         } elseif ($full_name) {
             if (count($sets) == 2) {
                 $clients = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('primary_phone', $sortPhone)
-                        ->paginate(100);
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orWhere('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('primary_phone', $sortPhone)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->count();
-            } elseif ($sets[0]==0) {
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orWhere('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('primary_phone', $sortPhone)
+                    ->count();
+            } elseif ($sets[0] == 0) {
                 $clients = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('primary_phone', $sortPhone)
-                        ->paginate(100);
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('primary_phone', $sortPhone)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('primary_phone', $sortPhone)
+                    ->count();
             } elseif ($sets[0] == 1) {
                 $clients = DB::table('admin_clients_info')
-                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('primary_phone', $sortPhone)
-                        ->paginate(100);
+                    ->where('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('primary_phone', $sortPhone)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->where('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', 'desc')
+                    ->count();
             } else {
                 $clients = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('primary_phone', $sortPhone)
-                        ->paginate(100);
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('primary_phone', $sortPhone)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', 'desc')
+                    ->count();
             }
 
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
-        
         } else {
             $clients = DB::table('admin_clients_info')
-                        ->orderBy('primary_phone', $sortPhone)
-                        ->where('user_id',$request->user()->id)
-                        ->paginate(100);
+                ->orderBy('primary_phone', $sortPhone)
+                ->paginate(100);
             $counters = DB::table('admin_clients_info')
-                        ->where('user_id',$request->user()->id)
-                        ->count();
+                ->count();
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
-
         }
-        return view('entryClients',[
-            'clients' =>$clients,
+        $campaigns = Campaigns::get();
+        return view('entry.entryClients', [
+            'clients' => $clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
             'selected_categorys' => $categorys,
             'selected_income' => $income,
-            'selected_deduction' =>$deduction,
-            'rolls' =>$rolls,
+            'selected_deduction' => $deduction,
+            'rolls' => $rolls,
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
-            'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => 'desc',
             'sortPhone' => $rsortPhone,
-            'sortCreatedBy' =>'desc',
+            'sortCreatedBy' => 'desc',
             'sortDataAdded' => 'desc',
             'sortLastTouch' => 'desc',
+            'campaigns' => $campaigns,
+            'selected_campaigns' => $capmpaign_ids,
         ]);
+    
     }
 
     public function entrySortByCreatedBy(Request $request)
-    {   
-        $categorys=[];
+    {
+        $categorys = [];
         $income = [];
-        $deduction =[];
-        $rolls =[];
+        $deduction = [];
+        $rolls = [];
         $sortCreatedBy = $request->sortCreatedBy;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $capmpaign_ids = [];
         if ($request->sortCreatedBy == "desc") {
             $rsortCreatedBy = 'asc';
         } else {
             $rsortCreatedBy = 'desc';
         }
 
-        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
+        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1 || $request->campaigns) {
             if ($request->categorys) {
                 $categorys = explode(",", $request->categorys);
             } else {
@@ -1296,219 +1401,229 @@ class EntryController extends Controller
             } else {
                 $deduction = [];
             }
-            
+            if ($request->campaigns) {
+                $capmpaign_ids = explode(",", $request->campaigns);
+            } else {
+                $capmpaign_ids = [];
+            }
+
             $clients = DB::table('admin_clients_info')
-                    ->leftJoin('users', function ($join) {
-                        $join->on('admin_clients_info.user_id', '=', 'users.id');
-                    })
-                    ->select('admin_clients_info.*','users.name as created_name')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->orderBy('created_name', $sortCreatedBy)
-                    ->paginate(100);
+                ->leftJoin('users', function ($join) {
+                    $join->on('admin_clients_info.user_id', '=', 'users.id');
+                })
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*','users.name as created_name')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->orderBy('created_name', $sortCreatedBy)
+                ->paginate(100);
             $counters = DB::table('admin_clients_info')
-                    ->leftJoin('users', function ($join) {
-                        $join->on('admin_clients_info.user_id', '=', 'users.id');
-                    })
-                    ->select('admin_clients_info.*','users.name as created_name')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->count();
-            
+                ->leftJoin('users', function ($join) {
+                    $join->on('admin_clients_info.user_id', '=', 'users.id');
+                })
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*','users.name as created_name')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->count();
+
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
         } elseif ($full_name) {
             if (count($sets) == 2) {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('created_name', $sortCreatedBy)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orWhere('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('created_name', $sortCreatedBy)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('created_name', $sortCreatedBy)
-                        ->count();
-            } elseif ($sets[0]==0) {
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orWhere('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('created_name', $sortCreatedBy)
+                    ->count();
+            } elseif ($sets[0] == 0) {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('created_name', $sortCreatedBy)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('created_name', $sortCreatedBy)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('created_name', $sortCreatedBy)
-                        ->count();
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('created_name', $sortCreatedBy)
+                    ->count();
             } elseif ($sets[0] == 1) {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('created_name', $sortCreatedBy)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('created_name', $sortCreatedBy)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('full_name', 'desc')
-                        ->count();
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', 'desc')
+                    ->count();
             } else {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
-                        ->orderBy('created_name', $sortCreatedBy)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('created_name', $sortCreatedBy)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
-                        ->orderBy('full_name', 'desc')
-                        ->count();
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('full_name', 'desc')
+                    ->count();
             }
 
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
-        
         } else {
             $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('user_id',$request->user()->id)
-                        ->orderBy('created_name', $sortCreatedBy)
-                        ->paginate(100);
-            
+                ->leftJoin('users', function ($join) {
+                    $join->on('admin_clients_info.user_id', '=', 'users.id');
+                })
+                ->select('admin_clients_info.*', 'users.name as created_name')
+                ->orderBy('created_name', $sortCreatedBy)
+                ->paginate(100);
             $counters = DB::table('admin_clients_info')
-                        ->where('user_id',$request->user()->id)
-                        ->count();
+                ->count();
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
-
         }
-        return view('entryClients',[
-            'clients' =>$clients,
+        $campaigns = Campaigns::get();
+        return view('entry.entryClients', [
+            'clients' => $clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
             'selected_categorys' => $categorys,
             'selected_income' => $income,
-            'selected_deduction' =>$deduction,
-            'rolls' =>$rolls,
+            'selected_deduction' => $deduction,
+            'rolls' => $rolls,
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
-            'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => 'desc',
             'sortPhone' => 'desc',
-            'sortCreatedBy' =>$rsortCreatedBy,
+            'sortCreatedBy' => $rsortCreatedBy,
             'sortDataAdded' => 'desc',
             'sortLastTouch' => 'desc',
+            'campaigns' => $campaigns,
+            'selected_campaigns' => $capmpaign_ids,
+
         ]);
     }
 
     public function entrySortByDataAdded(Request $request)
     {   
-        $categorys=[];
+        $categorys = [];
         $income = [];
-        $deduction =[];
-        $rolls =[];
+        $deduction = [];
+        $rolls = [];
         $sortDataAdded = $request->sortDataAdded;
         $full_name = $request->full_name1;
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $capmpaign_ids = [];
         if ($request->sortDataAdded == "desc") {
             $rsortDataAdded = 'asc';
         } else {
             $rsortDataAdded = 'desc';
         }
 
-        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
+        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1|| $request->campaigns) {
             if ($request->categorys) {
                 $categorys = explode(",", $request->categorys);
             } else {
@@ -1526,205 +1641,215 @@ class EntryController extends Controller
             } else {
                 $deduction = [];
             }
-            
+            if ($request->campaigns) {
+                $capmpaign_ids = explode(",", $request->campaigns);
+            } else {
+                $capmpaign_ids = [];
+            }
+
             $clients = DB::table('admin_clients_info')
-                    ->leftJoin('users', function ($join) {
-                        $join->on('admin_clients_info.user_id', '=', 'users.id');
-                    })
-                    ->select('admin_clients_info.*','users.name as created_name')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->orderBy('created_at', $sortDataAdded)
-                    ->paginate(100);
+                ->leftJoin('users', function ($join) {
+                    $join->on('admin_clients_info.user_id', '=', 'users.id');
+                })
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*','users.name as created_name')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->orderBy('created_at', $sortDataAdded)
+                ->paginate(100);
             $counters = DB::table('admin_clients_info')
-                    ->leftJoin('users', function ($join) {
-                        $join->on('admin_clients_info.user_id', '=', 'users.id');
-                    })
-                    ->select('admin_clients_info.*','users.name as created_name')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->count();
-            
+                ->leftJoin('users', function ($join) {
+                    $join->on('admin_clients_info.user_id', '=', 'users.id');
+                })
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*','users.name as created_name')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->count();
+
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
         } elseif ($full_name) {
             if (count($sets) == 2) {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('created_at', $sortDataAdded)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orWhere('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('created_at', $sortDataAdded)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->count();
-            } elseif ($sets[0]==0) {
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orWhere('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->count();
+            } elseif ($sets[0] == 0) {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('created_at', $sortDataAdded)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('created_at', $sortDataAdded)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->count();
             } elseif ($sets[0] == 1) {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('created_at', $sortDataAdded)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('created_at', $sortDataAdded)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->count();
             } else {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
-                        ->orderBy('created_at', $sortDataAdded)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('created_at', $sortDataAdded)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->where('user_id',$request->user()->id)
-                        ->count();
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->count();
             }
 
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
-        
         } else {
             $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->orderBy('created_at', $sortDataAdded)
-                        ->where('user_id',$request->user()->id)
-                        ->paginate(100);
+                ->leftJoin('users', function ($join) {
+                    $join->on('admin_clients_info.user_id', '=', 'users.id');
+                })
+                ->select('admin_clients_info.*', 'users.name as created_name')
+                ->orderBy('created_at', $sortDataAdded)
+                ->paginate(100);
             $counters = DB::table('admin_clients_info')
-                        ->where('user_id',$request->user()->id)
-                        ->count();
+                ->count();
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
-
         }
-        return view('entryClients',[
-            'clients' =>$clients,
+        $campaigns = Campaigns::get();
+        return view('entry.entryClients',[
+            'clients' => $clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
             'selected_categorys' => $categorys,
             'selected_income' => $income,
-            'selected_deduction' =>$deduction,
-            'rolls' =>$rolls,
+            'selected_deduction' => $deduction,
+            'rolls' => $rolls,
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
-            'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => 'desc',
             'sortPhone' => 'desc',
-            'sortCreatedBy' =>'desc',
-            'sortDataAdded' =>$rsortDataAdded,
+            'sortCreatedBy' => 'desc',
+            'sortDataAdded' => $rsortDataAdded,
             'sortLastTouch' => 'desc',
+            'campaigns' => $campaigns,
+            'selected_campaigns' => $capmpaign_ids,
         ]);
     }
     
 
     public function entrySortByLastTouch(Request $request)
     {   
-        $categorys=[];
+        $categorys = [];
         $income = [];
-        $deduction =[];
-        $rolls =[];
+        $deduction = [];
+        $rolls = [];
         $sortLastTouch = $request->sortLastTouch;
         $full_name = $request->full_name1;
+        $capmpaign_ids = [];
         $sets = explode(",", $request->sets);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
@@ -1734,7 +1859,7 @@ class EntryController extends Controller
             $rsortLastTouch = 'desc';
         }
 
-        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1) {
+        if ($request->categorys || $request->income || $request->deduction || $request->start_date1 || $request->end_date1 || $request->campaigns) {
             if ($request->categorys) {
                 $categorys = explode(",", $request->categorys);
             } else {
@@ -1752,191 +1877,202 @@ class EntryController extends Controller
             } else {
                 $deduction = [];
             }
-            
+            if ($request->campaigns) {
+                $capmpaign_ids = explode(",", $request->campaigns);
+            } else {
+                $capmpaign_ids = [];
+            }
+
             $clients = DB::table('admin_clients_info')
-                    ->leftJoin('users', function ($join) {
-                        $join->on('admin_clients_info.user_id', '=', 'users.id');
-                    })
-                    ->select('admin_clients_info.*','users.name as created_name')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->orderBy('updated_at', $sortLastTouch)
-                    ->paginate(100);
+                ->leftJoin('users', function ($join) {
+                    $join->on('admin_clients_info.user_id', '=', 'users.id');
+                })
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*','users.name as created_name')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->orderBy('updated_at', $sortLastTouch)
+                ->paginate(100);
             $counters = DB::table('admin_clients_info')
-                    ->leftJoin('users', function ($join) {
-                        $join->on('admin_clients_info.user_id', '=', 'users.id');
-                    })
-                    ->select('admin_clients_info.*','users.name as created_name')
-                    ->when($categorys, function ($query, $categorys) {
-                        return $query->whereIn('category', $categorys);
-                    })
-                    ->when($income, function ($query, $income) {
-                        return $query->where(function($query) use ($income) {
-                            foreach ($income as $value) {
-                                $query->where('income_highlights', 'LIKE', "%".",".$value.","."%");
-                            }
-                        });
-                    })
-                    ->when($deduction, function ($query, $deduction) {
-                        return $query->where(function($query) use ($deduction) {
-                                foreach ($deduction as $value) {
-                                    $query->where('deduction_highlights', 'LIKE', "%".",".$value.",".'%');
-                                }
-                            });
-                    })
-                    ->when( $start_date, function ($query, $start_date) {
-                        return $query->where('dob_date', ">=", $start_date);
-                    })
-                    ->when($end_date, function ($query, $end_date) {
-                        return $query->where('dob_date', "<",$end_date);
-                    })
-                    ->where('user_id',$request->user()->id)
-                    ->count();
-            
+                ->leftJoin('users', function ($join) {
+                    $join->on('admin_clients_info.user_id', '=', 'users.id');
+                })
+                ->leftJoin('multi_capaign', 'admin_clients_info.id', '=', 'multi_capaign.client_id')
+                ->select('admin_clients_info.*','users.name as created_name')
+                ->distinct()
+                ->when($categorys, function ($query, $categorys) {
+                    return $query->whereIn('admin_clients_info.category', $categorys);
+                })
+                ->when($income, function ($query, $income) {
+                    return $query->where(function ($query) use ($income) {
+                        foreach ($income as $value) {
+                            $query->where('admin_clients_info.income_highlights', 'LIKE', "%" . "," . $value . "," . "%");
+                        }
+                    });
+                })
+                ->when($deduction, function ($query, $deduction) {
+                    return $query->where(function ($query) use ($deduction) {
+                        foreach ($deduction as $value) {
+                            $query->where('admin_clients_info.deduction_highlights', 'LIKE', "%" . "," . $value . "," . '%');
+                        }
+                    });
+                })
+                ->when($start_date, function ($query, $start_date) {
+                    return $query->where('admin_clients_info.dob_date', ">=", $start_date);
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->where('admin_clients_info.dob_date', "<", $end_date);
+                })
+                ->when($capmpaign_ids, function ($query, $capmpaign_ids) {
+                    return $query->whereIn('multi_capaign.campaign_id', $capmpaign_ids);
+                })
+                ->count();
+
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
         } elseif ($full_name) {
             if (count($sets) == 2) {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('updated_at', $sortLastTouch)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orWhere('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('updated_at', $sortLastTouch)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orWhere('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->count();
-            } elseif ($sets[0]==0) {
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orWhere('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->count();
+            } elseif ($sets[0] == 0) {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('updated_at', $sortLastTouch)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('updated_at', $sortLastTouch)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->count();
             } elseif ($sets[0] == 1) {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('updated_at', $sortLastTouch)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('updated_at', $sortLastTouch)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('client_bio', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('client_bio', 'LIKE', "%" . $full_name . '%')
+                    ->count();
             } else {
                 $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->orderBy('updated_at', $sortLastTouch)
-                        ->paginate(100);
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->orderBy('updated_at', $sortLastTouch)
+                    ->paginate(100);
                 $counters = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('full_name', 'LIKE', "%".$full_name.'%')
-                        ->count();
+                    ->leftJoin('users', function ($join) {
+                        $join->on('admin_clients_info.user_id', '=', 'users.id');
+                    })
+                    ->select('admin_clients_info.*', 'users.name as created_name')
+                    ->where('full_name', 'LIKE', "%" . $full_name . '%')
+                    ->count();
             }
 
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
-        
         } else {
             $clients = DB::table('admin_clients_info')
-                        ->leftJoin('users', function ($join) {
-                            $join->on('admin_clients_info.user_id', '=', 'users.id');
-                        })
-                        ->select('admin_clients_info.*','users.name as created_name')
-                        ->where('user_id',$request->user()->id)
-                        ->orderBy('updated_at', $sortLastTouch)
-                        ->paginate(100);
+                ->leftJoin('users', function ($join) {
+                    $join->on('admin_clients_info.user_id', '=', 'users.id');
+                })
+                ->select('admin_clients_info.*', 'users.name as created_name')
+                ->orderBy('updated_at', $sortLastTouch)
+                ->paginate(100);
             $counters = DB::table('admin_clients_info')
-                        ->where('user_id',$request->user()->id)
-                        ->count();
+                ->count();
             foreach ($clients as $client) {
                 $roll = DB::table('users')
-                        ->where('id' ,'=',$client->user_id)
-                        ->pluck('name');
-                array_push($rolls,$roll[0]);
+                    ->where('id', '=', $client->user_id)
+                    ->pluck('name');
+                array_push($rolls, $roll[0]);
             }
-
         }
-        return view('entryClients',[
-            'clients' =>$clients,
+        $campaigns = Campaigns::get();
+        return view('entry.entryClients',[
+            'clients' => $clients,
             'categorys' => DB::table('admin_category')->get(),
             'highlights' => DB::table('admin_highlights')->get(),
             'incomehighlights' => DB::table('admin_income_highlights')->get(),
             'deductionhighlights' => DB::table('admin_deduction_highlights')->get(),
             'selected_categorys' => $categorys,
             'selected_income' => $income,
-            'selected_deduction' =>$deduction,
-            'rolls' =>$rolls,
+            'selected_deduction' => $deduction,
+            'rolls' => $rolls,
             'sets' => $sets,
             'full_name' => $full_name,
             'counters' => $counters,
-            'user_id' => $request->user()->id,
             'sortId' => 'desc',
             'sortName' => 'desc',
             'sortPhone' => 'desc',
-            'sortCreatedBy' =>'desc',
-            'sortDataAdded' =>'desc',
+            'sortCreatedBy' => 'desc',
+            'sortDataAdded' => 'desc',
             'sortLastTouch' => $rsortLastTouch,
+            'campaigns' => $campaigns,
+            'selected_campaigns' => $capmpaign_ids,
         ]);
     }
 }

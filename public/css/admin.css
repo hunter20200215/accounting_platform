@@ -74,11 +74,53 @@ a {
     width: 35%;
 }
 .sub-title-style {
-    width: 100px;
-    text-decoration: none;
+    width: 140px;
+    text-decoration: none !important;
     text-align: center;
     display: inline-block;
 }
 .sort-style {
     cursor: pointer;
+}
+.mobile-view {
+    font-size: 30px;
+    display: none;
+}
+.mobile-view-display {
+    width: 100%;
+    display: flex;
+
+}
+.mobile-view-none {
+    width: 100%;
+    display: none;
+
+
+}
+.mobile-padding {
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+.full-width-style {
+    width: calc(100% - 135px);
+}
+.email {
+    width: 30px;
+}
+.logo-style {
+    width: 300px !important;
+    /* height: 40px !important; */
+}
+  
+@media screen and (max-width: 768px) {
+    .mobile-view {
+        display: block;
+    }
+    .nav-link {
+        padding: 0.3rem 0.5rem;
+    }
+    .mobile-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }

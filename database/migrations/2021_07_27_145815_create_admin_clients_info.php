@@ -19,12 +19,18 @@ class CreateAdminClientsInfo extends Migration
             $table->string('last_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->date('dob_date')->nullable();
+            $table->date('dod_date')->nullable();
             $table->integer('user_id')->nullable();
             $table->string('category')->nullable();
+            $table->string('campaign_id')->nullable();
             $table->string('primary_phone')->nullable();
             $table->string('other_phone')->nullable();
             $table->string('address1')->nullable();
             $table->string('address2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('province')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('country')->nullable();
             $table->string('citizenship')->nullable();
             $table->string('income_highlights')->nullable();
             $table->string('deduction_highlights')->nullable();
@@ -34,7 +40,7 @@ class CreateAdminClientsInfo extends Migration
             $table->string('marital_status')->nullable();
             $table->string('dependents')->nullable();
             $table->string('home_status')->nullable();
-            $table->string('notes')->nullable();
+            $table->text('notes')->nullable();
             $table->string('bs_code')->nullable();
             $table->string('full_name')->nullable();
             $table->string('resident')->nullable();

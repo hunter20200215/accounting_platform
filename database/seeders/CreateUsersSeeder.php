@@ -17,6 +17,12 @@ class CreateUsersSeeder extends Seeder
     {
         $user = [
             [
+                'name'=>'Calendly',
+                'email'=>'info@lakeshoreaccounting.ca',
+                'roll'=>'10',
+                'password'=> Hash::make('123456'),
+            ],
+            [
                'name'=>'Admin',
                'email'=>'admin@admin.com',
                 'roll'=>'0',
@@ -29,6 +35,7 @@ class CreateUsersSeeder extends Seeder
                 'roll'=>'1',
                'password'=> Hash::make('123456'),
             ],
+            
         ];
   
         foreach ($user as $key => $value) {
